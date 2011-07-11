@@ -3,6 +3,7 @@
 Provided an initial example api for Vector, and a test. This can be used as boilerplate for all the classes needing to be bound.
 
 Completed:
+
 * Wrapped Ogre::Vector3 in juice::ogre::Vector
 * Bound juice::ogre::Vector
 * Bound Ogre::Real

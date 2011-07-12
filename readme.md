@@ -1,4 +1,4 @@
-*Do you want to [[Help out]]?*
+**Do you want to Help out?** go here-> https://github.com/guidocalvano/OgreJS/wiki/Help-out
 
 
 Provided an initial example api for Vector, and a test. This can be used as boilerplate for all the classes needing to be bound.

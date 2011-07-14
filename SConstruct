@@ -7,37 +7,28 @@ import os
 
 env = Environment()
 
-
-env.AppendUnique( SHCCFLAGS =['-arch', 'i386'])
-env.AppendUnique( SHLINKFLAGS = ['-arch', 'i386'])
-env.AppendUnique( CCFLAGS = ['-arch', 'i386'])
-env.AppendUnique( CXXFLAGS = ['-arch', 'i386'])
-env.AppendUnique( LINKFLAGS = ['-arch', 'i386'])
+if platform == 'darwin':
+    env.AppendUnique( SHCCFLAGS =['-arch', 'i386'])
+    env.AppendUnique( SHLINKFLAGS = ['-arch', 'i386'])
+    env.AppendUnique( CCFLAGS = ['-arch', 'i386'])
+    env.AppendUnique( CXXFLAGS = ['-arch', 'i386'])
+    env.AppendUnique( LINKFLAGS = ['-arch', 'i386'])
 
 
 OBS = []
 
-# foundation
 
-env[ 'FRAMEWORKS' ].append( '-framework Foundation' ) 
+if platform == 'darwin':
 
-# iokit
+    env[ 'FRAMEWORKS' ].append( '-framework Foundation' ) 
 
-env[ 'FRAMEWORKS' ].append( '-framework IOKit' ) 
+    env[ 'FRAMEWORKS' ].append( '-framework IOKit' ) 
 
-# carbon
+    env[ 'FRAMEWORKS' ].append( '-framework Carbon' ) 
 
-env[ 'FRAMEWORKS' ].append( '-framework Carbon' ) 
+    env[ 'FRAMEWORKS' ].append( '-framework Cocoa' ) 
 
-
-# cocoa
-
-env[ 'FRAMEWORKS' ].append( '-framework Cocoa' ) 
-
-
-# sdl
-
-env[ 'FRAMEWORKS' ].append( '-framework SDL' ) 
+    env[ 'FRAMEWORKS' ].append( '-framework SDL' ) 
 
 
 # boost

@@ -6,7 +6,9 @@
 
 using namespace v8 ;
 
-void initOgreJS (Handle<Object> target) ;
+extern "C" {
 
+void initOgreJS (Handle<Object> target) ;
+}
 
 #endif

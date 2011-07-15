@@ -11,4 +11,5 @@ extern "C" {
     initOgreJS(target);
   }
 
+  NODE_MODULE(ogre, init);
 }

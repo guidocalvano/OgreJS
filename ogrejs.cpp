@@ -8,12 +8,14 @@
 using namespace v8  ;
 using namespace std ;
 
+extern "C" {
+
 void initOgreJS (Handle<Object> target)
 	{
 	 printf( "OgreJS initialised\n" ) ;
 
 	}
-
+}
 
 
 #endif

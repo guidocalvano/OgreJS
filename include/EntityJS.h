@@ -4,7 +4,7 @@
 
 #include <OGRE/Ogre.h>
 #include <v8.h>
-#include <node.h>
+#include <node_object_wrap.h>
 
 #include <SceneNodeJS.h>
 #include <OgreManager.h>

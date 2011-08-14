@@ -9,24 +9,24 @@ build/objects/main.o : src/main.mm include/OgreManager.h MakeFileNodeMac
 
 
 build/objects/OgreJS.o : include/OgreJS.h include/OgreManager.h include/CameraJS.h include/InputJS.h include/SceneNodeJS.h include/EntityJS.h src/OgreJS.cpp MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include -I./node/src -I./node/deps/libeio -c src/OgreJS.cpp -o build/objects/OgreJS.o
+	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/OgreJS.cpp -o build/objects/OgreJS.o
 
 
 build/objects/InputJS.o : include/InputJS.h include/OgreManager.h src/InputJS.cpp include/V8Toolkit.h MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include -I./node/src -I./node/deps/libeio -c src/InputJS.cpp -o build/objects/InputJS.o
+	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/InputJS.cpp -o build/objects/InputJS.o
 
 
 build/objects/CameraJS.o : include/CameraJS.h include/OgreManager.h src/CameraJS.cpp MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include -I./node/src -I./node/deps/libeio -c src/CameraJS.cpp -o build/objects/CameraJS.o
+	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/CameraJS.cpp -o build/objects/CameraJS.o
 
 
 
 build/objects/SceneNodeJS.o : include/SceneNodeJS.h include/OgreManager.h src/SceneNodeJS.cpp MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include -I./node/src -I./node/deps/libeio -c src/SceneNodeJS.cpp -o build/objects/SceneNodeJS.o
+	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/SceneNodeJS.cpp -o build/objects/SceneNodeJS.o
 
 
 build/objects/EntityJS.o : include/EntityJS.h include/OgreManager.h src/EntityJS.cpp MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include -I./node/src -I./node/deps/libeio -c src/EntityJS.cpp -o build/objects/EntityJS.o
+	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/EntityJS.cpp -o build/objects/EntityJS.o
 
 
 

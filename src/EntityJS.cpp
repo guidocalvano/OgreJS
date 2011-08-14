@@ -24,7 +24,7 @@ v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
    	 prototypeTemplate->InstanceTemplate()->SetInternalFieldCount(1);
    	 prototypeTemplate->SetClassName(v8::String::NewSymbol("Entity"));
 
-   	 NODE_SET_PROTOTYPE_METHOD(prototypeTemplate, "setParent", setParent ) ;
+   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "setParent", setParent ) ;
 
    	 target->Set(v8::String::NewSymbol("Entity"),
                 prototypeTemplate-> GetFunction() );

@@ -14,8 +14,10 @@ function Entity( meshname )
 
 Entity.prototype.setParent = function( newParent ) 
 	{
-	 if( newParent == null ) 
+	 if( newParent != null )
 		 this.cpp.setParent( newParent.cpp ) ;
+	 else
+		 this.cpp.setParent( null ) ;
 
 	 if( this.parent != null )
 		{
@@ -46,10 +48,10 @@ function SceneNode()
 
 SceneNode.prototype.setParent = function( newParent ) 
 	{
-	 if( newParent == null ) 
-		this.cpp.setParent( null ) ;
+	 if( newParent != null )
+		 this.cpp.setParent( newParent.cpp ) ;
 	 else
-		this.cpp.setParent( newParent.cpp ) ;
+		 this.cpp.setParent( null ) ;
 
 	 if( this.parent != null )
 		{

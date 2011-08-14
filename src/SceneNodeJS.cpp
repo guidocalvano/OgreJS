@@ -27,8 +27,8 @@ void SceneNodeJS:: init( v8::Handle< v8::Object > target)
    	 prototypeTemplate->InstanceTemplate()->SetInternalFieldCount(1);
    	 prototypeTemplate->SetClassName(v8::String::NewSymbol("SceneNode"));
 
-   	 NODE_SET_PROTOTYPE_METHOD(prototypeTemplate, "setParent", setParent ) ;
-   	 NODE_SET_PROTOTYPE_METHOD(prototypeTemplate, "moveL3N", moveL3N ) ;
+   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "setParent", setParent ) ;
+   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "moveL3N", moveL3N ) ;
 
    	 target-> Set( v8::String::NewSymbol("SceneNode"),
                 prototypeTemplate-> GetFunction() );

@@ -23,7 +23,6 @@
 
 
 
-
 class OgreManager : public Ogre::Singleton<OgreManager>, OIS::KeyListener, OIS::MouseListener
 	{
 	public:
@@ -61,8 +60,6 @@ class OgreManager : public Ogre::Singleton<OgreManager>, OIS::KeyListener, OIS::
 	 Ogre:: Entity*				m_pDemoEntity 	;
 
   	 Ogre::String                 		m_ResourcePath	;
-
-	
 
 	 void initPlatform() ; // compile and link the platform specific cpp file to init the right platform
 

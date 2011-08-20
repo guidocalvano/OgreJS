@@ -31,6 +31,6 @@ class InputJS : public node::ObjectWrap, OIS::KeyListener, OIS::MouseListener
 	 v8::Local<v8::Object> keyEventToObject( const OIS::KeyEvent &keyEventRef ) ;
 
 
-	 v8::Local<v8::Object> inputJSObject ;
+	 v8::Handle<v8::Object> inputJSObject ;
 
 	} ;

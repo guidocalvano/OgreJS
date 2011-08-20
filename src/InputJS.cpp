@@ -1,4 +1,5 @@
 
+
 #include <InputJS.h>
 #include <OgreManager.h>
 #include <V8Toolkit.h>
@@ -8,60 +9,45 @@ v8::Handle<v8::Value> InputJS:: NewFromOgreManager()
 	{
 	 v8::Handle<v8::ObjectTemplate> objectTemplate = v8::ObjectTemplate::New();
 	 objectTemplate->SetInternalFieldCount(1);
-	 v8::Local<v8::Object> inputJSObject = objectTemplate-> NewInstance() ;
-
-/* del
-
-
-  	 v8::Local<v8::String> source = v8::String::New( "var _____ = function( x ) { ogre.Camera.roll( .1 ) ; ogre.Camera.renderOneFrame() ;} ; _____;" ) ;
-	 v8::Local<v8::Script> script = v8::Script::Compile( source ) ;
-
-	 v8::Handle<v8::Value> result = script->Run();
-
-	 v8::Script::Compile( v8::String::New( "delete _____ ;" )  )-> Run() ;
-
-	 inputJSObject-> Set( v8::String::New( "mouseMoved" ), result ) ;
-
-	 printf( "before setFunction\n" ) ;
-*/
+	 v8::Handle<v8::Object> inputJSObject = objectTemplate-> NewInstance() ;
 
 	 inputJSObject-> Set( v8::String::New( "event" ), v8::Object::New() ) ;
 	 inputJSObject-> Set( v8::String::New( "onceFunc" ), v8::Object::New() ) ;
 
 
-	 V8Toolkit:: setFunction( inputJSObject, "on", "function( event, func )\
-		{\
-		 this.emit( 'newListener', event, func ) ; \
-\
-		 if( this.event[ event ] == undefined ) \
-			this.event[ event ] = [ func ] ; \
-		 else \
-			this.event[ event ].push( func ) ; \
+	 V8Toolkit:: setFunction( inputJSObject, "on", "function( event, func )		\
+		{									\
+		 this.emit( 'newListener', event, func ) ; 				\
+											\
+		 if( this.event[ event ] == undefined ) 				\
+			this.event[ event ] = [ func ] ; 				\
+		 else 									\
+			this.event[ event ].push( func ) ; 				\
 		}" ) ;
 	 V8Toolkit:: setFunction( inputJSObject, "addListener", "function( event, func ){ return this.on( event, func ) ; }" ) ;
 
 	 V8Toolkit:: setFunction( inputJSObject, "removeListener", 
-		"function( event, func )\
-			{\
-			 for( var i in this.event[ event ] )\
-				{\
-				 if( this.event[event][ i ] == func )\
-					{\
-					 this.event[event].splice( i, 1 ) ;\
-					 return true ;\
-					}\
-				} \
-			 return false ;\
+		"function( event, func )					\
+			{							\
+			 for( var i in this.event[ event ] )			\
+				{						\
+				 if( this.event[event][ i ] == func )		\
+					{					\
+					 this.event[event].splice( i, 1 ) ;	\
+					 return true ;				\
+					}					\
+				} 						\
+			 return false ;						\
 			}" 
 		) ;
 
-	 V8Toolkit:: setFunction( inputJSObject, "once", "function( event, func )\
-		{\
-		 if( this.onceFunc[event] == undefined ) this.onceFunc[event]=[] ;\
-\
-		 this.onceFunc[event][ func ] = true ;\
-\
-		 this.on( event, func ) ;\
+	 V8Toolkit:: setFunction( inputJSObject, "once", "function( event, func )	\
+		{									\
+		 if( this.onceFunc[event] == undefined ) this.onceFunc[event]=[] ;	\
+											\
+		 this.onceFunc[event][ func ] = true ;					\
+											\
+		 this.on( event, func ) ;						\
 		}" ) ;
 
 
@@ -71,34 +57,34 @@ v8::Handle<v8::Value> InputJS:: NewFromOgreManager()
 
 
 	 V8Toolkit:: setFunction( inputJSObject, "emit", 
-		"function( event )\
-			{ \
-			 var removeThese = [] ;\
-\
-			 if( this.event[ event ] == undefined ) \
-				return ; \
-			 else \
-				{\
-				 var args = Array.prototype.slice.call(arguments);\
-				 var eventArgs = args.slice( 1 ) ;\
-				 for( var i in this.event[ event ] )\
-					{\
-					 this.event[ event ][ i ].apply( null, eventArgs ) ;\
-\
+		"function( event )								\
+			{ 									\
+			 var removeThese = [] ;							\
+												\
+			 if( this.event[ event ] == undefined ) 				\
+				return ; 							\
+			 else 									\
+				{								\
+				 var args = Array.prototype.slice.call(arguments);		\
+				 var eventArgs = args.slice( 1 ) ;				\
+				 for( var i in this.event[ event ] )				\
+					{							\
+					 this.event[ event ][ i ].apply( null, eventArgs ) ;	\
+												\
 				 	 if( this.onceFunc[event] != undefined && this.onceFunc[ event ][ this.event[ event ][ i ] ] == 1) \
-						{\
-						 removeThese.push( this.event[ event ][ i ] ) ;\
+						{						\
+						 removeThese.push( this.event[ event ][ i ] ) ;	\
 						 this.onceFunc[event].splice(  this.event[ event ][ i ], 1 ) ;\
-						}\
-					}\
-			 	}\
-			 var removeThis ;  \
-			 while( removeThese.length > 0 )\
-				{\
-				 removeThis = removeThese.pop() ;\
-\
-				 this.removeListener( event, removeThis ) ;\
-				}\
+						}						\
+					}							\
+			 	}								\
+			 var removeThis ;  							\
+			 while( removeThese.length > 0 )					\
+				{								\
+				 removeThis = removeThese.pop() ;				\
+												\
+				 this.removeListener( event, removeThis ) ;			\
+				}								\
 			}" 
 
 	) ;
@@ -121,20 +107,23 @@ v8::Handle<v8::Value> InputJS:: NewFromOgreManager()
 
 	 v8::Handle< v8::FunctionTemplate > f = v8::FunctionTemplate::New( captureUI ) ;
 	 inputJSObject-> Set( v8::String::New( "captureUI" ), f->GetFunction()   ) ;
-/*
-	 f = v8::FunctionTemplate::New( roll ) ;
-	 inputJSObject-> Set( v8::String::New( "roll" ), f->GetFunction()   ) ;
-*/
+
 	 return inputJSObject ;
 	}
 
 
 v8::Handle<v8::Value> InputJS:: captureUI( const v8::Arguments& args ) 
 	{
-	 // printf( "capture ui \n" ) ;
+//	 printf( "capture ui \n" ) ;
+
+
 	 OgreManager::getSingletonPtr()-> pumpGUIEventQueue() ;
+
+
 	 OgreManager::getSingletonPtr()-> m_pKeyboard-> capture() ;
+
 	 OgreManager::getSingletonPtr()-> m_pMouse-> 	capture() ;
+
 
 //	 InputJS* inputJS = ObjectWrap.unwrap
 
@@ -170,6 +159,7 @@ v8::Local<v8::Object> InputJS::mouseEventToObject( const OIS::MouseEvent &evt)
 	 v8::Handle<v8::Boolean> leftIsDown 	 = v8::Boolean::New( evt.state.buttonDown( OIS::MB_Left ) == true ) ;
 	 v8::Handle<v8::Boolean> rightIsDown 	 = v8::Boolean::New( evt.state.buttonDown( OIS::MB_Right ) == true ) ;
 	 v8::Handle<v8::Boolean> middleIsDown 	 = v8::Boolean::New( evt.state.buttonDown( OIS::MB_Middle ) == true ) ;
+
 
 	
 	  object-> Set( v8::String::New( "dX" ), dX ) ;
@@ -240,7 +230,7 @@ bool InputJS::mouseMoved(const OIS::MouseEvent &evt)
 
 bool InputJS::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 	{
-	 printf( "mouse pressed\n" ) ;
+//	 printf( "mouse pressed\n" ) ;
 	 v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast( inputJSObject->Get( v8::String::New( "emit" ) ) ) ;
 
 	 v8::Local<v8::String> eventType = v8::String::New( "mousePressed" ) ;
@@ -258,7 +248,7 @@ bool InputJS::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 
 bool InputJS::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 	{
-	 printf( "mouse released\n" ) ;
+//	 printf( "mouse released\n" ) ;
 	 v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast( inputJSObject->Get( v8::String::New( "emit" ) ) ) ;
 
 	 v8::Local<v8::String> eventType = v8::String::New( "mouseReleased" ) ;
@@ -273,5 +263,4 @@ bool InputJS::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 	 return true ;
 
 	}
-
 

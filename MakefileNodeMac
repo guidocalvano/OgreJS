@@ -1,7 +1,17 @@
-build/ogrenode : build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o
-	g++-4.2  -I./include -Inode/src -FOgreSDK1.7.3/Dependencies -FOgreSDK1.7.3/lib/release -framework Ogre -framework Cg -framework Foundation -framework Carbon -framework Cocoa -framework IOKit -Lboost_1_46_1/lib -LOgreSDK1.7.3/Dependencies/lib/Release -LOgreSDK1.7.3/lib/release -Lnode/build/default/ -Lnode/deps/libev -L/opt/local/lib -L/usr/lib -L/usr/local/lib  -lssl -lcrypto -lz -ldl -lutil -lnode -lev -lv8 -lOIS -lgcc -lboost_date_time-xgcc42-mt-1_46_1 -lboost_thread-xgcc42-mt-1_46_1 -lfreetype -lfreeimage -lzzip -o build/ogrenode build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o
-	
 
+INCLUDE= -I./include -Inode/src -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include -I./my-gui/MyGUIEngine/include -I./OgreSDK1.7.3/include/OGRE -I./my-gui/Platforms/Ogre/OgrePlatform/include
+
+
+LIBRARY_PATH=-Lboost_1_46_1/lib -LOgreSDK1.7.3/Dependencies/lib/Release -LOgreSDK1.7.3/lib/release -Lnode/build/default/ -Lnode/deps/libev -L/opt/local/lib -L/usr/lib -L/usr/local/lib -L./my-gui/lib/Debug
+LIBRARIES=-lMyGuiEngineStatic -lMyGui.OgrePlatform -lssl -lcrypto -lz -ldl -lutil -lnode -lev -lv8 -lOIS -lgcc -lboost_date_time-xgcc42-mt-1_46_1 -lboost_thread-xgcc42-mt-1_46_1 -lfreetype -lfreeimage -lzzip
+
+FRAMEWORKS=-framework Ogre -framework Cg -framework Foundation -framework Carbon -framework Cocoa -framework IOKit
+FRAMEWORK_PATH=-FOgreSDK1.7.3/Dependencies -FOgreSDK1.7.3/lib/release
+
+
+build/ogrenode : build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/MyGuiRootJS.o build/objects/WidgetCreatorJS.o build/objects/WidgetJS.o build/objects/ButtonJS.o
+	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(LIBRARIES) -o build/ogrenode build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o
+	
 
 
 build/objects/main.o : src/main.mm include/OgreManager.h MakeFileNodeMac
@@ -9,38 +19,55 @@ build/objects/main.o : src/main.mm include/OgreManager.h MakeFileNodeMac
 
 
 build/objects/OgreJS.o : include/OgreJS.h include/OgreManager.h include/CameraJS.h include/InputJS.h include/SceneNodeJS.h include/EntityJS.h src/OgreJS.cpp MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/OgreJS.cpp -o build/objects/OgreJS.o
+	gcc-4.2 $(INCLUDE) -c src/OgreJS.cpp -o build/objects/OgreJS.o
 
 
 build/objects/InputJS.o : include/InputJS.h include/OgreManager.h src/InputJS.cpp include/V8Toolkit.h MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/InputJS.cpp -o build/objects/InputJS.o
+	gcc-4.2 $(INCLUDE)  -c src/InputJS.cpp -o build/objects/InputJS.o
 
 
 build/objects/CameraJS.o : include/CameraJS.h include/OgreManager.h src/CameraJS.cpp MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/CameraJS.cpp -o build/objects/CameraJS.o
+	gcc-4.2 $(INCLUDE) -c src/CameraJS.cpp -o build/objects/CameraJS.o
 
 
 
 build/objects/SceneNodeJS.o : include/SceneNodeJS.h include/OgreManager.h src/SceneNodeJS.cpp MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/SceneNodeJS.cpp -o build/objects/SceneNodeJS.o
+	gcc-4.2 $(INCLUDE) -c src/SceneNodeJS.cpp -o build/objects/SceneNodeJS.o
 
 
 build/objects/EntityJS.o : include/EntityJS.h include/OgreManager.h src/EntityJS.cpp MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -I./v8/include  -c src/EntityJS.cpp -o build/objects/EntityJS.o
-
-
+	gcc-4.2 $(INCLUDE) -c src/EntityJS.cpp -o build/objects/EntityJS.o
 
 
 build/objects/OgreManager.o : include/OgreManager.h src/OgreManager.cpp MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -c src/OgreManager.cpp -o build/objects/OgreManager.o
+	gcc-4.2 $(INCLUDE) -c src/OgreManager.cpp -o build/objects/OgreManager.o
 
 
 build/objects/OgreManagerPlatformSpecific.o : include/OgreManager.h src/OgreManager.cpp src/OgreManagerMacSpecific.mm MakeFileNodeMac
-	gcc-4.2 -IOgreSDK1.7.3/include -Iboost_1_46_1 -I./include -c src/OgreManagerMacSpecific.mm -o build/objects/OgreManagerPlatformSpecific.o
+	gcc-4.2 $(INCLUDE) -c src/OgreManagerMacSpecific.mm -o build/objects/OgreManagerPlatformSpecific.o
 
 
 build/objects/V8Toolkit.o : include/V8Toolkit.h src/V8Toolkit.cpp MakeFileNodeMac
-	gcc-4.2 -Iinclude -I./v8/include -c src/V8Toolkit.cpp -o build/objects/V8Toolkit.o
+	gcc-4.2 $(INCLUDE)  -c src/V8Toolkit.cpp -o build/objects/V8Toolkit.o
+
+
+
+build/objects/MyGuiRootJS.o : include/MyGuiRootJS.h include/WidgetCreatorJS.h include/WidgetJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/MyGuiRootJS.cpp -o build/objects/MyGuiRootJS.o
+
+build/objects/WidgetCreatorJS.o : include/WidgetCreatorJS.h include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/WidgetCreatorJS.cpp -o build/objects/WidgetCreatorJS.o
+
+
+build/objects/WidgetJS.o : include/WidgetJS.h include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/WidgetJS.cpp -o build/objects/WidgetJS.o
+
+build/objects/ButtonJS.o : include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/ButtonJS.cpp -o build/objects/ButtonJS.o
+
+
+
+
 
 
 clean:

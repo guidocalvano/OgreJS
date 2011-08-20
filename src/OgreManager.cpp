@@ -141,6 +141,7 @@ void OgreManager:: setupDemoScene()
 
  	 m_pSceneMgr->createLight("Light")->setPosition(75,75,75);
 
+
 	// m_pDemoEntity = m_pSceneMgr->createEntity("Cube", "ogrehead.mesh");
 
 	// m_pDemoNode = m_pSceneMgr->getRootSceneNode()->createChildSceneNode("DemoNode");

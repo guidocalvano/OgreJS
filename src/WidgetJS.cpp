@@ -1,6 +1,6 @@
 #include <WidgetJS.h>
 
-class WidgetCreatorJS ;
+v8::Persistent<v8::FunctionTemplate> WidgetJS:: widgetPrototypeTemplate ;
 
     
 void WidgetJS:: init( v8::Handle< v8::Object > target ) 
@@ -11,7 +11,7 @@ void WidgetJS:: init( v8::Handle< v8::Object > target )
    	widgetPrototypeTemplate-> InstanceTemplate()->SetInternalFieldCount(1);
    	widgetPrototypeTemplate-> SetClassName(v8::String::NewSymbol("Gui"));
    	
-   	 // WidgetCreatorJS<MyGUI::Widget>:: addMethodsToPrototypeTemplate( widgetPrototypeTemplate ) ;
+   	 WidgetCreatorJS:: addMethodsToPrototypeTemplate( widgetPrototypeTemplate ) ;
     
      // target-> Set( v8::String::NewSymbol("root"), NewFromOgreManager() );
     }
@@ -30,7 +30,9 @@ v8::Handle<v8::Value> WidgetJS:: NewFromWidgetCpp( MyGUI::Widget* widget )
 
      WidgetJS* widgetJS = new WidgetJS() ;
      
+     printf( "widgets assigned \n" ) ;
      widgetJS-> widget = widget ;
+     widgetJS-> widgetCreator = widget ;
 
      widgetJS-> Wrap( object ) ;
 

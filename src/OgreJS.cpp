@@ -65,6 +65,20 @@ void OgreJS :: require(  v8::Handle< v8::Object > target )
  	 v8::Handle<v8::Script> script = v8::Script::Compile(source);
   
  	 v8::Handle<v8::Value> result = script->Run();
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 v8::Handle<v8::Object> myGui = v8::Object::New() ;
+ 	 
+ 	 MyGuiRootJS::init( myGui ) ;
+ 	 
+ 	 target-> Set( v8::String::New( "gui" ), myGui ) ;
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
   
  	 context.Dispose();
 

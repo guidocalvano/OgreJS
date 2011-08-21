@@ -1,8 +1,8 @@
 
 #include <WidgetCreatorJS.h>
 
+#include <WidgetJS.h>
 
-class WidgetJS ;
 
 
       void WidgetCreatorJS:: addMethodsToPrototypeTemplate( v8::Persistent<v8::FunctionTemplate> prototypeTemplate ) 
@@ -15,13 +15,16 @@ class WidgetJS ;
         
       v8::Handle<v8::Value> WidgetCreatorJS:: createButton( const v8::Arguments& args )
           {
+           printf( "WidgetCreatorJS::createButton()\n" ) ;
+           
            WidgetCreatorJS* widgetCreatorJS = node::ObjectWrap::Unwrap<WidgetCreatorJS>( args.This() ) ;
 
            MyGUI::Widget* creator = widgetCreatorJS-> widgetCreator ;
-
+           printf( ":unwrap()\n" ) ;
 
            MyGUI::ButtonPtr buttonPtr = creator-> createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main") ;
       
+      printf( "createWidget()\n" ) ;
            v8::Handle< v8::Value> buttonObject = ButtonJS::NewFromButtonCpp( buttonPtr ) ;
       
            return buttonObject ;

@@ -3,12 +3,12 @@
 
 
 
+
 #include <MyGUI.h>
 #include <MyGUI_OgrePlatform.h>
 #include <node_object_wrap.h>
 #include <WidgetCreatorJS.h>
 
-class WidgetCreatorJS ;
 
 
 class WidgetJS : public  WidgetCreatorJS, node::ObjectWrap

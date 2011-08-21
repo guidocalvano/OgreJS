@@ -4,14 +4,15 @@
 #ifndef WIDGET_CREATOR_JS_H
 #define WIDGET_CREATOR_JS_H
 
+class WidgetJS ;
+
 #include <MyGUI.h>
 #include <MyGUI_OgrePlatform.h>
 #include <v8.h>
 #include <node_object_wrap.h>
 #include <ButtonJS.h>
-#include <WidgetJS.h>
+// #include <WidgetJS.h>
 
-class WidgetJS ;
 
 class WidgetCreatorJS
     {

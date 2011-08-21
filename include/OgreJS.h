@@ -4,7 +4,7 @@
 #include <v8.h>
 #include <node_object_wrap.h>
 #include <OGRE/Ogre.h>
-
+#include <MyGuiRootJS.h>
 
 
 class OgreJS

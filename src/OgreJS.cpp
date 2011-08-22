@@ -71,7 +71,7 @@ void OgreJS :: require(  v8::Handle< v8::Object > target )
  	 
  	 v8::Handle<v8::Object> myGui = v8::Object::New() ;
  	 
- 	 MyGuiRootJS::init( myGui ) ;
+ 	 MyGuiRootBindJS::init( myGui ) ;
  	 
  	 target-> Set( v8::String::New( "gui" ), myGui ) ;
  	 

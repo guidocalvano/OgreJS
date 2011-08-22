@@ -9,8 +9,8 @@ FRAMEWORKS=-framework Ogre -framework Cg -framework Foundation -framework Carbon
 FRAMEWORK_PATH=-FOgreSDK1.7.3/Dependencies -FOgreSDK1.7.3/lib/release
 
 
-build/ogrenode : build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/MyGuiRootJS.o build/objects/WidgetCreatorJS.o build/objects/WidgetJS.o build/objects/ButtonJS.o
-	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(LIBRARIES) -o build/ogrenode build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/MyGuiRootJS.o build/objects/WidgetCreatorJS.o build/objects/WidgetJS.o build/objects/ButtonJS.o
+build/ogrenode : build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/MyGuiRootBindJS.o build/objects/WidgetCreatorConvertJS.o build/objects/WidgetBindJS.o build/objects/ButtonBindJS.o
+	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(LIBRARIES) -o build/ogrenode build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/MyGuiRootBindJS.o build/objects/WidgetCreatorConvertJS.o build/objects/WidgetBindJS.o build/objects/ButtonBindJS.o
 	
 
 
@@ -52,19 +52,35 @@ build/objects/V8Toolkit.o : include/V8Toolkit.h src/V8Toolkit.cpp MakeFileNodeMa
 
 
 
-build/objects/MyGuiRootJS.o : include/MyGuiRootJS.h src/MyGuiRootJS.cpp include/WidgetCreatorJS.h include/WidgetJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
-	gcc-4.2 $(INCLUDE) -c src/MyGuiRootJS.cpp -o build/objects/MyGuiRootJS.o
-
-build/objects/WidgetCreatorJS.o : include/WidgetCreatorJS.h src/WidgetCreatorJS.cpp include/OgreManager.h MakeFileNodeMac
-	gcc-4.2 $(INCLUDE) -c src/WidgetCreatorJS.cpp -o build/objects/WidgetCreatorJS.o
+build/objects/MyGuiRootBindJS.o : include/MyGuiRootBindJS.h src/MyGuiRootBindJS.cpp include/WidgetCreatorConvertJS.h include/WidgetBindJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/MyGuiRootBindJS.cpp -o build/objects/MyGuiRootBindJS.o
 
 
-build/objects/WidgetJS.o : include/WidgetJS.h src/WidgetJS.cpp include/OgreManager.h MakeFileNodeMac
-	gcc-4.2 $(INCLUDE) -c src/WidgetJS.cpp -o build/objects/WidgetJS.o
 
-build/objects/ButtonJS.o : include/ButtonJS.h src/ButtonJS.cpp include/OgreManager.h MakeFileNodeMac
-	gcc-4.2 $(INCLUDE) -c src/ButtonJS.cpp -o build/objects/ButtonJS.o
+build/objects/WidgetCreatorConvertJS.o : include/WidgetCreatorConvertJS.h src/WidgetCreatorConvertJS.cpp include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/WidgetCreatorConvertJS.cpp -o build/objects/WidgetCreatorConvertJS.o
 
+
+build/objects/WidgetBindJS.o : include/WidgetBindJS.h src/WidgetBindJS.cpp include/WidgetCreatorConvertJS.h include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/WidgetBindJS.cpp -o build/objects/WidgetBindJS.o
+
+
+build/objects/ButtonBindJS.o : include/ButtonBindJS.h src/ButtonBindJS.cpp include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/ButtonBindJS.cpp -o build/objects/ButtonBindJS.o
+
+
+# build/objects/ButtonJS.o : include/ButtonJS.h src/ButtonJS.cpp include/OgreManager.h MakeFileNodeMac
+#	gcc-4.2 $(INCLUDE) -c src/ButtonJS.cpp -o build/objects/ButtonJS.o
+
+
+# build/objects/WidgetJS.o : include/WidgetJS.h src/WidgetJS.cpp include/OgreManager.h MakeFileNodeMac
+#	gcc-4.2 $(INCLUDE) -c src/WidgetJS.cpp -o build/objects/WidgetJS.o
+
+# build/objects/MyGuiRootJS.o : include/MyGuiRootJS.h src/MyGuiRootJS.cpp include/WidgetCreatorJS.h include/WidgetJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
+#	gcc-4.2 $(INCLUDE) -c src/MyGuiRootJS.cpp -o build/objects/MyGuiRootJS.o
+
+# build/objects/WidgetCreatorJS.o : include/WidgetCreatorJS.h src/WidgetCreatorJS.cpp include/OgreManager.h MakeFileNodeMac
+#	gcc-4.2 $(INCLUDE) -c src/WidgetCreatorJS.cpp -o build/objects/WidgetCreatorJS.o
 
 
 

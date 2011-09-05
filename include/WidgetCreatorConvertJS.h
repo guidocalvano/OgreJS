@@ -12,7 +12,7 @@
 #include <node_object_wrap.h>
 #include <ButtonBindJS.h>
 // #include <WidgetJS.h>
-
+#include <StaticTextBindJS.h>
 
 class WidgetCreatorConvertJS
     {
@@ -22,11 +22,11 @@ class WidgetCreatorConvertJS
 
 
    //  static v8::Handle<v8::Value> New( const v8::Arguments& args ) ;
-
+	 static v8::Handle<v8::Value> createStaticText( MyGUI::Widget* creator, const v8::Arguments& args ) ;
 
      static v8::Handle<v8::Value> createButton( MyGUI::Widget* creator, const v8::Arguments& args ) ;
 
-     static v8::Handle<v8::Value> createWidget( MyGUI::Widget* creator, const v8::Arguments& args ) ;
+     static v8::Handle<v8::Value> createPanel( MyGUI::Widget* creator, const v8::Arguments& args ) ;
 
 /*
 

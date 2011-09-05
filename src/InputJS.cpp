@@ -156,6 +156,10 @@ v8::Local<v8::Object> InputJS::mouseEventToObject( const OIS::MouseEvent &evt)
 	 v8::Local<v8::Number> dX 	 = v8::Number::New( evt.state.X.rel ) ;
 	 v8::Local<v8::Number> dY 	 = v8::Number::New( evt.state.Y.rel ) ;
 
+	 v8::Local<v8::Number> x 	 = v8::Number::New( evt.state.X.abs ) ;
+	 v8::Local<v8::Number> y 	 = v8::Number::New( evt.state.Y.abs ) ;
+
+
 	 v8::Handle<v8::Boolean> leftIsDown 	 = v8::Boolean::New( evt.state.buttonDown( OIS::MB_Left ) == true ) ;
 	 v8::Handle<v8::Boolean> rightIsDown 	 = v8::Boolean::New( evt.state.buttonDown( OIS::MB_Right ) == true ) ;
 	 v8::Handle<v8::Boolean> middleIsDown 	 = v8::Boolean::New( evt.state.buttonDown( OIS::MB_Middle ) == true ) ;
@@ -164,6 +168,9 @@ v8::Local<v8::Object> InputJS::mouseEventToObject( const OIS::MouseEvent &evt)
 	
 	  object-> Set( v8::String::New( "dX" ), dX ) ;
 	  object-> Set( v8::String::New( "dY" ), dY ) ;
+
+	  object-> Set( v8::String::New( "x" ), x ) ;
+	  object-> Set( v8::String::New( "y" ), y ) ;
 
 	  object-> Set( v8::String::New( "leftIsDown" ), leftIsDown ) ;
 	  object-> Set( v8::String::New( "rightIsDown" ), rightIsDown ) ;
@@ -211,14 +218,10 @@ bool InputJS::mouseMoved(const OIS::MouseEvent &evt)
 	 v8::Local<v8::Function> func = v8::Local<v8::Function>::Cast( inputJSObject->Get( v8::String::New( "emit" ) ) ) ;
 
 	 v8::Local<v8::String> eventType = v8::String::New( "mouseMoved" ) ;
-	// v8::Local<v8::Number> dX 	 = v8::Number::New( evt.state.X.rel ) ;
-	// v8::Local<v8::Number> dY 	 = v8::Number::New( evt.state.Y.rel ) ;
-
 
 	 v8::Local<v8::Value> args[2] ;
 	 args[0] = eventType ;
 	 args[1] = mouseEventToObject( evt ) ;
-	// args[2] = dY ;
 
 
 	 func-> Call( inputJSObject, 2, args ) ;

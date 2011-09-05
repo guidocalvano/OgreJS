@@ -14,6 +14,7 @@ class EntityJS : public node::ObjectWrap
 	public:
 
 	 EntityJS( v8::Local<v8::Object> object, const char* mesh  ) ;
+	 ~EntityJS() ;
 
 	 static void init( v8::Handle< v8::Object > target) ;
 
@@ -25,7 +26,7 @@ class EntityJS : public node::ObjectWrap
 	 static v8::Persistent<v8::FunctionTemplate> prototypeTemplate ;
 
 
-	 v8::Local<v8::Object> object ;
+//	 v8::Local<v8::Object> object ;
 
 	 Ogre::Entity* entity ;
 

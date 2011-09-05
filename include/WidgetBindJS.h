@@ -9,7 +9,7 @@
 #include <node_object_wrap.h>
 #include <WidgetCreatorConvertJS.h>
 
-
+#include <WidgetConvertJS.h>
 
 class WidgetBindJS : public node::ObjectWrap
     {
@@ -25,10 +25,18 @@ class WidgetBindJS : public node::ObjectWrap
      static v8::Handle<v8::Value> NewFromWidgetCpp( MyGUI::Widget* widget ) ;
 
 
+     static v8::Handle<v8::Value> createStaticText( const v8::Arguments& args ) ;
 
      static v8::Handle<v8::Value> createButton( const v8::Arguments& args ) ;
 
-     static v8::Handle<v8::Value> createWidget( const v8::Arguments& args ) ;
+     static v8::Handle<v8::Value> createPanel( const v8::Arguments& args ) ;
+
+	 static v8::Handle<v8::Value> destroy( const v8::Arguments& args ) ;
+	
+	
+	 static v8::Handle<v8::Value> setPosition( const v8::Arguments& args ) ;
+
+     static v8::Handle<v8::Value> setSize( const v8::Arguments& args ) ;
     } ;
     
 #endif

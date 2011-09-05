@@ -1,24 +1,41 @@
 
 #include <EntityJS.h>
+#include <OgreJS.h>
+#include <EventEmitterJS.h>
+#include <MemoryManagerJS.h>
 
 v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
 
 
  EntityJS:: EntityJS( v8::Local<v8::Object> object, const char* mesh )
 	{
-	 this-> object = object ;
+	 // this-> object = object ;
 	 parent = NULL ;
 
 	 entity = OgreManager:: getSingletonPtr()-> m_pSceneMgr-> createEntity( mesh ) ;
 
 	 
-	 Wrap( this-> object ) ;
+	 Wrap( object ) ;	
+	
+	 MemoryManagerJS:: singleton-> updateV8AllocatedMemory() ;
 	}
-
+	
+ EntityJS:: ~EntityJS()
+	{
+	 entity-> detachFromParent() ;
+		
+	 OgreManager:: getSingletonPtr()-> m_pSceneMgr-> destroyEntity( entity ) ;
+	
+		printf( "destroyed entity\n" ) ;
+	
+	 MemoryManagerJS:: singleton-> updateV8AllocatedMemory() ;
+	}
 
  void EntityJS:: init( v8::Handle< v8::Object > target) 
 	{
    	 v8::Local<v8::FunctionTemplate> t = v8::FunctionTemplate::New(New);
+
+	 t-> Inherit( EventEmitterJS:: prototypeTemplate ) ;
 
    	 prototypeTemplate = v8::Persistent<v8::FunctionTemplate>::New(t);
    	 prototypeTemplate->InstanceTemplate()->SetInternalFieldCount(1);
@@ -34,6 +51,8 @@ v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
  v8::Handle<v8::Value> EntityJS:: New( const v8::Arguments& args ) 
 	{
 	 v8::String::AsciiValue ascii( args[ 0 ] ) ;
+	
+	 EventEmitterJS:: prototypeTemplate-> GetFunction()-> Call( args.This(), 0, NULL ) ;
 
 	 new EntityJS( args.This(), *ascii ) ;
 
@@ -47,6 +66,7 @@ v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
 	 if( entityJS-> parent != NULL )
 		{
 		 entityJS-> parent-> sceneNode-> detachObject( entityJS-> entity ) ;
+		 OgreJS:: singleton-> pickingManagerJS-> remove( entityJS-> entity ) ;
 		}
 	
 	 if( !( args[ 0 ]-> IsNull() ) )
@@ -57,6 +77,7 @@ v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
 		 entityJS-> parent = newParent ;
 
 		 newParent-> sceneNode-> attachObject( entityJS-> entity ) ;
+		 OgreJS:: singleton-> pickingManagerJS-> add( entityJS-> entity, entityJS ) ;
 		}
 	 return v8:: Undefined() ;
 	}

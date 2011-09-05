@@ -3,7 +3,7 @@
 #include <v8.h>
 #include <node_object_wrap.h>
 #include <OGRE/Ogre.h>
-
+#include <SceneNodeJS.h>
 
 
 class CameraJS : node::ObjectWrap
@@ -17,16 +17,22 @@ class CameraJS : node::ObjectWrap
 
 	 static v8::Handle<v8::Value> renderOneFrame( const v8::Arguments& args ) ;
 
+	 static v8::Handle<v8::Value> pick( const v8::Arguments& args ) ;
 
+	 static v8::Handle<v8::Value> setParent( const v8::Arguments& args ) ;
 
+	void setParent( SceneNodeJS* newParent ) ;
+
+/*
 	 static v8::Handle<v8::Value> yaw( const v8::Arguments& args ) ;
 	 static v8::Handle<v8::Value> pitch( const v8::Arguments& args ) ;
 	 static v8::Handle<v8::Value> roll( const v8::Arguments& args ) ;
 
 	 static v8::Handle<v8::Value> moveL3N( const v8::Arguments& args ) ;
-
+*/
 
 	 Ogre:: Camera* camera ;
+	 SceneNodeJS* parent ;
 
 	} ;
 

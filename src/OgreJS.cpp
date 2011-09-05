@@ -7,6 +7,8 @@
 #include <SceneNodeJS.h>
 #include <EntityJS.h>
 
+#include <EventEmitterJS.h>
+
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -15,13 +17,27 @@
 
 using namespace std;
 
+OgreJS* OgreJS:: singleton = NULL ;
+
+
+OgreJS:: OgreJS()
+	{
+	 pickingManagerJS = new PickingManagerJS() ;
+	}
+
+
+
 void OgreJS :: require(  v8::Handle< v8::Object > target ) 
 	{
+	 singleton = new OgreJS() ;
+	 /*
  	 v8::HandleScope handle_scope;
 
 	 v8::Persistent<v8::Context> context = v8::Context::New();
 
  	 v8::Context::Scope context_scope(context);
+	*/
+	 EventEmitterJS::init() ;
 
 
 	 new OgreManager() ;
@@ -29,23 +45,25 @@ void OgreJS :: require(  v8::Handle< v8::Object > target )
 	 OgreManager:: getSingletonPtr()-> initDefault() ;
 	 OgreManager:: getSingletonPtr()-> setupDemoScene() ;
 
-	 v8::Handle<v8::Value> cameraJS = CameraJS:: NewFromCamera( OgreManager:: getSingletonPtr()-> m_pCamera ) ;
 
-	 v8::Handle<v8::Value> inputJS = InputJS:: NewFromOgreManager() ;
 
 	 v8::Local<v8::Object> system = v8::Object::New() ;
 
 	 SceneNodeJS:: init( system ) ;
 	 EntityJS:: init( system ) ;
 
-	 context-> Global()-> Set( v8::String::New("system"), system ) ;
+	 v8::Handle<v8::Value> cameraJS = CameraJS:: NewFromCamera( OgreManager:: getSingletonPtr()-> m_pCamera ) ;
 
-	 context-> Global()-> Set( v8::String::New("Camera"), cameraJS ) ;
-	 context-> Global()-> Set( v8::String::New("Input"), inputJS ) ;
+	 v8::Handle<v8::Value> inputJS = InputJS:: NewFromOgreManager() ;
+	
+	 // context-> Global()-> Set( v8::String::New("system"), system ) ;
 
-	 context-> Global()-> Set( v8::String::New("exports"), target ) ;
+	 system-> Set( v8::String::New("Camera"), cameraJS ) ;
+	 system-> Set( v8::String::New("input"), inputJS ) ;
 
+	// context-> Global()-> Set( v8::String::New("exports"), target ) ;
 
+/*
   	 ifstream file ;
 
   	 file.open ("src/js/ogre.js" ) ;
@@ -66,21 +84,20 @@ void OgreJS :: require(  v8::Handle< v8::Object > target )
   
  	 v8::Handle<v8::Value> result = script->Run();
  	 
+ 	*/
  	 
+
+	target-> Set( v8::String::New( "system" ), system ) ;
+	 target-> Set( v8::String::New( "EventEmitter" ), EventEmitterJS:: prototypeTemplate-> GetFunction() ) ;
  	 
- 	 
- 	 v8::Handle<v8::Object> myGui = v8::Object::New() ;
- 	 
- 	 MyGuiRootBindJS::init( myGui ) ;
- 	 
- 	 target-> Set( v8::String::New( "gui" ), myGui ) ;
  	 
  	 
  	 
  	 
  	 
   
- 	 context.Dispose();
+ 	// context.Dispose();
+
 
 /*
 	 target-> Set( v8::String::New("system"), system ) ;

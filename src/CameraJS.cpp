@@ -1,6 +1,9 @@
 
 #include <CameraJS.h>
 #include <OgreManager.h>
+#include <EntityJS.h>
+#include <PickingManagerJS.h>
+#include <OgreJS.h>
 
 v8::Handle<v8::Value> CameraJS:: NewFromCamera( Ogre::Camera* camera )
 	{
@@ -13,6 +16,12 @@ v8::Handle<v8::Value> CameraJS:: NewFromCamera( Ogre::Camera* camera )
 	 v8::Handle< v8::FunctionTemplate > f = v8::FunctionTemplate::New( renderOneFrame ) ;
 	 cameraJSObject-> Set( v8::String::New( "renderOneFrame" ), f->GetFunction()   ) ;
 
+	 f = v8::FunctionTemplate::New( pick ) ;
+	 cameraJSObject-> Set( v8::String::New( "pick" ), f->GetFunction()   ) ;
+
+	 f = v8::FunctionTemplate::New( setParent ) ;
+	 cameraJSObject-> Set( v8::String::New( "setParent" ), f->GetFunction()   ) ;
+/*
 	 f = v8::FunctionTemplate::New( roll ) ;
 	 cameraJSObject-> Set( v8::String::New( "roll" ), f->GetFunction()   ) ;
 
@@ -24,16 +33,23 @@ v8::Handle<v8::Value> CameraJS:: NewFromCamera( Ogre::Camera* camera )
 
 	 f = v8::FunctionTemplate::New( moveL3N ) ;
 	 cameraJSObject-> Set( v8::String::New( "moveL3N" ), f->GetFunction()   ) ;
-
+*/
 
 	 CameraJS* cameraJS = new CameraJS() ;
 
 	 cameraJS-> camera = camera ;
 	
+	cameraJS-> parent = NULL ;
+	
+	cameraJS-> setParent( OgreJS:: singleton-> root ) ;
+	 
 	 cameraJS-> Wrap( cameraJSObject ) ;
+
+
 
 	 return cameraJSObject ;
 	}
+
 
  v8::Handle<v8::Value> CameraJS:: renderOneFrame( const v8::Arguments& args ) 
 	{
@@ -44,7 +60,63 @@ v8::Handle<v8::Value> CameraJS:: NewFromCamera( Ogre::Camera* camera )
 	}
 
 
+ v8::Handle<v8::Value> CameraJS:: pick( const v8::Arguments& args ) 
+	{
+   	 CameraJS* cam = ObjectWrap::Unwrap<CameraJS>(args.This());
 
+
+	 int x = args[ 0 ]-> ToInteger()-> Value() ;
+	 int y = args[ 1 ]-> ToInteger()-> Value() ;
+	
+	
+	 double normalisedScreenX = ( (double) x ) / OgreManager:: getSingletonPtr()-> m_pViewport-> getActualWidth() ;
+	 double normalisedScreenY = ( (double) y ) / OgreManager:: getSingletonPtr()-> m_pViewport-> getActualHeight() ;
+		
+	 // EntityJS* entityJS = OgreJS::singleton-> pickingManagerJS-> pick( x, y ) ;
+	 Ogre::Ray mouseRay = cam-> camera-> getCameraToViewportRay( normalisedScreenX, normalisedScreenY ) ;
+	 Ogre::Vector3 hitCoordinate ;
+	
+	 EntityJS* entityJS = OgreJS::singleton-> pickingManagerJS-> pick( mouseRay, hitCoordinate ) ;
+	
+	 if( entityJS != NULL )
+	 	return entityJS-> handle_ ; //?
+	 
+	 return v8::Undefined() ;
+	}
+	
+	
+v8::Handle<v8::Value> CameraJS:: setParent( const v8::Arguments& args ) 
+	{
+	 CameraJS* cameraJS = node::ObjectWrap:: Unwrap<CameraJS>( args.This() ) ;
+	
+	 SceneNodeJS* newParent ;
+	 if( !( args[ 0 ]-> IsNull() ) )	
+		newParent 	  = node:: ObjectWrap::Unwrap<SceneNodeJS>( v8::Local<v8::Object>:: Cast( args[ 0 ] ) ) ;
+	 else
+		newParent = NULL ;
+		
+	 cameraJS-> setParent( newParent ) ;
+	
+	 return v8:: Undefined() ;
+	}
+	
+	
+void CameraJS:: setParent( SceneNodeJS* newParent )
+	{
+	 if( parent != NULL )
+		{
+		 parent-> sceneNode-> detachObject( camera ) ;
+		}
+
+	 if( newParent )
+		{
+		 parent = newParent ;
+		
+		 newParent-> sceneNode-> attachObject( camera ) ;
+		}		
+	}
+
+/*
  v8::Handle<v8::Value> CameraJS:: roll( const v8::Arguments& args ) 
 	{
 	 printf( "Roll\n" ) ;
@@ -113,5 +185,5 @@ v8::Handle<v8::Value> CameraJS:: NewFromCamera( Ogre::Camera* camera )
 	 
 	 return v8::Undefined() ;
 	}
-
+*/
 

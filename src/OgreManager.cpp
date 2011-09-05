@@ -53,7 +53,9 @@ bool OgreManager:: initDefault()
 	 m_pRoot-> loadPlugin( "RenderSystem_GL.dylib" ) ;
 	 printf( "plugin \n" ) ;
 
- 	 if( ! m_pRoot-> showConfigDialog() ) return false ;
+ 	 if( ! m_pRoot-> restoreConfig()  ) 
+		if( !m_pRoot-> showConfigDialog() )
+			return false ;
 
 	 m_pRenderWnd = m_pRoot->initialise( true ) ;
 
@@ -62,8 +64,16 @@ bool OgreManager:: initDefault()
 	 m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.7, 0.7, 0.7));
 	
 	 m_pCamera = m_pSceneMgr->createCamera("Camera");
-	 m_pCamera->setPosition(Vector3(0, 60, 60));
-	 m_pCamera->lookAt(Vector3(0,0,0));
+	 m_pCamera->setPosition(Vector3(0, 0, 0));
+	// m_pCamera->setDirection(Vector3(0, 0, 1));
+	 m_pCamera->yaw( Ogre::Radian( 3.14 ) ) ;
+	
+	 // m_pCamera-> setFocalLength( -1.0 ) ;
+	
+	 m_pSceneMgr-> getRootSceneNode()-> detachObject( m_pCamera ) ;
+	
+//	 m_pCamera->setPosition(Vector3(0, 60, 60));
+//	 m_pCamera->lookAt(Vector3(0,0,0));
 	 m_pCamera->setNearClipDistance(1);
 
 	 m_pViewport = m_pRenderWnd->addViewport(m_pCamera);
@@ -126,7 +136,7 @@ bool OgreManager:: initDefault()
 	 m_pTimer = OGRE_NEW Ogre::Timer();
 	 m_pTimer->reset();
 	
-
+	 m_pPickingManager = new PickingManager() ;
 
 	 initPlatform() ;
 

@@ -5,15 +5,12 @@
 
 v8::Handle<v8::Function> V8Toolkit :: setFunction( v8::Handle<v8::Object> obj,  const char* member, const char* functionAsString )
 	{
-	 printf( "staart\n" ) ;
-
+/* del
 	 v8::Handle<v8::ObjectTemplate> objectTemplate = v8::ObjectTemplate::New() ;
 
-	 printf( "new\n" ) ;
 
 	 v8::Handle<v8::Object> inputJSObject = objectTemplate-> NewInstance() ;
-	 printf( "asdf\n" ) ;
-
+*/
 	 int len =  strlen( "var _____ = " ) + strlen( functionAsString ) + strlen( ";  _____;" ) ;
 
 	 char str[ len+1 ] ;
@@ -21,17 +18,12 @@ v8::Handle<v8::Function> V8Toolkit :: setFunction( v8::Handle<v8::Object> obj,  
 	 strcpy( str, "var _____ = " ) ; strcat( str, functionAsString ) ; strcat( str, ";  _____;" ) ;
 
 
-	 printf( str ) ;
-	 printf( "assign hack string\n" ) ;
-
 	 v8::Local<v8::String> source = v8::String::New( str ) ;
  	 v8::Local<v8::Script> script = v8::Script::Compile( source ) ;
 
-	 printf( "compile\n" ) ;
 
  	 v8::Handle<v8::Function> result = v8::Handle<v8::Function>::Cast( script->Run() ) ;
 
-	 printf( "run\n" );
 
  	 v8::Script::Compile( v8::String::New( "delete _____ ;" )  )-> Run() ;
 
@@ -39,3 +31,31 @@ v8::Handle<v8::Function> V8Toolkit :: setFunction( v8::Handle<v8::Object> obj,  
 
 	 return result ;
 	}
+
+
+
+
+v8::Handle<v8::Function> V8Toolkit :: setPrototypeTemplateFunction( v8::Handle<v8::ObjectTemplate> obj,  const char* member, const char* functionAsString )
+	{
+	 int len =  strlen( "var _____ = " ) + strlen( functionAsString ) + strlen( ";  _____;" ) ;
+
+	 char str[ len+1 ] ;
+
+	 strcpy( str, "var _____ = " ) ; strcat( str, functionAsString ) ; strcat( str, ";  _____;" ) ;
+
+
+	 v8::Local<v8::String> source = v8::String::New( str ) ;
+ 	 v8::Local<v8::Script> script = v8::Script::Compile( source ) ;
+
+
+ 	 v8::Handle<v8::Function> result = v8::Handle<v8::Function>::Cast( script->Run() ) ;
+
+
+ 	 v8::Script::Compile( v8::String::New( "delete _____ ;" )  )-> Run() ;
+
+ 	 obj-> Set( v8::String::New( member ), result ) ;
+
+	 return result ;
+	}
+
+

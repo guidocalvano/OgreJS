@@ -5,7 +5,6 @@
 #include <v8.h>
 #include <node_object_wrap.h>
 
-#include <OgreManager.h>
 
 
 class SceneNodeJS : public node::ObjectWrap
@@ -25,6 +24,14 @@ class SceneNodeJS : public node::ObjectWrap
 
 	 static v8::Handle<v8::Value> moveL3N( const v8::Arguments& args ) ;
 
+	 static v8::Handle<v8::Value> convertLocalOXYZToWorldOXYZ( const v8::Arguments& args ) ;
+	
+	 static v8::Handle<v8::Value> convertWorldOXYZToLocalOXYZ( const v8::Arguments& args ) ;
+	
+	
+	 static v8::Handle<v8::Value> yaw( const v8::Arguments& args ) ;
+	 static v8::Handle<v8::Value> pitch( const v8::Arguments& args ) ;
+	 static v8::Handle<v8::Value> roll( const v8::Arguments& args ) ;
 
 	 static v8::Persistent<v8::FunctionTemplate> prototypeTemplate ;
 	

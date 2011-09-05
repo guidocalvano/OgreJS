@@ -21,6 +21,7 @@
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
 
+#include <PickingManager.h>
 
 
 class OgreManager : public Ogre::Singleton<OgreManager>, OIS::KeyListener, OIS::MouseListener
@@ -59,7 +60,9 @@ class OgreManager : public Ogre::Singleton<OgreManager>, OIS::KeyListener, OIS::
 	 Ogre:: SceneNode*			m_pDemoNode	;
 	 Ogre:: Entity*				m_pDemoEntity 	;
 
-  	 Ogre::String                 		m_ResourcePath	;
+  	 Ogre::String                 m_ResourcePath	;
+
+	 PickingManager* 		m_pPickingManager ;
 
 	 void initPlatform() ; // compile and link the platform specific cpp file to init the right platform
 

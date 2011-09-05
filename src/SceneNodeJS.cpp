@@ -1,5 +1,7 @@
 #include <SceneNodeJS.h>
-
+#include <OgreManager.h>
+#include <OgreJS.h>
+#include <MemoryManagerJS.h>
 v8::Persistent<v8::FunctionTemplate> SceneNodeJS:: prototypeTemplate ;
 
 SceneNodeJS:: SceneNodeJS( v8::Local<v8::Object> object )
@@ -11,12 +13,29 @@ SceneNodeJS:: SceneNodeJS( v8::Local<v8::Object> object )
 
 	 
 	 Wrap( this-> object ) ;
+	
+	 MemoryManagerJS:: singleton-> updateV8AllocatedMemory() ;
+	
 	}
 
 
 SceneNodeJS:: ~SceneNodeJS()
 	{
-	 delete sceneNode ;
+	 sceneNode-> removeAllChildren() ;
+	
+	 Ogre::SceneNode* parent = sceneNode-> getParentSceneNode() ;
+	
+	 if( parent != NULL )
+		{
+			parent-> removeChild( sceneNode ) ;
+		}
+	
+	 OgreManager:: getSingletonPtr()-> m_pSceneMgr-> destroySceneNode(  sceneNode ) ;
+	
+	printf( "destroyed scenenode\n" ) ;
+	
+	 MemoryManagerJS:: singleton-> updateV8AllocatedMemory() ;
+	
 	}
 
 void SceneNodeJS:: init( v8::Handle< v8::Object > target)
@@ -30,10 +49,22 @@ void SceneNodeJS:: init( v8::Handle< v8::Object > target)
    	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "setParent", setParent ) ;
    	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "moveL3N", moveL3N ) ;
 
+   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "convertLocalOXYZToWorldOXYZ", convertLocalOXYZToWorldOXYZ ) ;
+   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "convertWorldOXYZToLocalOXYZ", convertWorldOXYZToLocalOXYZ ) ;
+
+   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "roll", roll ) ;
+   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "pitch", pitch ) ;
+   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "yaw", yaw ) ;
+
+
    	 target-> Set( v8::String::NewSymbol("SceneNode"),
                 prototypeTemplate-> GetFunction() );
 
-	 target-> Set( v8::String::NewSymbol("root"), createRoot() ) ;
+	 v8::Handle<v8::Value> rootObject = createRoot() ;
+
+	 OgreJS:: singleton-> root = ObjectWrap:: Unwrap<SceneNodeJS>( rootObject-> ToObject() ) ;
+
+	 target-> Set( v8::String::NewSymbol("root"),  rootObject ) ;
 	}
 
 
@@ -90,4 +121,108 @@ v8::Handle<v8::Value> SceneNodeJS:: moveL3N( const v8::Arguments& args )
 	}
 
 
+
+v8::Handle<v8::Value> SceneNodeJS:: convertLocalOXYZToWorldOXYZ( const v8::Arguments& args )
+	{
+	 SceneNodeJS* sceneNodeJS = node::ObjectWrap::Unwrap<SceneNodeJS>( args.This() ) ;
+
+	 v8::Local<v8::Object> localOXYZ = args[ 0 ]-> ToObject() ;
+
+	 double x = localOXYZ-> Get( v8::String::New( "x" ) )-> NumberValue() ;
+	 double y = localOXYZ-> Get( v8::String::New( "y" ) )-> NumberValue() ;
+	 double z = localOXYZ-> Get( v8::String::New( "z" ) )-> NumberValue() ;
+
+	 Ogre::Vector3 localV3( x, y, z ) ;
+
+	 Ogre::Vector3 worldV3 = sceneNodeJS-> sceneNode-> convertLocalToWorldPosition( localV3 ) ;
+
+	 v8::Local<v8::Object> worldOXYZ = v8::Object::New() ;
+
+	 worldOXYZ-> Set( v8::String::New( "x" ), v8::Number::New( worldV3.x ) ) ;
+	 worldOXYZ-> Set( v8::String::New( "y" ), v8::Number::New( worldV3.y ) ) ;
+	 worldOXYZ-> Set( v8::String::New( "z" ), v8::Number::New( worldV3.z ) ) ;
+	
+	 return worldOXYZ ;
+	}
+
+
+v8::Handle<v8::Value> SceneNodeJS:: convertWorldOXYZToLocalOXYZ( const v8::Arguments& args )
+	{
+	 SceneNodeJS* sceneNodeJS = node::ObjectWrap::Unwrap<SceneNodeJS>( args.This() ) ;
+
+	 v8::Local<v8::Object> worldOXYZ = args[ 0 ]-> ToObject() ;
+
+	 double x = worldOXYZ-> Get( v8::String::New( "x" ) )-> NumberValue() ;
+	 double y = worldOXYZ-> Get( v8::String::New( "y" ) )-> NumberValue() ;
+	 double z = worldOXYZ-> Get( v8::String::New( "z" ) )-> NumberValue() ;
+
+	 Ogre::Vector3 worldV3( x, y, z ) ;
+
+	 Ogre::Vector3 localV3 = sceneNodeJS-> sceneNode-> convertWorldToLocalPosition( worldV3 ) ;
+
+	 v8::Local<v8::Object> localOXYZ = v8::Object::New() ;
+
+	 localOXYZ-> Set( v8::String::New( "x" ), v8::Number::New( localV3.x ) ) ;
+	 localOXYZ-> Set( v8::String::New( "y" ), v8::Number::New( localV3.y ) ) ;
+	 localOXYZ-> Set( v8::String::New( "z" ), v8::Number::New( localV3.z ) ) ;
+
+	 return localOXYZ ;
+	}
+
+
+
+ v8::Handle<v8::Value> SceneNodeJS:: roll( const v8::Arguments& args ) 
+	{
+	 printf( "Roll\n" ) ;
+
+    	 SceneNodeJS* sn = ObjectWrap::Unwrap<SceneNodeJS>(args.This());
+
+	 printf( "Unwrap\n" ) ;
+
+	 v8::Local< v8::Number > num ; 
+
+	 num = v8::Local< v8::Number >::Cast( args[ 0 ] ) ;
+
+	 printf( "Cast\n" ) ;
+
+	 double v = num-> Value() ;;
+
+	 printf( "Roll%f\n", (float) v ) ;
+
+	 sn-> sceneNode-> roll( (Ogre::Radian) v ) ;
+
+	 return v8::Undefined() ;
+	}
+
+
+ v8::Handle<v8::Value> SceneNodeJS:: pitch( const v8::Arguments& args ) 
+	{
+   	 SceneNodeJS* sn = ObjectWrap::Unwrap<SceneNodeJS>(args.This());
+
+	 v8::Local< v8::Number > num ; 
+
+	 num = v8::Local< v8::Number >::Cast( args[ 0 ] ) ;
+
+	 double v = num-> Value() ;;
+
+	 sn-> sceneNode-> pitch( (Ogre::Radian) v ) ;
+
+	 return v8::Undefined() ;
+	}
+
+
+ v8::Handle<v8::Value> SceneNodeJS:: yaw( const v8::Arguments& args ) 
+	{
+   	 SceneNodeJS* sn = ObjectWrap::Unwrap<SceneNodeJS>(args.This());
+
+	 v8::Local< v8::Number > num ; 
+
+	 num = v8::Local< v8::Number >::Cast( args[ 0 ] ) ;
+
+	 double v = num-> Value() ;;
+
+	 sn-> sceneNode-> yaw( (Ogre::Radian) v ) ;
+
+	 return v8::Undefined() ;
+	}
 

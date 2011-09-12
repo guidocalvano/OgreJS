@@ -52,23 +52,12 @@ build/objects/V8Toolkit.o : include/V8Toolkit.h src/V8Toolkit.cpp MakeFileNodeMa
 
 
 
-# build/objects/MyGuiRootBindJS.o : include/MyGuiRootBindJS.h src/MyGuiRootBindJS.cpp include/WidgetCreatorConvertJS.h include/WidgetBindJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
-#	gcc-4.2 $(INCLUDE) -c src/MyGuiRootBindJS.cpp -o build/objects/MyGuiRootBindJS.o
-
-
 build/objects/LayerJS.o : include/LayerJS.h src/LayerJS.cpp include/WidgetJS.h include/StaticTextJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
 		gcc-4.2 $(INCLUDE) -c src/LayerJS.cpp -o build/objects/LayerJS.o
-
-# build/objects/WidgetCreatorConvertJS.o : include/WidgetCreatorConvertJS.h src/WidgetCreatorConvertJS.cpp include/StaticTextBindJS.h include/ButtonBindJS.h include/OgreManager.h MakeFileNodeMac
-#	gcc-4.2 $(INCLUDE) -c src/WidgetCreatorConvertJS.cpp -o build/objects/WidgetCreatorConvertJS.o
 
 
 build/objects/WidgetJS.o : include/WidgetJS.h src/WidgetJS.cpp include/StaticTextJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
 	gcc-4.2 $(INCLUDE) -c src/WidgetJS.cpp -o build/objects/WidgetJS.o
-
-# build/objects/WidgetConvertJS.o : include/WidgetConvertJS.h src/WidgetConvertJS.cpp include/WidgetCreatorConvertJS.h include/OgreManager.h MakeFileNodeMac
-#	gcc-4.2 $(INCLUDE) -c src/WidgetConvertJS.cpp -o build/objects/WidgetConvertJS.o
-
 
 build/objects/StaticTextJS.o : src/StaticTextJS.cpp include/StaticTextJS.h include/WidgetJS.h include/MyGuiEventEmitterJS.h MakeFileNodeMac
 	gcc-4.2 $(INCLUDE) -c src/StaticTextJS.cpp -o build/objects/StaticTextJS.o

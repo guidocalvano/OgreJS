@@ -284,6 +284,7 @@ input.linkToOgreInput = function( ogreInput )
 exports.input = input ;
 
 exports.system = system ;
+exports.Component = Component ;
 exports.Text = Text ;
 exports.Button = Button ;
 exports.Panel  = Panel  ;

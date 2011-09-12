@@ -4,7 +4,7 @@
 
 exports.init = function( exports ) {
 
-
+var 
 var sys = require( 'sys' ) ;
 
 exports.input = {} ;
@@ -99,21 +99,23 @@ function SceneNode()
 
 SceneNode.prototype.setParent = function( newParent ) 
 	{
+	 console.log( 'a') ;
 	 if( newParent != null )
 		 this.cpp.setParent( newParent.cpp ) ;
 	 else
 		 this.cpp.setParent( null ) ;
-
+	 console.log( 'b') ;
 	 if( this.parent != null )
 		{
 		 var removeFromOldParent = this.parent.children.indexOf( this ) ;
 		 if( removeFromOldParent >= 0 ) this.parent.children.splice( removeFromOldParent, 1 ) ;
 		}
-
+	 console.log( 'c') ;
 	 this.parent = newParent ;
 
 	 if( newParent != null )
 		 newParent.children.push( this ) ;
+		 console.log( 'd') ;
 	} 
 
 SceneNode.prototype.moveL3N = function( x, y, z ) { this.cpp.moveL3N( x, y, z ) ; } 
@@ -121,6 +123,10 @@ SceneNode.prototype.moveL3N = function( x, y, z ) { this.cpp.moveL3N( x, y, z ) 
 SceneNode.prototype.roll  = function( r ) { this.cpp.roll(  r ) ; } 
 SceneNode.prototype.pitch = function( r ) { this.cpp.pitch( r ) ; } 
 SceneNode.prototype.yaw   = function( r ) { this.cpp.yaw(   r ) ; } 
+
+SceneNode.prototype.convertLocalOXYZToWorldOXYZ = function( x, y, z ) { return this.cpp.convertLocalOXYZToWorldOXYZ( x, y, z ) ; } 
+SceneNode.prototype.convertWorldOXYZToLocalOXYZ = function( x, y, z ) { return this.cpp.convertWorldOXYZToLocalOXYZ( x, y, z ) ; } 
+
 
 exports.SceneNode = SceneNode ;
 
@@ -153,7 +159,9 @@ Camera.prototype.initDefault = function()
 
 	 this.node.setParent( root ) ;	
 
-	 this.node.moveL3N( 0, 0, -200 ) ;
+	 this.node.moveL3N( 0, 0, 200 ) ;
+	
+	 this.node.yaw( 3.145 ) ;
 
 	 this.movementProcesses = {} ;
 	 this.activeHandlers = {} ;
@@ -307,7 +315,7 @@ Camera.prototype.stop = function()
 	 clearInterval( this.renderProcess ) ;
 	}
 
-
+/*
 exports.rotatingHead = function( rateHz )
 	{
 	 var head = new Entity( 'ogrehead.mesh' ) ;
@@ -322,7 +330,7 @@ exports.rotatingHead = function( rateHz )
 	 exports.rotatingHead.process = setInterval( function() { node.yaw( 1.0 / rateHz ) ; }, 1000 / rateHz ) ;
 	}
 
-
+*/
 exports.RootNode = RootNode ;
 
 exports.root = root ;
@@ -338,7 +346,7 @@ exports.Camera = Camera ;
 
 exports.camera = cam  ;//cam.initDefault() ;
 
-exports.start = function( rateHz ) { cam.start( rateHz ) ; input.start( rateHz ) ; exports.rotatingHead( rateHz ) ;} ;
+exports.start = function( rateHz ) { cam.start( rateHz ) ; input.start( rateHz ) ; /* exports.rotatingHead( rateHz ) ; */ } ;
 exports.stop  = function() { cam.stop() 	 ; input.stop() ;  }
 
 

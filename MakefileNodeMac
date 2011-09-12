@@ -9,8 +9,8 @@ FRAMEWORKS=-framework Ogre -framework Cg -framework Foundation -framework Carbon
 FRAMEWORK_PATH=-FOgreSDK1.7.3/Dependencies -FOgreSDK1.7.3/lib/release
 
 
-build/ogrenode : build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/MyGuiRootBindJS.o build/objects/WidgetCreatorConvertJS.o build/objects/WidgetBindJS.o build/objects/ButtonBindJS.o
-	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(LIBRARIES) -o build/ogrenode build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/MyGuiRootBindJS.o build/objects/WidgetCreatorConvertJS.o build/objects/WidgetBindJS.o build/objects/ButtonBindJS.o
+build/ogrenode : build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/WidgetJS.o build/objects/ButtonJS.o build/objects/EventEmitterJS.o build/objects/MyGuiEventEmitterJS.o build/objects/LayerJS.o build/objects/InputMyGuiJS.o build/objects/MyGuiJS.o  build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/StaticTextJS.o build/objects/EditJS.o build/objects/WindowMyGuiJS.o
+	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(LIBRARIES) -o build/ogrenode build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o  build/objects/WidgetJS.o build/objects/ButtonJS.o build/objects/EventEmitterJS.o build/objects/MyGuiEventEmitterJS.o build/objects/InputMyGuiJS.o build/objects/MyGuiJS.o build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/StaticTextJS.o build/objects/LayerJS.o build/objects/EditJS.o build/objects/WindowMyGuiJS.o
 	
 
 
@@ -39,7 +39,7 @@ build/objects/EntityJS.o : include/EntityJS.h include/OgreManager.h src/EntityJS
 	gcc-4.2 $(INCLUDE) -c src/EntityJS.cpp -o build/objects/EntityJS.o
 
 
-build/objects/OgreManager.o : include/OgreManager.h src/OgreManager.cpp MakeFileNodeMac
+build/objects/OgreManager.o : include/OgreManager.h src/OgreManager.cpp include/PickingManager.h MakeFileNodeMac
 	gcc-4.2 $(INCLUDE) -c src/OgreManager.cpp -o build/objects/OgreManager.o
 
 
@@ -52,35 +52,70 @@ build/objects/V8Toolkit.o : include/V8Toolkit.h src/V8Toolkit.cpp MakeFileNodeMa
 
 
 
-build/objects/MyGuiRootBindJS.o : include/MyGuiRootBindJS.h src/MyGuiRootBindJS.cpp include/WidgetCreatorConvertJS.h include/WidgetBindJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
-	gcc-4.2 $(INCLUDE) -c src/MyGuiRootBindJS.cpp -o build/objects/MyGuiRootBindJS.o
+# build/objects/MyGuiRootBindJS.o : include/MyGuiRootBindJS.h src/MyGuiRootBindJS.cpp include/WidgetCreatorConvertJS.h include/WidgetBindJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
+#	gcc-4.2 $(INCLUDE) -c src/MyGuiRootBindJS.cpp -o build/objects/MyGuiRootBindJS.o
+
+
+build/objects/LayerJS.o : include/LayerJS.h src/LayerJS.cpp include/WidgetJS.h include/StaticTextJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
+		gcc-4.2 $(INCLUDE) -c src/LayerJS.cpp -o build/objects/LayerJS.o
+
+# build/objects/WidgetCreatorConvertJS.o : include/WidgetCreatorConvertJS.h src/WidgetCreatorConvertJS.cpp include/StaticTextBindJS.h include/ButtonBindJS.h include/OgreManager.h MakeFileNodeMac
+#	gcc-4.2 $(INCLUDE) -c src/WidgetCreatorConvertJS.cpp -o build/objects/WidgetCreatorConvertJS.o
+
+
+build/objects/WidgetJS.o : include/WidgetJS.h src/WidgetJS.cpp include/StaticTextJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/WidgetJS.cpp -o build/objects/WidgetJS.o
+
+# build/objects/WidgetConvertJS.o : include/WidgetConvertJS.h src/WidgetConvertJS.cpp include/WidgetCreatorConvertJS.h include/OgreManager.h MakeFileNodeMac
+#	gcc-4.2 $(INCLUDE) -c src/WidgetConvertJS.cpp -o build/objects/WidgetConvertJS.o
+
+
+build/objects/StaticTextJS.o : src/StaticTextJS.cpp include/StaticTextJS.h include/WidgetJS.h include/MyGuiEventEmitterJS.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/StaticTextJS.cpp -o build/objects/StaticTextJS.o
+
+
+build/objects/ButtonJS.o : src/ButtonJS.cpp include/ButtonJS.h include/StaticTextJS.h include/WidgetJS.h include/MyGuiEventEmitterJS.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/ButtonJS.cpp -o build/objects/ButtonJS.o
 
 
 
-build/objects/WidgetCreatorConvertJS.o : include/WidgetCreatorConvertJS.h src/WidgetCreatorConvertJS.cpp include/OgreManager.h MakeFileNodeMac
-	gcc-4.2 $(INCLUDE) -c src/WidgetCreatorConvertJS.cpp -o build/objects/WidgetCreatorConvertJS.o
+
+build/objects/WindowMyGuiJS.o : src/WindowMyGuiJS.cpp include/WindowMyGuiJS.h include/WidgetJS.h include/MyGuiEventEmitterJS.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/WindowMyGuiJS.cpp -o build/objects/WindowMyGuiJS.o
 
 
-build/objects/WidgetBindJS.o : include/WidgetBindJS.h src/WidgetBindJS.cpp include/WidgetCreatorConvertJS.h include/OgreManager.h MakeFileNodeMac
-	gcc-4.2 $(INCLUDE) -c src/WidgetBindJS.cpp -o build/objects/WidgetBindJS.o
+build/objects/EditJS.o : src/EditJS.cpp include/EditJS.h include/EditJS.h include/EditJS.h include/MyGuiEventEmitterJS.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/EditJS.cpp -o build/objects/EditJS.o
 
 
-build/objects/ButtonBindJS.o : include/ButtonBindJS.h src/ButtonBindJS.cpp include/OgreManager.h MakeFileNodeMac
-	gcc-4.2 $(INCLUDE) -c src/ButtonBindJS.cpp -o build/objects/ButtonBindJS.o
+
+build/objects/EventEmitterJS.o : include/EventEmitterJS.h src/EventEmitterJS.cpp  MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/EventEmitterJS.cpp -o build/objects/EventEmitterJS.o
 
 
-# build/objects/ButtonJS.o : include/ButtonJS.h src/ButtonJS.cpp include/OgreManager.h MakeFileNodeMac
-#	gcc-4.2 $(INCLUDE) -c src/ButtonJS.cpp -o build/objects/ButtonJS.o
+build/objects/MyGuiEventEmitterJS.o : include/MyGuiEventEmitterJS.h src/MyGuiEventEmitterJS.cpp MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/MyGuiEventEmitterJS.cpp -o build/objects/MyGuiEventEmitterJS.o
 
 
-# build/objects/WidgetJS.o : include/WidgetJS.h src/WidgetJS.cpp include/OgreManager.h MakeFileNodeMac
-#	gcc-4.2 $(INCLUDE) -c src/WidgetJS.cpp -o build/objects/WidgetJS.o
 
-# build/objects/MyGuiRootJS.o : include/MyGuiRootJS.h src/MyGuiRootJS.cpp include/WidgetCreatorJS.h include/WidgetJS.h include/ButtonJS.h include/OgreManager.h MakeFileNodeMac
-#	gcc-4.2 $(INCLUDE) -c src/MyGuiRootJS.cpp -o build/objects/MyGuiRootJS.o
+build/objects/MyGuiJS.o : include/MyGuiJS.h src/MyGuiJS.cpp include/InputMyGuiJS.h include/PickingManagerJS.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/MyGuiJS.cpp -o build/objects/MyGuiJS.o
 
-# build/objects/WidgetCreatorJS.o : include/WidgetCreatorJS.h src/WidgetCreatorJS.cpp include/OgreManager.h MakeFileNodeMac
-#	gcc-4.2 $(INCLUDE) -c src/WidgetCreatorJS.cpp -o build/objects/WidgetCreatorJS.o
+build/objects/InputMyGuiJS.o : include/InputMyGuiJS.h src/InputMyGuiJS.cpp MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/InputMyGuiJS.cpp -o build/objects/InputMyGuiJS.o
+
+
+
+build/objects/PickingManager.o : include/PickingManager.h src/PickingManager.cpp include/OgreManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/PickingManager.cpp -o build/objects/PickingManager.o
+
+build/objects/PickingManagerJS.o : include/PickingManagerJS.h src/PickingManagerJS.cpp include/PickingManager.h MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/PickingManagerJS.cpp -o build/objects/PickingManagerJS.o
+
+
+
+build/objects/MemoryManagerJS.o : include/MemoryManagerJS.h src/MemoryManagerJS.cpp MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/MemoryManagerJS.cpp -o build/objects/MemoryManagerJS.o
 
 
 

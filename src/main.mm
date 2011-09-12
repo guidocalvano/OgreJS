@@ -3,7 +3,7 @@
 #include <v8.h>
 #include <node.h>
 #include <OgreJS.h>
-
+#include <MemoryManagerJS.h>
 int main( int argc, char** argv )
 	{
 	 printf( "START\n" ) ;
@@ -24,6 +24,10 @@ int main( int argc, char** argv )
 
 	 printf( "new object \n" ) ;
 
+	  v8::Local<v8::Object> mem = v8::Object::New() ;
+
+	 MemoryManagerJS::init( mem ) ;
+
 	  v8::Local<v8::Object> ogre = v8::Object::New() ;
 
 	 // init( ogre ) ;
@@ -37,7 +41,19 @@ int main( int argc, char** argv )
 //	 OgreManager:: getSingletonPtr()-> setupDemoScene() 	;
 	 printf( "global init \n" ) ;
 
+	  context->Global()->Set( v8::String::New("mem"), mem ) ;
+
+
 	  context->Global()->Set( v8::String::New("ogre"), ogre ) ;
+	
+	
+	 
+ 	 v8::Local<v8::Object> myGui = v8::Object::New() ;
+ 	 
+ 	 MyGuiJS::require( myGui ) ;
+
+ 	 context->Global()->Set( v8::String::New( "gui" ), myGui ) ;
+ 	
 
 	 printf( "load \n" ) ;
 

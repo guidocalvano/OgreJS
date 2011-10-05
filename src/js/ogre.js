@@ -1,13 +1,13 @@
-
-
 // exports.system = system ; exports.system.Camera = system.Camera ; exports.Input = Input ; 
+
+// var extend = require( 'extend' ) ;
 
 exports.init = function( exports ) {
 
-var 
+
 var sys = require( 'sys' ) ;
 
-exports.input = {} ;
+exports.input = {} ; // new extendable.Extendable() ;
 system = exports.system ;
 
 function delegateFromAtoB( a, b )
@@ -37,6 +37,7 @@ function delegateFromPrototypeAtoMemberMforPrototypeP( a, m, p )
 		}
 	}
 
+delegateFromAtoB( exports.input, system.input ) ;
 
 exports.input.start = function( rateHz )
 	{
@@ -48,18 +49,57 @@ exports.input.stop = function()
 	 clearInterval( exports.input.captureProcess ) ;
 	}
 
+exports.window = { width: system.window.width, height: system.window.height } ;
+
+exports.input.mouseMoved = function( mouseEvent ) {}
+exports.input.mousePressed = function( mouseEvent ) {}
+exports.input.mouseReleased = function( mouseEvent ) {}
+
+exports.input.keyPressed = function( mouseEvent ) {}
+exports.input.keyReleased = function( mouseEvent ) {}
+
+exports.input.on( 'mouseMoved', exports.input.mouseMoved ) ;
+exports.input.on( 'mousePressed', exports.input.mousePressed ) ;
+exports.input.on( 'mouseReleased', exports.input.mouseReleased ) ;
+
+exports.input.on( 'keyPressed', exports.input.keyPressed ) ;
+exports.input.on( 'keyReleased', exports.input.keyReleased ) ;
 
 var input = exports.input ;
 
-delegateFromAtoB( exports.input, system.input ) ;
-	
+
+
+function SubEntity( cpp )
+	{
+	 this.cpp = cpp ;	
+	}
+
+
+SubEntity.prototype.setMaterialByName = function( name )
+	{
+	 this.cpp.setMaterialByName( name ) ;
+	}
+
+
 function Entity( meshname )
 	{
 	 this.cpp = new system.Entity( meshname ) ;
 
+	 this.cpp.functionalEntity = this ;
+
 	 this.parent = null ;
+	
+	 this.subEntitySet = [] ;
+	
+	 for( var i in this.cpp.subEntitySet )
+		{
+		 this.subEntitySet[ i ] = new SubEntity( this.cpp.subEntitySet[ i ] ) ;
+		 this.subEntitySet[ i ].functionalSubEntity = this ;
+		}
 	}
 
+
+// Entity.prototype = new extendable.Extendable() ;
 
 delegateFromPrototypeAtoMemberMforPrototypeP( Entity.prototype, 'cpp', exports.EventEmitter.prototype ) ;
 
@@ -96,26 +136,23 @@ function SceneNode()
 	 this.children = [] ;
 	}
 
+// SceneNode.prototype = new extendable.Extendable() ;
 
 SceneNode.prototype.setParent = function( newParent ) 
 	{
-	 console.log( 'a') ;
 	 if( newParent != null )
 		 this.cpp.setParent( newParent.cpp ) ;
 	 else
 		 this.cpp.setParent( null ) ;
-	 console.log( 'b') ;
 	 if( this.parent != null )
 		{
 		 var removeFromOldParent = this.parent.children.indexOf( this ) ;
 		 if( removeFromOldParent >= 0 ) this.parent.children.splice( removeFromOldParent, 1 ) ;
 		}
-	 console.log( 'c') ;
 	 this.parent = newParent ;
 
 	 if( newParent != null )
 		 newParent.children.push( this ) ;
-		 console.log( 'd') ;
 	} 
 
 SceneNode.prototype.moveL3N = function( x, y, z ) { this.cpp.moveL3N( x, y, z ) ; } 
@@ -124,8 +161,14 @@ SceneNode.prototype.roll  = function( r ) { this.cpp.roll(  r ) ; }
 SceneNode.prototype.pitch = function( r ) { this.cpp.pitch( r ) ; } 
 SceneNode.prototype.yaw   = function( r ) { this.cpp.yaw(   r ) ; } 
 
-SceneNode.prototype.convertLocalOXYZToWorldOXYZ = function( x, y, z ) { return this.cpp.convertLocalOXYZToWorldOXYZ( x, y, z ) ; } 
-SceneNode.prototype.convertWorldOXYZToLocalOXYZ = function( x, y, z ) { return this.cpp.convertWorldOXYZToLocalOXYZ( x, y, z ) ; } 
+SceneNode.prototype.convertLocalOXYZToWorldOXYZ = function( oXYZ ) { return this.cpp.convertLocalOXYZToWorldOXYZ( oXYZ ) ; } 
+SceneNode.prototype.convertWorldOXYZToLocalOXYZ = function( oXYZ ) { return this.cpp.convertWorldOXYZToLocalOXYZ( oXYZ ) ; } 
+
+SceneNode.prototype.convertLocalOXYZToParentOXYZ = function( oXYZ ) 
+	{ return this.parent.convertWorldOXYZToLocalOXYZ( this.convertLocalOXYZToWorldOXYZ( oXYZ ) ) ;   } ;
+
+SceneNode.prototype.convertParentOXYZToLocalOXYZ = function( oXYZ ) 
+	{ return this.convertWorldOXYZToLocalOXYZ( this.parent.convertLocalOXYZToWorldOXYZ( oXYZ ) ) ;   } ;
 
 
 exports.SceneNode = SceneNode ;
@@ -147,35 +190,57 @@ var root = new RootNode() ;
 function Camera()
 	{
 	}
+
+// Camera.prototype = new extendable.Extendable() ;
 	
-	
-Camera.prototype.initDefault = function()
+Camera.prototype.init = function()
 	{
 		
 	 this.cpp 	= system.Camera ;
-	 this.node 	= new SceneNode() ;	
 	
-	 this.setParent( this.node ) ;
-
-	 this.node.setParent( root ) ;	
-
-	 this.node.moveL3N( 0, 0, 200 ) ;
-	
-	 this.node.yaw( 3.145 ) ;
+	 this.setParent( root ) ;
 
 	 this.movementProcesses = {} ;
 	 this.activeHandlers = {} ;
-	
-	
-	 this.setDefaultInputHandlers() ;
-	
+		
 	 return this ;
 	}
-	
+
+
+Camera.prototype.initDefault = function()
+	{
+
+	 this.cpp 	= system.Camera ;
+//	 this.node 	= new SceneNode() ;	
+
+	 this.setParent( root ) ;
+
+	 // this.node.setParent( root ) ;	
+
+	 // this.node.moveL3N( 0, 0, 200 ) ;
+
+//	 this.node.yaw( 3.145 ) ;
+
+	 this.movementProcesses = {} ;
+	 this.activeHandlers = {} ;
+
+
+	// this.setDefaultInputHandlers() ;
+
+	 return this ;
+	}
+
 
 Camera.prototype.pick = function( x, y )
 	{
-	 return this.cpp.pick( x, y ) ;
+	 var hit = this.cpp.pick( x, y ) ;
+	
+	 if( hit )
+		{
+		 return { entity: hit.entity.functionalEntity, point: hit.point } ;
+		}
+	
+	 // if( systemEntity ) return systemEntity.functionalEntity ;
 	}
 
 
@@ -220,24 +285,24 @@ Camera.prototype.defaultKeyPressedHandler = function( input )
 
 Camera.prototype.defaultMousePressedHandler = function( input )
 	{
-	 var entity = this.pick( input.x, input.y ) ;
-	 if( entity != null )
-		entity.emit( 'mousePressed', input ) ;
+	 var hit = this.pick( input.x, input.y ) ;
+	 if( hit )
+		hit.entity.emit( 'mousePressed', input ) ;
 	} ;
 
 
 Camera.prototype.defaultMouseReleasedHandler = function( input )
 	{
-	 var entity = this.pick( input.x, input.y ) ;
-	 if( entity != null )
-		entity.emit( 'mouseReleased', input ) ;
+	 var hit = this.pick( input.x, input.y ) ;
+	 if( hit )
+		hit.entity.emit( 'mouseReleased', input ) ;
 	} ;
 
 Camera.prototype.defaultMouseMovedHandler = function( input )
 	{
-	 var entity = this.pick( input.x, input.y ) ;
-	 if( entity != null )
-		entity.emit( 'mouseMoved', input ) ;	
+	 var hit = this.pick( input.x, input.y ) ;
+	 if( hit )
+		hit.entity.emit( 'mouseMoved', input ) ;	
 	} ;
 
 Camera.prototype.defaultKeyReleasedHandler = function( input )

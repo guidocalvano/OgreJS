@@ -6,6 +6,8 @@
 
 #include <SceneNodeJS.h>
 #include <EntityJS.h>
+#include <SubEntityJS.h>
+
 
 #include <EventEmitterJS.h>
 
@@ -51,6 +53,8 @@ void OgreJS :: require(  v8::Handle< v8::Object > target )
 
 	 SceneNodeJS:: init( system ) ;
 	 EntityJS:: init( system ) ;
+	 SubEntityJS:: init( system ) ;
+
 
 	 v8::Handle<v8::Value> cameraJS = CameraJS:: NewFromCamera( OgreManager:: getSingletonPtr()-> m_pCamera ) ;
 
@@ -60,6 +64,13 @@ void OgreJS :: require(  v8::Handle< v8::Object > target )
 
 	 system-> Set( v8::String::New("Camera"), cameraJS ) ;
 	 system-> Set( v8::String::New("input"), inputJS ) ;
+	
+	 v8::Local<v8::Object> windowObj = v8::Object::New() ;
+	
+	 windowObj-> Set( v8::String::New("width"),  v8::Number::New( OgreManager:: getSingletonPtr()-> m_pViewport->getActualWidth()) ) ;
+	 windowObj-> Set( v8::String::New("height"), v8::Number::New( OgreManager:: getSingletonPtr()-> m_pViewport->getActualHeight() ) ) ;
+
+	 system-> Set( v8::String::New("window"), windowObj ) ;
 
 	// context-> Global()-> Set( v8::String::New("exports"), target ) ;
 

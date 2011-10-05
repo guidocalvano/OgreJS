@@ -1,4 +1,4 @@
-
+// var extendable = require( 'Extendable' ) ;
 
 exports.init = function( exports ) {
 
@@ -9,6 +9,12 @@ var sys = require( 'sys' ) ;
 function Component()
 	{	
 	}
+	
+// Component.prototype = new extendable.Extendable() ;
+
+
+Component.prototype = new ogre.EventEmitter() ;
+
 
 Component.prototype.init = function( parent, x, y, width, height )
 	{	
@@ -22,9 +28,21 @@ Component.prototype.init = function( parent, x, y, width, height )
 
 	 this.setParent( parent ) ;
 	
+	 for( var i in this.EVENT_LIST )
+		{
+		 var eventName = this.EVENT_LIST[ i ] ;
+		 this.on( eventName, this[ eventName ] ) ;
+	 	}
+	
 	 return this ;
 	}
 
+Component.prototype.mouseMoved    = function( mouseEvent ) {} ;
+Component.prototype.mousePressed  = function( mouseEvent ) {} ;
+Component.prototype.mouseReleased = function( mouseEvent ) {} ;
+
+Component.prototype.keyPressed    = function( mouseEvent ) {} ;
+Component.prototype.keyReleased   = function( mouseEvent ) {} ;
 
 Component.prototype.setParent = function( parent )
 	{
@@ -45,6 +63,33 @@ Component.prototype.setParent = function( parent )
 		 this.createSystemComponentsOfBranch() ;
 		}
 
+	}
+
+Component.prototype.EVENT_LIST = [ "mousePressed", "mouseReleased", "mouseMoved", "keyPressed", "keyReleased" ] ;
+
+
+Component.prototype.linkEventHandlers = function()
+	{
+	 var self = this ;
+	
+	
+	 for( var i in this.EVENT_LIST )
+		{
+		 
+		 var eventName = this.EVENT_LIST[ i ] ;
+			
+		 this.systemComponent.on( eventName, 
+			( function() 
+				{
+				 var name = eventName ;
+				return function() 
+					{
+					 Array.unshift.call( arguments, name ) ;  
+					 self.emit( arguments ) ;
+					} 
+				})()
+			) ; 
+		}
 	}
 
 
@@ -117,7 +162,11 @@ Text.prototype = Object.create( Component.prototype ) ;
 Text.prototype.createSystemComponent = function()
 	{
 	 if( typeof this.parent !== 'undefined' )
-	 	this.systemComponent = this.parent.systemComponent.createStaticText( this.x, this.y, this.width, this.height ) ;
+		{
+	 	 this.systemComponent = this.parent.systemComponent.createStaticText( this.x, this.y, this.width, this.height ) ;
+	
+	 	 this.linkEventHandlers() ;
+		}
 	}
 
 
@@ -139,7 +188,10 @@ Button.prototype = new Component() ;
 Button.prototype.createSystemComponent = function()
 	{	
 	 if( typeof this.parent !== 'undefined' )
-	 	this.systemComponent = this.parent.systemComponent.createButton( this.x, this.y, this.width, this.height ) ;
+		{
+	 	 this.systemComponent = this.parent.systemComponent.createButton( this.x, this.y, this.width, this.height ) ;
+		 this.linkEventHandlers() ;
+		}
 	}
 	
 
@@ -160,7 +212,10 @@ TextEdit.prototype = new Component() ;
 TextEdit.prototype.createSystemComponent = function()
 	{	
 	 if( typeof this.parent !== 'undefined' )
-	 	this.systemComponent = this.parent.systemComponent.createEdit( this.x, this.y, this.width, this.height ) ;
+		{
+	 	 this.systemComponent = this.parent.systemComponent.createEdit( this.x, this.y, this.width, this.height ) ;
+		 this.linkEventHandlers() ;
+		}
 	}
 
 
@@ -178,8 +233,12 @@ Panel.prototype.init = function( parent, x, y, width, height )
 	}
 
 Panel.prototype.createSystemComponent = function()
-	{	 
-	 this.systemComponent = this.parent.systemComponent.createPanel( this.x, this.y, this.width, this.height ) ;
+	{
+	 if( typeof this.parent !== 'undefined' )
+		{
+	 	 this.systemComponent = this.parent.systemComponent.createPanel( this.x, this.y, this.width, this.height ) ;
+	 	 this.linkEventHandlers() ;
+		}
 	}
 
 
@@ -198,8 +257,12 @@ Window.prototype.init = function( parent, x, y, width, height )
 	}
 
 Window.prototype.createSystemComponent = function()
-	{	 
-	 this.systemComponent = this.parent.systemComponent.createWindow( this.x, this.y, this.width, this.height ) ;
+	{
+	 if( typeof this.parent !== 'undefined' )
+		{
+		 this.systemComponent = this.parent.systemComponent.createWindow( this.x, this.y, this.width, this.height ) ;
+	 	 this.linkEventHandlers() ;		
+		}
 	}
 
 
@@ -227,7 +290,7 @@ Root.prototype.destroySystemComponent = function() {} ;
 
 
 
-var input = {} ;
+var input = {} ;// new extendable.Extendable() ; 
 
 var sys = require( 'sys' ) ;
 
@@ -299,6 +362,6 @@ for( var i in system.layerSet )
 	 exports.layerSet[ i ].init( system.layerSet[ i ] )   ;
 	}
 
-exports.b = ( new Button() ).init( exports.layerSet.Main, 100, 100,100,100 ) ;
-exports.b.systemComponent.on( 'mousePressed', sys.puts ) ;
+// exports.b = ( new Button() ).init( exports.layerSet.Main, 100, 100,100,100 ) ;
+// exports.b.systemComponent.on( 'mousePressed', sys.puts ) ;
 }

@@ -3,6 +3,8 @@
 #include <OgreJS.h>
 #include <EventEmitterJS.h>
 #include <MemoryManagerJS.h>
+#include <SubEntityJS.h>
+
 
 v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
 
@@ -14,7 +16,26 @@ v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
 
 	 entity = OgreManager:: getSingletonPtr()-> m_pSceneMgr-> createEntity( mesh ) ;
 
-	 
+	 //
+ 	 int subEntityCount = entity-> getNumSubEntities() ;
+	 Ogre:: SubEntity* nextSubEntity ;
+
+	 v8::Handle<v8::Value> nextSubEntityObject ; 
+
+	 v8::Handle<v8::Array> subEntitySet = v8::Array::New( subEntityCount ) ;
+
+	 for( int i = 0 ; i < subEntityCount ; i++ )
+		{
+		 nextSubEntity = entity-> getSubEntity( i ) ;
+		
+		 nextSubEntityObject = SubEntityJS:: NewFromSubEntity( nextSubEntity ) ;
+		
+		 subEntitySet-> Set( i, nextSubEntityObject ) ; 
+		}
+
+
+	 object-> Set( v8::String::New( "subEntitySet" ), subEntitySet ) ;
+	 //
 	 Wrap( object ) ;	
 	
 	 MemoryManagerJS:: singleton-> updateV8AllocatedMemory() ;

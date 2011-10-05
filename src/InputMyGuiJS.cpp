@@ -61,9 +61,9 @@ v8::Handle<v8::Value> InputMyGuiJS:: injectMousePress( const v8::Arguments& args
 	 int x = obj-> Get( v8::String::New( "x" ) )-> ToInteger()-> Value() ;
 	 int y = obj-> Get( v8::String::New( "y" ) )-> ToInteger()-> Value() ;
 
-	 MyGUI::InputManager::getInstancePtr()->  injectMousePress( x, y, MyGUI::MouseButton::Enum( OIS::MB_Left ) ) ;
+	 return v8:: Boolean:: New( MyGUI::InputManager::getInstancePtr()->  injectMousePress( x, y, MyGUI::MouseButton::Enum( OIS::MB_Left ) ) ) ;
 	
-	 return v8:: Undefined() ;
+	//  return v8:: Undefined() ;
 	}
 
 

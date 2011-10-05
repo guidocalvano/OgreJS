@@ -92,9 +92,7 @@ void EventEmitterJS :: init( )
 	
 
  v8::Handle<v8::Value> EventEmitterJS:: New( const v8::Arguments& args ) 
-	{
-		printf( "emitter new \n") ;	 
-		
+	{		
 	 args.This()-> Set( v8::String::New( "event" ), v8::Object::New() ) ;
 	 args.This()-> Set( v8::String::New( "onceFunc" ), v8::Object::New() ) ;
 	

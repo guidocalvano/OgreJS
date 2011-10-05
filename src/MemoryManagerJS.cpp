@@ -42,8 +42,6 @@ void MemoryManagerJS:: updateV8AllocatedMemory()
 	{
 	 long nextUpdatedMemory = currentlyUsedMemory() ;
 	
-	 printf( "nextUpdatedMemory = %li\n", nextUpdatedMemory ) ;
-	
 	 v8::V8::AdjustAmountOfExternalAllocatedMemory( nextUpdatedMemory - lastUpdatedMemory ) ;
 	
 	 lastUpdatedMemory = nextUpdatedMemory ;
@@ -71,8 +69,8 @@ long MemoryManagerJS:: currentlyUsedMemory()
 	        return -1;
 	    }
 
-	 printf( "resident = %li\n", t_info.resident_size ) ;
-	 printf( "virtual = %li\n", t_info.virtual_size ) ;
+//	 printf( "resident = %li\n", t_info.resident_size ) ;
+//	 printf( "virtual = %li\n", t_info.virtual_size ) ;
 
    	 return t_info.resident_size ;
 	

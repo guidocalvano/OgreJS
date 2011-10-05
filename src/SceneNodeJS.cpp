@@ -173,21 +173,13 @@ v8::Handle<v8::Value> SceneNodeJS:: convertWorldOXYZToLocalOXYZ( const v8::Argum
 
  v8::Handle<v8::Value> SceneNodeJS:: roll( const v8::Arguments& args ) 
 	{
-	 printf( "Roll\n" ) ;
-
-    	 SceneNodeJS* sn = ObjectWrap::Unwrap<SceneNodeJS>(args.This());
-
-	 printf( "Unwrap\n" ) ;
+     SceneNodeJS* sn = ObjectWrap::Unwrap<SceneNodeJS>(args.This());
 
 	 v8::Local< v8::Number > num ; 
 
 	 num = v8::Local< v8::Number >::Cast( args[ 0 ] ) ;
 
-	 printf( "Cast\n" ) ;
-
 	 double v = num-> Value() ;;
-
-	 printf( "Roll%f\n", (float) v ) ;
 
 	 sn-> sceneNode-> roll( (Ogre::Radian) v ) ;
 

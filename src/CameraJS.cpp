@@ -79,7 +79,21 @@ v8::Handle<v8::Value> CameraJS:: NewFromCamera( Ogre::Camera* camera )
 	 EntityJS* entityJS = OgreJS::singleton-> pickingManagerJS-> pick( mouseRay, hitCoordinate ) ;
 	
 	 if( entityJS != NULL )
-	 	return entityJS-> handle_ ; //?
+		{ 
+		 v8::Handle<v8::Object> entityHitTuple = v8::Object::New() ;
+
+		 entityHitTuple-> Set( v8::String::New( "entity" ), entityJS-> handle_ ) ;
+
+		 v8::Handle<v8::Object> hitVector = v8::Object::New() ;
+		
+		 hitVector-> Set( v8::String::New( "x" ), v8:: Number:: New( hitCoordinate.x ) ) ;
+		 hitVector-> Set( v8::String::New( "y" ), v8:: Number:: New( hitCoordinate.y ) ) ;
+		 hitVector-> Set( v8::String::New( "z" ), v8:: Number:: New( hitCoordinate.z ) ) ;
+		 
+		 entityHitTuple-> Set( v8::String::New( "point" ), hitVector ) ;
+
+		 return entityHitTuple ;
+		}
 	 
 	 return v8::Undefined() ;
 	}

@@ -81,22 +81,28 @@ SubEntity.prototype.setMaterialByName = function( name )
 	}
 
 
-function Entity( meshname )
+function Entity( meshname ) {}
+
+
+
+Entity.prototype.init = function( meshname )
 	{
 	 this.cpp = new system.Entity( meshname ) ;
 
 	 this.cpp.functionalEntity = this ;
 
 	 this.parent = null ;
-	
+
 	 this.subEntitySet = [] ;
-	
+
 	 for( var i in this.cpp.subEntitySet )
 		{
 		 this.subEntitySet[ i ] = new SubEntity( this.cpp.subEntitySet[ i ] ) ;
 		 this.subEntitySet[ i ].functionalSubEntity = this ;
 		}
-	}
+		
+	 return this ;
+	} ;
 
 
 // Entity.prototype = new extendable.Extendable() ;
@@ -127,14 +133,22 @@ exports.Entity = Entity ;
 
 
 
-function SceneNode()
+function SceneNode() {}
+
+SceneNode.prototype.init = function()
 	{
 	 this.cpp = new system.SceneNode() ;
 
 	 this.parent = null ;
 
 	 this.children = [] ;
+	
+	 return this ;
 	}
+	
+	
+	
+	
 
 // SceneNode.prototype = new extendable.Extendable() ;
 

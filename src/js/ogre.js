@@ -2,13 +2,13 @@
 
 // var extend = require( 'extend' ) ;
 
-exports.init = function( exports ) {
+// var init = function( ogre ) {
 
 
 var sys = require( 'sys' ) ;
 
-exports.input = {} ; // new extendable.Extendable() ;
-system = exports.system ;
+ogre.input = {} ; // new extendable.Extendable() ;
+system = ogre.system ;
 
 function delegateFromAtoB( a, b )
 	{
@@ -37,35 +37,35 @@ function delegateFromPrototypeAtoMemberMforPrototypeP( a, m, p )
 		}
 	}
 
-delegateFromAtoB( exports.input, system.input ) ;
+delegateFromAtoB( ogre.input, system.input ) ;
 
-exports.input.start = function( rateHz )
+ogre.input.start = function( rateHz )
 	{
-	 exports.input.captureProcess = setInterval( system.input.captureUI, 1000 / rateHz ) ;
+	 ogre.input.captureProcess = setInterval( system.input.captureUI, 1000 / rateHz ) ;
 	}
 
-exports.input.stop = function()
+ogre.input.stop = function()
 	{
-	 clearInterval( exports.input.captureProcess ) ;
+	 clearInterval( ogre.input.captureProcess ) ;
 	}
 
-exports.window = { width: system.window.width, height: system.window.height } ;
+ogre.window = { width: system.window.width, height: system.window.height } ;
 
-exports.input.mouseMoved = function( mouseEvent ) {}
-exports.input.mousePressed = function( mouseEvent ) {}
-exports.input.mouseReleased = function( mouseEvent ) {}
+ogre.input.mouseMoved = function( mouseEvent ) {}
+ogre.input.mousePressed = function( mouseEvent ) {}
+ogre.input.mouseReleased = function( mouseEvent ) {}
 
-exports.input.keyPressed = function( mouseEvent ) {}
-exports.input.keyReleased = function( mouseEvent ) {}
+ogre.input.keyPressed = function( mouseEvent ) {}
+ogre.input.keyReleased = function( mouseEvent ) {}
 
-exports.input.on( 'mouseMoved', exports.input.mouseMoved ) ;
-exports.input.on( 'mousePressed', exports.input.mousePressed ) ;
-exports.input.on( 'mouseReleased', exports.input.mouseReleased ) ;
+ogre.input.on( 'mouseMoved', ogre.input.mouseMoved ) ;
+ogre.input.on( 'mousePressed', ogre.input.mousePressed ) ;
+ogre.input.on( 'mouseReleased', ogre.input.mouseReleased ) ;
 
-exports.input.on( 'keyPressed', exports.input.keyPressed ) ;
-exports.input.on( 'keyReleased', exports.input.keyReleased ) ;
+ogre.input.on( 'keyPressed', ogre.input.keyPressed ) ;
+ogre.input.on( 'keyReleased', ogre.input.keyReleased ) ;
 
-var input = exports.input ;
+var input = ogre.input ;
 
 
 
@@ -107,7 +107,7 @@ Entity.prototype.init = function( meshname )
 
 // Entity.prototype = new extendable.Extendable() ;
 
-delegateFromPrototypeAtoMemberMforPrototypeP( Entity.prototype, 'cpp', exports.EventEmitter.prototype ) ;
+delegateFromPrototypeAtoMemberMforPrototypeP( Entity.prototype, 'cpp', ogre.EventEmitter.prototype ) ;
 
 Entity.prototype.setParent = function( newParent ) 
 	{
@@ -129,7 +129,7 @@ Entity.prototype.setParent = function( newParent )
 	} 
 
 
-exports.Entity = Entity ;
+ogre.Entity = Entity ;
 
 
 
@@ -185,7 +185,7 @@ SceneNode.prototype.convertParentOXYZToLocalOXYZ = function( oXYZ )
 	{ return this.convertWorldOXYZToLocalOXYZ( this.parent.convertLocalOXYZToWorldOXYZ( oXYZ ) ) ;   } ;
 
 
-exports.SceneNode = SceneNode ;
+ogre.SceneNode = SceneNode ;
 
 
 function RootNode()
@@ -395,7 +395,7 @@ Camera.prototype.stop = function()
 	}
 
 /*
-exports.rotatingHead = function( rateHz )
+ogre.rotatingHead = function( rateHz )
 	{
 	 var head = new Entity( 'ogrehead.mesh' ) ;
 	 var node = new SceneNode() ;
@@ -404,15 +404,15 @@ exports.rotatingHead = function( rateHz )
 	
 	 node.setParent( root ) ;
 	
-	 exports.rotatingHead.entity = head ; exports.rotatingHead.node = node ;
+	 ogre.rotatingHead.entity = head ; ogre.rotatingHead.node = node ;
 	
-	 exports.rotatingHead.process = setInterval( function() { node.yaw( 1.0 / rateHz ) ; }, 1000 / rateHz ) ;
+	 ogre.rotatingHead.process = setInterval( function() { node.yaw( 1.0 / rateHz ) ; }, 1000 / rateHz ) ;
 	}
 
 */
-exports.RootNode = RootNode ;
+ogre.RootNode = RootNode ;
 
-exports.root = root ;
+ogre.root = root ;
 
 var cam =  new Camera() ;
 
@@ -421,13 +421,16 @@ var cam =  new Camera() ;
 
 cam.initDefault() ;
 
-exports.Camera = Camera ;
+ogre.Camera = Camera ;
 
-exports.camera = cam  ;//cam.initDefault() ;
+ogre.camera = cam  ;//cam.initDefault() ;
 
-exports.start = function( rateHz ) { cam.start( rateHz ) ; input.start( rateHz ) ; /* exports.rotatingHead( rateHz ) ; */ } ;
-exports.stop  = function() { cam.stop() 	 ; input.stop() ;  }
+ogre.start = function( rateHz ) { cam.start( rateHz ) ; input.start( rateHz ) ; /* ogre.rotatingHead( rateHz ) ; */ } ;
+ogre.stop  = function() { cam.stop() 	 ; input.stop() ;  }
 
 
-return exports ;
-}
+return ogre ;
+// }
+
+
+// exports.init = init ;

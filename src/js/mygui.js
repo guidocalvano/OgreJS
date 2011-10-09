@@ -1,8 +1,8 @@
 // var extendable = require( 'Extendable' ) ;
 
-exports.init = function( exports ) {
+// exports.init = function( gui ) {
 
-var system = exports.system ;
+var system = gui.system ;
 
 var sys = require( 'sys' ) ;
 
@@ -344,24 +344,24 @@ input.linkToOgreInput = function( ogreInput )
 	}
 
 
-exports.input = input ;
+gui.input = input ;
 
-exports.system = system ;
-exports.Component = Component ;
-exports.Text = Text ;
-exports.Button = Button ;
-exports.Panel  = Panel  ;
-exports.Window = Window ;
-exports.TextEdit = TextEdit ;
+gui.system = system ;
+gui.Component = Component ;
+gui.Text = Text ;
+gui.Button = Button ;
+gui.Panel  = Panel  ;
+gui.Window = Window ;
+gui.TextEdit = TextEdit ;
 
-exports.layerSet = {} ;
+gui.layerSet = {} ;
 
 for( var i in system.layerSet )
 	{ 
-	 exports.layerSet[ i ]   = new Layer() ;
-	 exports.layerSet[ i ].init( system.layerSet[ i ] )   ;
+	 gui.layerSet[ i ]   = new Layer() ;
+	 gui.layerSet[ i ].init( system.layerSet[ i ] )   ;
 	}
 
-// exports.b = ( new Button() ).init( exports.layerSet.Main, 100, 100,100,100 ) ;
-// exports.b.systemComponent.on( 'mousePressed', sys.puts ) ;
-}
+// gui.b = ( new Button() ).init( gui.layerSet.Main, 100, 100,100,100 ) ;
+// gui.b.systemComponent.on( 'mousePressed', sys.puts ) ;
+// }

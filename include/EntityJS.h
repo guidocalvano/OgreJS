@@ -20,7 +20,21 @@ class EntityJS : public node::ObjectWrap
 
 	 static v8::Handle<v8::Value> New( const v8::Arguments& args ) ;
 
-	 static v8::Handle<v8::Value> setParent( const v8::Arguments& args ) ;
+	 template< class ChildType >
+	 static void addEntityFunctionsToPrototype( v8::Handle<v8::FunctionTemplate> t )
+		{
+	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setParent", setParentBind<ChildType> ) ;	
+		}
+
+	 static v8::Handle<v8::Value> setParentConvert( EntityJS* entityJS, const v8::Arguments& args ) ;
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> setParentBind( const v8::Arguments& args )
+		{ 
+		 EntityJS* entityJS = (EntityJS*) node::ObjectWrap:: Unwrap<ChildType>( args.This() ) ; 
+		
+		 return setParentConvert( entityJS, args ) ;
+		}
 
 
 	 static v8::Persistent<v8::FunctionTemplate> prototypeTemplate ;

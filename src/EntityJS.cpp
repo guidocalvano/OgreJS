@@ -62,7 +62,9 @@ v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
    	 prototypeTemplate->InstanceTemplate()->SetInternalFieldCount(1);
    	 prototypeTemplate->SetClassName(v8::String::NewSymbol("Entity"));
 
-   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "setParent", setParent ) ;
+   	 // NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "setParent", setParent ) ;
+
+	 addEntityFunctionsToPrototype<EntityJS>( prototypeTemplate ) ;
 
    	 target->Set(v8::String::NewSymbol("Entity"),
                 prototypeTemplate-> GetFunction() );
@@ -80,10 +82,8 @@ v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
 	 return args.This() ;
 	}
 
- v8::Handle<v8::Value> EntityJS:: setParent( const v8::Arguments& args ) 
+ v8::Handle<v8::Value> EntityJS:: setParentConvert( EntityJS* entityJS, const v8::Arguments& args ) 
 	{
-	 EntityJS* entityJS = node::ObjectWrap:: Unwrap<EntityJS>( args.This() ) ;
-
 	 if( entityJS-> parent != NULL )
 		{
 		 entityJS-> parent-> sceneNode-> detachObject( entityJS-> entity ) ;

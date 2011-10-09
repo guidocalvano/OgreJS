@@ -46,15 +46,8 @@ void SceneNodeJS:: init( v8::Handle< v8::Object > target)
    	 prototypeTemplate->InstanceTemplate()->SetInternalFieldCount(1);
    	 prototypeTemplate->SetClassName(v8::String::NewSymbol("SceneNode"));
 
-   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "setParent", setParent ) ;
-   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "moveL3N", moveL3N ) ;
 
-   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "convertLocalOXYZToWorldOXYZ", convertLocalOXYZToWorldOXYZ ) ;
-   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "convertWorldOXYZToLocalOXYZ", convertWorldOXYZToLocalOXYZ ) ;
-
-   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "roll", roll ) ;
-   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "pitch", pitch ) ;
-   	 NODE_SET_PROTOTYPE_METHOD_BORROWED(prototypeTemplate, "yaw", yaw ) ;
+	 addSceneNodeFunctionsToPrototype<SceneNodeJS>( prototypeTemplate ) ;
 
 
    	 target-> Set( v8::String::NewSymbol("SceneNode"),
@@ -87,10 +80,8 @@ v8::Handle<v8::Value> SceneNodeJS:: New( const v8::Arguments& args )
 	 return args.This() ;
 	}
 
-v8::Handle<v8::Value> SceneNodeJS:: setParent( const v8::Arguments& args ) 
+v8::Handle<v8::Value> SceneNodeJS:: setParentConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args ) 
 	{
-	 SceneNodeJS* sceneNodeJS = node::ObjectWrap::Unwrap<SceneNodeJS>( args.This() ) ;
-
 	 if( sceneNodeJS-> parent != NULL )
 		{
 		 sceneNodeJS-> parent-> sceneNode-> removeChild( sceneNodeJS-> sceneNode ) ;
@@ -107,10 +98,8 @@ v8::Handle<v8::Value> SceneNodeJS:: setParent( const v8::Arguments& args )
 	 return v8:: Undefined() ;
 	}
 
-v8::Handle<v8::Value> SceneNodeJS:: moveL3N( const v8::Arguments& args )
+v8::Handle<v8::Value> SceneNodeJS:: moveL3NConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
 	{
-	 SceneNodeJS* sceneNodeJS = node::ObjectWrap::Unwrap<SceneNodeJS>( args.This() ) ;
-
 	 double x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
 	 double y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
 	 double z = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
@@ -122,10 +111,8 @@ v8::Handle<v8::Value> SceneNodeJS:: moveL3N( const v8::Arguments& args )
 
 
 
-v8::Handle<v8::Value> SceneNodeJS:: convertLocalOXYZToWorldOXYZ( const v8::Arguments& args )
+v8::Handle<v8::Value> SceneNodeJS:: convertLocalOXYZToWorldOXYZConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
 	{
-	 SceneNodeJS* sceneNodeJS = node::ObjectWrap::Unwrap<SceneNodeJS>( args.This() ) ;
-
 	 v8::Local<v8::Object> localOXYZ = args[ 0 ]-> ToObject() ;
 
 	 double x = localOXYZ-> Get( v8::String::New( "x" ) )-> NumberValue() ;
@@ -146,10 +133,8 @@ v8::Handle<v8::Value> SceneNodeJS:: convertLocalOXYZToWorldOXYZ( const v8::Argum
 	}
 
 
-v8::Handle<v8::Value> SceneNodeJS:: convertWorldOXYZToLocalOXYZ( const v8::Arguments& args )
+v8::Handle<v8::Value> SceneNodeJS:: convertWorldOXYZToLocalOXYZConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
 	{
-	 SceneNodeJS* sceneNodeJS = node::ObjectWrap::Unwrap<SceneNodeJS>( args.This() ) ;
-
 	 v8::Local<v8::Object> worldOXYZ = args[ 0 ]-> ToObject() ;
 
 	 double x = worldOXYZ-> Get( v8::String::New( "x" ) )-> NumberValue() ;
@@ -171,10 +156,8 @@ v8::Handle<v8::Value> SceneNodeJS:: convertWorldOXYZToLocalOXYZ( const v8::Argum
 
 
 
- v8::Handle<v8::Value> SceneNodeJS:: roll( const v8::Arguments& args ) 
+ v8::Handle<v8::Value> SceneNodeJS:: rollConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
 	{
-     SceneNodeJS* sn = ObjectWrap::Unwrap<SceneNodeJS>(args.This());
-
 	 v8::Local< v8::Number > num ; 
 
 	 num = v8::Local< v8::Number >::Cast( args[ 0 ] ) ;
@@ -187,10 +170,8 @@ v8::Handle<v8::Value> SceneNodeJS:: convertWorldOXYZToLocalOXYZ( const v8::Argum
 	}
 
 
- v8::Handle<v8::Value> SceneNodeJS:: pitch( const v8::Arguments& args ) 
+ v8::Handle<v8::Value> SceneNodeJS:: pitchConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
 	{
-   	 SceneNodeJS* sn = ObjectWrap::Unwrap<SceneNodeJS>(args.This());
-
 	 v8::Local< v8::Number > num ; 
 
 	 num = v8::Local< v8::Number >::Cast( args[ 0 ] ) ;
@@ -203,10 +184,8 @@ v8::Handle<v8::Value> SceneNodeJS:: convertWorldOXYZToLocalOXYZ( const v8::Argum
 	}
 
 
- v8::Handle<v8::Value> SceneNodeJS:: yaw( const v8::Arguments& args ) 
+ v8::Handle<v8::Value> SceneNodeJS:: yawConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
 	{
-   	 SceneNodeJS* sn = ObjectWrap::Unwrap<SceneNodeJS>(args.This());
-
 	 v8::Local< v8::Number > num ; 
 
 	 num = v8::Local< v8::Number >::Cast( args[ 0 ] ) ;

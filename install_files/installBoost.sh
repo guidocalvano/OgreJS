@@ -1,6 +1,6 @@
 
 
-if[ ! -f ./boost_1_46_1 ]
+if[ ! -f ./boost_1_46_1 ] ;
 then
 # MOVE BOOST DEPENDENCIES INTO PROJECT DIR
 	if[ -f OgreSDK/boost_1_46_1/ ]

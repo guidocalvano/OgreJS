@@ -1,6 +1,6 @@
 
 
-if[ ! -f ./OgreSDK/Dependencies ]
+if[ ! -f ./OgreSDK/Dependencies ] ;
 then
 
 	# DOWNLOAD OGRE DEPENDENCIES

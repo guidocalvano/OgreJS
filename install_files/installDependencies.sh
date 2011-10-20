@@ -1,10 +1,10 @@
 
-. ./OgreJS/install_files/installNode.sh
+. ./install_files/installNode.sh
 
-. ./OgreJS/install_files/installOgre.sh
+. ./install_files/installOgre.sh
 
-. ./OgreJS/install_files/installOgreDependencies.sh
+. ./install_files/installOgreDependencies.sh
 	
 # . ./OgreJs/install_files/installJuice.sh
 
-. ./OgreJS/install_files/installBoost.sh
+. ./install_files/installBoost.sh

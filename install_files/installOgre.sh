@@ -1,5 +1,5 @@
 
-if[ ! -f ./OgreSDK ]
+if[ ! -f ./OgreSDK ] ;
 then
 	if[ $(uname) == 'Darwin' ]
 	then

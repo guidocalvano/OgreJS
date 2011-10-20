@@ -32,7 +32,8 @@ class SubEntityJS : public node::ObjectWrap
 	 template< class ChildType >
 	 static void addSubEntityFunctionsToPrototype( v8::Handle<v8::FunctionTemplate> t )
 		{
-	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setMaterialByName", setMaterialByNameBind<ChildType> ) ;	
+	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setMaterialByName", setMaterialByNameBind<ChildType> 	) ;	
+	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setMaterial", 		 setMaterialBind<ChildType> 		) ;	
 		}
 
 	 static v8::Handle<v8::Value> setMaterialByNameConvert( SubEntityJS* ,const v8::Arguments& args ) ;	 
@@ -42,6 +43,16 @@ class SubEntityJS : public node::ObjectWrap
 	 	{
 		 SubEntityJS* subEntityJS = (SubEntityJS*) node::ObjectWrap:: Unwrap<ChildType>( args.This() ) ;
 		 return setMaterialByNameConvert( subEntityJS, args ) ;
+		}
+
+
+	 static v8::Handle<v8::Value> setMaterialConvert( SubEntityJS* ,const v8::Arguments& args ) ;	 		
+		
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> setMaterialBind( const v8::Arguments& args ) 
+	 	{
+		 SubEntityJS* subEntityJS = (SubEntityJS*) node::ObjectWrap:: Unwrap<ChildType>( args.This() ) ;
+		 return setMaterialConvert( subEntityJS, args ) ;
 		}
 	} ;
 	

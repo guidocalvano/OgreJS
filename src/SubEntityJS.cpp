@@ -3,6 +3,8 @@
 #include <OgreJS.h>
 #include <EventEmitterJS.h>
 #include <MemoryManagerJS.h>
+#include <MaterialJS.h>
+
 
 v8::Persistent<v8::FunctionTemplate> SubEntityJS:: prototypeTemplate ;
 
@@ -57,3 +59,12 @@ void SubEntityJS:: init( v8::Handle< v8::Object > target)
 	}
 
 
+
+ v8::Handle<v8::Value> SubEntityJS:: setMaterialConvert( SubEntityJS* subEntityJS, const v8::Arguments& args ) 
+ 	{
+	 Ogre:: MaterialPtr material = node::ObjectWrap:: Unwrap<MaterialJS>( args[ 0 ]-> ToObject() )-> material ;
+
+	 subEntityJS-> subEntity-> setMaterial( material ) ;
+
+	 return v8::Undefined() ;
+	}

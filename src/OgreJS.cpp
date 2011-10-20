@@ -4,6 +4,8 @@
 #include <CameraJS.h>
 #include <InputJS.h>
 
+#include <MaterialJS.h>
+
 #include <SceneNodeJS.h>
 #include <EntityJS.h>
 #include <SubEntityJS.h>
@@ -50,6 +52,8 @@ void OgreJS :: require(  v8::Handle< v8::Object > target )
 
 
 	 v8::Local<v8::Object> system = v8::Object::New() ;
+
+	 MaterialJS:: init( system ) ;
 
 	 SceneNodeJS:: init( system ) ;
 	 EntityJS:: init( system ) ;

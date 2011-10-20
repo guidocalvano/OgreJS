@@ -9,8 +9,8 @@ FRAMEWORKS=-framework Ogre -framework Cg -framework Foundation -framework Carbon
 FRAMEWORK_PATH=-FOgreSDK1.7.3/Dependencies -FOgreSDK1.7.3/lib/release
 
 
-build/ogrenode : build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/WidgetJS.o build/objects/ButtonJS.o build/objects/EventEmitterJS.o build/objects/MyGuiEventEmitterJS.o build/objects/LayerJS.o build/objects/InputMyGuiJS.o build/objects/MyGuiJS.o  build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/StaticTextJS.o build/objects/EditJS.o build/objects/WindowMyGuiJS.o build/objects/SubEntityJS.o
-	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(LIBRARIES) -o build/ogrenode build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o  build/objects/WidgetJS.o build/objects/ButtonJS.o build/objects/EventEmitterJS.o build/objects/MyGuiEventEmitterJS.o build/objects/InputMyGuiJS.o build/objects/MyGuiJS.o build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/StaticTextJS.o build/objects/LayerJS.o build/objects/EditJS.o build/objects/WindowMyGuiJS.o build/objects/SubEntityJS.o
+build/ogrenode : build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o build/objects/WidgetJS.o build/objects/ButtonJS.o build/objects/EventEmitterJS.o build/objects/MyGuiEventEmitterJS.o build/objects/LayerJS.o build/objects/InputMyGuiJS.o build/objects/MyGuiJS.o  build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/StaticTextJS.o build/objects/EditJS.o build/objects/WindowMyGuiJS.o build/objects/SubEntityJS.o build/objects/MaterialJS.o
+	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(LIBRARIES) -o build/ogrenode build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o  build/objects/WidgetJS.o build/objects/ButtonJS.o build/objects/EventEmitterJS.o build/objects/MyGuiEventEmitterJS.o build/objects/InputMyGuiJS.o build/objects/MyGuiJS.o build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/StaticTextJS.o build/objects/LayerJS.o build/objects/EditJS.o build/objects/WindowMyGuiJS.o build/objects/SubEntityJS.o build/objects/MaterialJS.o
 	
 
 
@@ -18,7 +18,7 @@ build/objects/main.o : src/main.mm include/OgreManager.h MakeFileNodeMac
 	gcc-4.2 $(INCLUDE)  -c src/main.mm -o build/objects/main.o
 
 
-build/objects/OgreJS.o : include/OgreJS.h include/OgreManager.h include/CameraJS.h include/InputJS.h include/SceneNodeJS.h include/EntityJS.h src/OgreJS.cpp MakeFileNodeMac
+build/objects/OgreJS.o : include/OgreJS.h include/OgreManager.h include/CameraJS.h include/InputJS.h include/MaterialJS.h include/SceneNodeJS.h include/EntityJS.h src/OgreJS.cpp MakeFileNodeMac
 	gcc-4.2 $(INCLUDE) -c src/OgreJS.cpp -o build/objects/OgreJS.o
 
 
@@ -31,6 +31,10 @@ build/objects/CameraJS.o : include/CameraJS.h include/OgreManager.h src/CameraJS
 
 
 
+build/objects/MaterialJS.o : include/MaterialJS.h src/MaterialJS.cpp MakeFileNodeMac
+	gcc-4.2 $(INCLUDE) -c src/MaterialJS.cpp -o build/objects/MaterialJS.o
+
+
 build/objects/SceneNodeJS.o : include/SceneNodeJS.h include/OgreManager.h src/SceneNodeJS.cpp MakeFileNodeMac
 	gcc-4.2 $(INCLUDE) -c src/SceneNodeJS.cpp -o build/objects/SceneNodeJS.o
 
@@ -38,7 +42,7 @@ build/objects/SceneNodeJS.o : include/SceneNodeJS.h include/OgreManager.h src/Sc
 build/objects/EntityJS.o : include/EntityJS.h include/OgreManager.h src/EntityJS.cpp MakeFileNodeMac
 	gcc-4.2 $(INCLUDE) -c src/EntityJS.cpp -o build/objects/EntityJS.o
 
-build/objects/SubEntityJS.o : include/SubEntityJS.h include/EntityJS.h src/SubEntityJS.cpp MakeFileNodeMac
+build/objects/SubEntityJS.o : include/SubEntityJS.h include/EntityJS.h src/SubEntityJS.cpp include/MaterialJS.h MakeFileNodeMac
 	gcc-4.2 $(INCLUDE) -c src/SubEntityJS.cpp -o build/objects/SubEntityJS.o
 
 

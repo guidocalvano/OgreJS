@@ -1,5 +1,9 @@
 
+. ./install_files/installWget.sh
+
 . ./install_files/installNode.sh
+
+. ./install_files/installV8.sh
 
 . ./install_files/installOgre.sh
 

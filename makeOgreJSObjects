@@ -1,0 +1,60 @@
+
+include ./makeGlobalVars
+
+OGREJS_OBJECTS=build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o  build/objects/EventEmitterJS.o build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/SubEntityJS.o build/objects/MaterialJS.o
+
+
+build/objects/OgreJS.o : include/OgreJS.h include/OgreManager.h include/CameraJS.h include/InputJS.h include/MaterialJS.h include/SceneNodeJS.h include/EntityJS.h src/OgreJS.cpp makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/OgreJS.cpp -o build/objects/OgreJS.o
+
+
+build/objects/InputJS.o : include/InputJS.h include/OgreManager.h src/InputJS.cpp include/V8Toolkit.h makeOgreJSObjects
+	gcc-4.2 $(INCLUDE)  -c src/InputJS.cpp -o build/objects/InputJS.o
+
+
+build/objects/CameraJS.o : include/CameraJS.h include/OgreManager.h src/CameraJS.cpp makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/CameraJS.cpp -o build/objects/CameraJS.o
+
+
+build/objects/MaterialJS.o : include/MaterialJS.h src/MaterialJS.cpp makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/MaterialJS.cpp -o build/objects/MaterialJS.o
+
+
+build/objects/SceneNodeJS.o : include/SceneNodeJS.h include/OgreManager.h src/SceneNodeJS.cpp makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/SceneNodeJS.cpp -o build/objects/SceneNodeJS.o
+
+
+build/objects/EntityJS.o : include/EntityJS.h include/OgreManager.h src/EntityJS.cpp makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/EntityJS.cpp -o build/objects/EntityJS.o
+
+build/objects/SubEntityJS.o : include/SubEntityJS.h include/EntityJS.h src/SubEntityJS.cpp include/MaterialJS.h makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/SubEntityJS.cpp -o build/objects/SubEntityJS.o
+
+
+build/objects/OgreManager.o : include/OgreManager.h src/OgreManager.cpp include/PickingManager.h makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/OgreManager.cpp -o build/objects/OgreManager.o
+
+
+build/objects/OgreManagerPlatformSpecific.o : include/OgreManager.h src/OgreManager.cpp src/OgreManagerMacSpecific.mm makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/OgreManagerMacSpecific.mm -o build/objects/OgreManagerPlatformSpecific.o
+
+
+build/objects/V8Toolkit.o : include/V8Toolkit.h src/V8Toolkit.cpp makeOgreJSObjects
+	gcc-4.2 $(INCLUDE)  -c src/V8Toolkit.cpp -o build/objects/V8Toolkit.o
+
+
+build/objects/EventEmitterJS.o : include/EventEmitterJS.h src/EventEmitterJS.cpp  makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/EventEmitterJS.cpp -o build/objects/EventEmitterJS.o
+
+
+build/objects/PickingManager.o : include/PickingManager.h src/PickingManager.cpp include/OgreManager.h makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/PickingManager.cpp -o build/objects/PickingManager.o
+
+build/objects/PickingManagerJS.o : include/PickingManagerJS.h src/PickingManagerJS.cpp include/PickingManager.h makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/PickingManagerJS.cpp -o build/objects/PickingManagerJS.o
+
+
+
+build/objects/MemoryManagerJS.o : include/MemoryManagerJS.h src/MemoryManagerJS.cpp makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/MemoryManagerJS.cpp -o build/objects/MemoryManagerJS.o
+

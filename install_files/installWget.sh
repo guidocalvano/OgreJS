@@ -13,8 +13,8 @@ then
 	wait
 	sudo make install
 	wait
-	rm wget-1.9.tar.gz
 	cd ..
+	rm wget-1.9.tar.gz
 	
 else
 	echo WGET ALREADY INSTALLED

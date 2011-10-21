@@ -12,6 +12,20 @@ then
 	mv Dependencies/ OgreSDK1.7.3
 	wait
 	rm OgreDependencies_OSX_20110208.zip
+	
+	wait
+	curl -O -L http://developer.download.nvidia.com/cg/Cg_3.0/Cg-3.0_February2011.dmg && hdiutil attach Cg-3.0_February2011.dmg
+	wait
+	open /Volumes/Cg-3.0.0016/Cg-3.0.0016.app/
+	wait
+	echo AFTER INSTALLER COMPLETES PRESS ENTER
+	read ignoreThis
+	hdiutil detach /Volumes/Cg-3.0.0016
+	wait
+	rm Cg-3.0_February2011.dmg
+	wait
+	echo COPYING
+	cp -r /Library/Frameworks/Cg.framework ./OgreSDK1.7.3/Dependencies
 else
 	echo OGRE DEPENDENCIES ALREADY INSTALLED
 fi

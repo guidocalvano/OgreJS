@@ -1,9 +1,15 @@
 
-ln -s ./OgreSDK1.7.3/lib /Plugins
+ln -s ./OgreSDK1.7.3/lib ./Plugins
+
+mkdir Contents
 
 cd Contents
 ln -s ../Plugins Plugins
 ln -s ../Resources Resources
 cd ..
 
-cp -r ./OgreSDK1.7.3
+cd build
+ln -s ../Contents ./Contents
+cd..
+
+mkdir build/objects

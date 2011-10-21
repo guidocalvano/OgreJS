@@ -8,7 +8,7 @@ include makeOgreJSObjects
 include makeMyGuiJSObjects
 
 build/ogrenode : build/objects/main.o $(OGREJS_OBJECTS) $(MYGUIJS_OBJECTS)
-	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(LIBRARIES) -o build/ogrenode build/objects/main.o $(OGREJS_OBJECTS) $(MYGUIJS_OBJECTS)
+	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(OGREJS_LIBRARIES) $(MYGUIJS_LIBRARIES) -o build/ogrenode build/objects/main.o $(OGREJS_OBJECTS) $(MYGUIJS_OBJECTS)
 	
 
 

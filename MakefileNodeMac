@@ -13,8 +13,7 @@ build/ogrenode : build/objects/main.o build/objects/OgreManager.o build/objects/
 	g++-4.2  $(FRAMEWORK_PATH) $(FRAMEWORKS) $(LIBRARY_PATH) $(LIBRARIES) -o build/ogrenode build/objects/main.o build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o  build/objects/WidgetJS.o build/objects/ButtonJS.o build/objects/EventEmitterJS.o build/objects/MyGuiEventEmitterJS.o build/objects/InputMyGuiJS.o build/objects/MyGuiJS.o build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/StaticTextJS.o build/objects/LayerJS.o build/objects/EditJS.o build/objects/WindowMyGuiJS.o build/objects/SubEntityJS.o build/objects/MaterialJS.o
 	
 
-
-build/objects/main.o : src/main.mm include/OgreManager.h MakeFileNodeMac
+build/objects/main.o : src/main.mm include/OgreManager.h include/MyGuiJS.h MakeFileNodeMac
 	gcc-4.2 $(INCLUDE)  -c src/main.mm -o build/objects/main.o
 
 

@@ -4,6 +4,8 @@
 #include <node.h>
 #include <OgreJS.h>
 #include <MemoryManagerJS.h>
+#include <MyGuiJS.h>
+
 int main( int argc, char** argv )
 	{
 	 printf( "START\n" ) ;

@@ -1,0 +1,41 @@
+include ./makeGlobalVars
+
+MYGUIJS_OBJECTS=build/objects/WidgetJS.o build/objects/ButtonJS.o build/objects/MyGuiEventEmitterJS.o build/objects/LayerJS.o build/objects/InputMyGuiJS.o build/objects/StaticTextJS.o build/objects/EditJS.o build/objects/WindowMyGuiJS.o build/objects/MyGuiJS.o
+
+
+build/objects/LayerJS.o : include/LayerJS.h src/LayerJS.cpp include/WidgetJS.h include/StaticTextJS.h include/ButtonJS.h include/OgreManager.h makeMyGuiJSObjects
+		gcc-4.2 $(INCLUDE) -c src/LayerJS.cpp -o build/objects/LayerJS.o
+
+
+build/objects/WidgetJS.o : include/WidgetJS.h src/WidgetJS.cpp include/StaticTextJS.h include/ButtonJS.h include/OgreManager.h makeMyGuiJSObjects
+	gcc-4.2 $(INCLUDE) -c src/WidgetJS.cpp -o build/objects/WidgetJS.o
+
+build/objects/StaticTextJS.o : src/StaticTextJS.cpp include/StaticTextJS.h include/WidgetJS.h include/MyGuiEventEmitterJS.h makeMyGuiJSObjects
+	gcc-4.2 $(INCLUDE) -c src/StaticTextJS.cpp -o build/objects/StaticTextJS.o
+
+
+build/objects/ButtonJS.o : src/ButtonJS.cpp include/ButtonJS.h include/StaticTextJS.h include/WidgetJS.h include/MyGuiEventEmitterJS.h makeMyGuiJSObjects
+	gcc-4.2 $(INCLUDE) -c src/ButtonJS.cpp -o build/objects/ButtonJS.o
+
+
+build/objects/WindowMyGuiJS.o : src/WindowMyGuiJS.cpp include/WindowMyGuiJS.h include/WidgetJS.h include/MyGuiEventEmitterJS.h makeMyGuiJSObjects
+	gcc-4.2 $(INCLUDE) -c src/WindowMyGuiJS.cpp -o build/objects/WindowMyGuiJS.o
+
+
+build/objects/EditJS.o : src/EditJS.cpp include/EditJS.h include/EditJS.h include/EditJS.h include/MyGuiEventEmitterJS.h makeMyGuiJSObjects
+	gcc-4.2 $(INCLUDE) -c src/EditJS.cpp -o build/objects/EditJS.o
+
+
+build/objects/MyGuiEventEmitterJS.o : include/MyGuiEventEmitterJS.h src/MyGuiEventEmitterJS.cpp makeMyGuiJSObjects
+	gcc-4.2 $(INCLUDE) -c src/MyGuiEventEmitterJS.cpp -o build/objects/MyGuiEventEmitterJS.o
+
+
+
+build/objects/MyGuiJS.o : include/MyGuiJS.h src/MyGuiJS.cpp include/InputMyGuiJS.h include/PickingManagerJS.h makeMyGuiJSObjects
+	gcc-4.2 $(INCLUDE) -c src/MyGuiJS.cpp -o build/objects/MyGuiJS.o
+
+build/objects/InputMyGuiJS.o : include/InputMyGuiJS.h src/InputMyGuiJS.cpp makeMyGuiJSObjects
+	gcc-4.2 $(INCLUDE) -c src/InputMyGuiJS.cpp -o build/objects/InputMyGuiJS.o
+
+
+

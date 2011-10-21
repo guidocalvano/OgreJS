@@ -4,7 +4,6 @@
 #include <v8.h>
 #include <node_object_wrap.h>
 #include <OGRE/Ogre.h>
-#include <MyGuiJS.h>
 #include <PickingManagerJS.h>
 
 class OgreJS

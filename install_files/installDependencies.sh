@@ -14,3 +14,5 @@
 . ./install_files/installBoost.sh
 
 . ./install_files/installMyGui.sh
+
+. ./install_files/createFolders.sh

@@ -2,8 +2,20 @@
 if [ ! -d ./my-gui ]
 then
 	svn co https://my-gui.svn.sourceforge.net/svnroot/my-gui/trunk my-gui
+		
+	cd my-gui
 	
 	svn up -r 4305
+	
+	cp ../forOtherDependencies/mac/my-gui/Platforms/Ogre/OgrePlatform/CMakeLists.txt Platforms/Ogre/OgrePlatform/CMakeLists.txt
+	
+	cmake -D MYGUI_STATIC=ON -D MYGUI_BUILD_DEMOS=OFF -D MYGUI_BUILD_PLUGINS=OFF -D MYGUI_BUILD_DOCS=OFF  -D FREETYPE_INCLUDE_DIR=../forOtherDependencies/mac/my-gui/usr/local/include/freetype2 -D FREETYPE_FT2BUILD_INCLUDE_DIR=../forOtherDependencies/mac/my-gui/usr/local/include -D FREETYPE_LIBRARY_REL=../forOtherDependencies/mac/my-gui/opt/local/lib/libfreetype.dylib -D OIS_INCLUDE_DIR=../OgreSDK1.7.3/OIS -D OIS_LIBRARY_REL=./OgreSDK1.7.3/lib/release/libOIS.a -D OGRE_LIBRARY=../OgreSDK1.7.3/lib/release/OGRE.framework -G Xcode .
+	
+	
+	xcodebuild -project MYGUI.xcodeproj/ -target MyGUIEngine
+	xcodebuild -project MYGUI.xcodeproj/ -target MyGUI.OgrePlatform
+ 
+	cd ..
 	
 	# insert correct cmake vars:
 	

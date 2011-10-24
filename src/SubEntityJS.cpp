@@ -68,3 +68,17 @@ void SubEntityJS:: init( v8::Handle< v8::Object > target)
 
 	 return v8::Undefined() ;
 	}
+
+
+
+
+ v8::Handle<v8::Value> SubEntityJS:: getMaterialNameConvert( SubEntityJS* subEntityJS, const v8::Arguments& args ) 
+ 	{
+// = node::ObjectWrap:: Unwrap<MaterialJS>( args[ 0 ]-> ToObject() )-> material ;
+
+	 v8::Local<v8::String> name = v8::String::New( subEntityJS-> subEntity-> getMaterial()-> getName().c_str() ) ;
+
+	 return name ;
+	}
+
+

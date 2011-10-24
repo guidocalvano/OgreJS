@@ -71,13 +71,29 @@ var input = ogre.input ;
 
 function SubEntity( cpp )
 	{
-	 this.cpp = cpp ;	
+	 this.cpp = cpp ;
+	 this.material = ogre.materialSet[ cpp.getMaterialName() ] ;	
 	}
 
 
 SubEntity.prototype.setMaterialByName = function( name )
 	{
 	 this.cpp.setMaterialByName( name ) ;
+	}
+
+
+SubEntity.prototype.setMaterial = function( material )
+	{
+	 this.cpp.setMaterial( material.cpp ) ;
+	
+	 this.material = material ;
+	}
+	
+	
+
+SubEntity.prototype.getMaterial = function()
+	{
+	 return this.material ;
 	}
 
 
@@ -264,101 +280,6 @@ Camera.prototype.renderOneFrame = function()
 	 return this.cpp.renderOneFrame() ;
 	}
 
-Camera.prototype.defaultKeyPressedHandler = function( input )
-	{
-	 var self = this ;
-	
-	 switch( input.keyChar )
-		{
-		 case 'w' :
-			sys.puts( typeof this.movementProcesses[ input.keyCode ] ) ;
-			if( typeof this.movementProcesses[ input.keyCode ] == 'undefined' )
-				this.movementProcesses[ input.keyCode ] = setInterval( function() { self.node.moveL3N( 0, 0, 10 ) ; }, 20 ) ;
-				
-			break ;
-		
-		 case 's' :
-			if( typeof this.movementProcesses[ input.keyCode ] == 'undefined' )
-				this.movementProcesses[ input.keyCode ] = setInterval( function() { self.node.moveL3N( 0, 0, -10 ) ; }, 20 ) ;
-			break ;
-		
-		 case 'd' :
-			if( typeof this.movementProcesses[ input.keyCode ] == 'undefined' )
-				this.movementProcesses[ input.keyCode ] = setInterval( function() { self.node.moveL3N( -10, 0, 0 ) ; }, 20 ) ;
-
-			break ;
-
-		 case 'a' :
-			if( typeof this.movementProcesses[ input.keyCode ] == 'undefined' )
-				this.movementProcesses[ input.keyCode ] = setInterval( function() { self.node.moveL3N(  10, 0, 0 ) ; }, 20 ) ;
-		
-		 break ;
-		}
-	 
-	} ;
-
-Camera.prototype.defaultMousePressedHandler = function( input )
-	{
-	 var hit = this.pick( input.x, input.y ) ;
-	 if( hit )
-		hit.entity.emit( 'mousePressed', input ) ;
-	} ;
-
-
-Camera.prototype.defaultMouseReleasedHandler = function( input )
-	{
-	 var hit = this.pick( input.x, input.y ) ;
-	 if( hit )
-		hit.entity.emit( 'mouseReleased', input ) ;
-	} ;
-
-Camera.prototype.defaultMouseMovedHandler = function( input )
-	{
-	 var hit = this.pick( input.x, input.y ) ;
-	 if( hit )
-		hit.entity.emit( 'mouseMoved', input ) ;	
-	} ;
-
-Camera.prototype.defaultKeyReleasedHandler = function( input )
-	{
-	 if( typeof this.movementProcesses[ input.keyCode ] == undefined ) return ;
-		
-	 clearInterval( this.movementProcesses[ input.keyCode ] ) ;	
-	
-	 this.movementProcesses[ input.keyCode ] = undefined ;	
-	} ;
-
-Camera.prototype.setDefaultInputHandlers = function()
-	{
-	 var self = this ;
-	
-	
-	
-	 this.activeHandlers[ 'keyPressed' ] 		= function( input ) { self.defaultKeyPressedHandler( 		input ) ; } ;
-	 this.activeHandlers[ 'keyReleased' ] 	= function( input ) { self.defaultKeyReleasedHandler( 	input ) ; } ;
-	
-	 this.activeHandlers[ 'mousePressed' ] 	= function( input ) { self.defaultMousePressedHandler( 	input ) ; } ;
-	 this.activeHandlers[ 'mouseReleased' ] 	= function( input ) { self.defaultMouseReleasedHandler(  input ) ; } ;	
-	 this.activeHandlers[ 'mouseMoved' ] 	= function( input ) { self.defaultMouseMovedHandler( 	input ) ; } ;	
-
- 	 for( var i in this.activeHandlers )
-		input.on( i, this.activeHandlers[ i ] ) ;
-
-	}
-
-
-Camera.prototype.removeDefaultInputHandlers = function()
-	{
-	 for( var handlerType in this.activeHandlers )
-		{
-		 if( typeof this.activeHandlers[ handlerType ] == undefined )
-			{
-		 	 Input.removeListener( handlerType, this.activeHandlers[ handlerType ]  ) ;
-		 	 this.activeHandlers[ handlerType ] = undefined ;
-			}
-		}
-	}
-	
 
 Camera.prototype.setParent = function( newParent ) 
 	{
@@ -393,6 +314,8 @@ Camera.prototype.stop = function()
 	{
 	 clearInterval( this.renderProcess ) ;
 	}
+	
+
 
 /*
 ogre.rotatingHead = function( rateHz )
@@ -417,6 +340,57 @@ ogre.root = root ;
 var cam =  new Camera() ;
 
 
+function Material() {}
+
+Material.prototype.init = function()
+	{
+	 this.cpp = new ogre.system.Material() ;
+	 this.cpp.init() ;
+	
+	 return this ;
+	} ;
+
+
+Material.prototype.initSystemMaterial = function( name, systemMaterial )
+	{
+	 this.name	= name 				;
+	 this.cpp 	= systemMaterial 	;
+	
+	 return this ;
+	} ;	
+
+Material.prototype.clone			= function() 
+	{
+	 var systemMaterial = this.cpp.clone() ; 
+	
+	 return ( new Material() ).initSystemMaterial( "anonymous", systemMaterial ) ;
+	} ;
+
+
+Material.prototype.setAmbient 			= function( r, g, b ) { this.cpp.setAmbient( r, g, b ) ; } ;
+
+Material.prototype.setDiffuse 			= function( r, g, b, a ) { this.cpp.setDiffuse( r, g, b, a ) ; } ;
+
+Material.prototype.setSpecular 			= function( r, g, b, a ) { this.cpp.setSpecular( r, g, b, a ) ; } ;
+
+Material.prototype.setSelfIllumination 	= function( r, g, b ) { this.cpp.setSelfIllumination( r, g, b ) ; } ;
+
+
+Material.prototype.setTexture 		= function( textureName ) { this.cpp.setTexture( textureName ) ; } ;
+
+Material.prototype.setTextureScroll = function( u, v ) { this.cpp.setTextureScroll( u, v ) ; } ;
+
+Material.prototype.setTextureScale	= function( w, h ) { this.cpp.setTextureScale( w, h  ) ; } ;
+
+
+ogre.Material = Material ;
+
+ogre.materialSet = {} ;
+
+for( var materialName in ogre.system.materialSet )
+	{
+	 ogre.materialSet[ materialName ] = ( new Material() ).initSystemMaterial( materialName, ogre.system.materialSet[ materialName ] ) ;
+	}
 
 
 cam.initDefault() ;

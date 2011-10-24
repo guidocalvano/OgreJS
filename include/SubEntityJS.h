@@ -34,6 +34,7 @@ class SubEntityJS : public node::ObjectWrap
 		{
 	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setMaterialByName", setMaterialByNameBind<ChildType> 	) ;	
 	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setMaterial", 		 setMaterialBind<ChildType> 		) ;	
+	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "getMaterialName", 	 getMaterialNameBind<ChildType> 	) ;	
 		}
 
 	 static v8::Handle<v8::Value> setMaterialByNameConvert( SubEntityJS* ,const v8::Arguments& args ) ;	 
@@ -45,6 +46,15 @@ class SubEntityJS : public node::ObjectWrap
 		 return setMaterialByNameConvert( subEntityJS, args ) ;
 		}
 
+
+	 static v8::Handle<v8::Value> getMaterialNameConvert( SubEntityJS* ,const v8::Arguments& args ) ;	 
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> getMaterialNameBind( const v8::Arguments& args ) 
+	 	{
+		 SubEntityJS* subEntityJS = (SubEntityJS*) node::ObjectWrap:: Unwrap<ChildType>( args.This() ) ;
+		 return getMaterialNameConvert( subEntityJS, args ) ;
+		}
 
 	 static v8::Handle<v8::Value> setMaterialConvert( SubEntityJS* ,const v8::Arguments& args ) ;	 		
 		

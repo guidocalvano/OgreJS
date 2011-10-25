@@ -34,10 +34,12 @@ make -f makeOgreJSWithoutMyGui
 ## Run
 
 OgreJS
+
 ./build/ogrenode ./example.js
 
 
 OgreJSWithoutMyGui
+
 ./build/ogrenode_no_mygui ./example.js
 
 

@@ -24,7 +24,7 @@ cd OgreJS
 
 . ./install.sh
 
-This will download all required dependencies into the OgreJS root directory (with the exception of wget and Cg.framework which will be installed on using their installers):
+This will download all required dependencies into the OgreJS root directory (with the exception of wget and Cg.framework which will be installed using their installers):
 
 1. wget
 2. node (but a special adapted version)

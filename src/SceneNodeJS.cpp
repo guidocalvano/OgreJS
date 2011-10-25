@@ -111,47 +111,47 @@ v8::Handle<v8::Value> SceneNodeJS:: moveL3NConvert( SceneNodeJS* sceneNodeJS, co
 
 
 
-v8::Handle<v8::Value> SceneNodeJS:: convertLocalOXYZToWorldOXYZConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
+v8::Handle<v8::Value> SceneNodeJS:: convertLocal3NToWorldVConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
 	{
 	 v8::Local<v8::Object> localOXYZ = args[ 0 ]-> ToObject() ;
 
-	 double x = localOXYZ-> Get( v8::String::New( "x" ) )-> NumberValue() ;
-	 double y = localOXYZ-> Get( v8::String::New( "y" ) )-> NumberValue() ;
-	 double z = localOXYZ-> Get( v8::String::New( "z" ) )-> NumberValue() ;
+	 double x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
+	 double y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
+	 double z = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
 
 	 Ogre::Vector3 localV3( x, y, z ) ;
 
 	 Ogre::Vector3 worldV3 = sceneNodeJS-> sceneNode-> convertLocalToWorldPosition( localV3 ) ;
 
-	 v8::Local<v8::Object> worldOXYZ = v8::Object::New() ;
+	 v8::Local<v8::Array> worldA = v8::Array::New(3) ;
 
-	 worldOXYZ-> Set( v8::String::New( "x" ), v8::Number::New( worldV3.x ) ) ;
-	 worldOXYZ-> Set( v8::String::New( "y" ), v8::Number::New( worldV3.y ) ) ;
-	 worldOXYZ-> Set( v8::String::New( "z" ), v8::Number::New( worldV3.z ) ) ;
+	 worldA-> Set( v8::Number::New( 0 ), v8::Number::New( worldV3.x ) ) ;
+	 worldA-> Set( v8::Number::New( 1 ), v8::Number::New( worldV3.y ) ) ;
+	 worldA-> Set( v8::Number::New( 2 ), v8::Number::New( worldV3.z ) ) ;
 	
-	 return worldOXYZ ;
+	 return worldA ;
 	}
 
 
-v8::Handle<v8::Value> SceneNodeJS:: convertWorldOXYZToLocalOXYZConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
+v8::Handle<v8::Value> SceneNodeJS:: convertWorld3NToLocalVConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
 	{
 	 v8::Local<v8::Object> worldOXYZ = args[ 0 ]-> ToObject() ;
 
-	 double x = worldOXYZ-> Get( v8::String::New( "x" ) )-> NumberValue() ;
-	 double y = worldOXYZ-> Get( v8::String::New( "y" ) )-> NumberValue() ;
-	 double z = worldOXYZ-> Get( v8::String::New( "z" ) )-> NumberValue() ;
+	 double x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
+	 double y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
+	 double z = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
 
 	 Ogre::Vector3 worldV3( x, y, z ) ;
 
 	 Ogre::Vector3 localV3 = sceneNodeJS-> sceneNode-> convertWorldToLocalPosition( worldV3 ) ;
 
-	 v8::Local<v8::Object> localOXYZ = v8::Object::New() ;
+	 v8::Local<v8::Array> localA = v8::Array::New( 3 ) ;
 
-	 localOXYZ-> Set( v8::String::New( "x" ), v8::Number::New( localV3.x ) ) ;
-	 localOXYZ-> Set( v8::String::New( "y" ), v8::Number::New( localV3.y ) ) ;
-	 localOXYZ-> Set( v8::String::New( "z" ), v8::Number::New( localV3.z ) ) ;
+	 localA-> Set( v8::Number::New( 0 ), v8::Number::New( localV3.x ) ) ;
+	 localA-> Set( v8::Number::New( 1 ), v8::Number::New( localV3.y ) ) ;
+	 localA-> Set( v8::Number::New( 2 ), v8::Number::New( localV3.z ) ) ;
 
-	 return localOXYZ ;
+	 return localA ;
 	}
 
 

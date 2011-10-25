@@ -25,8 +25,8 @@ class SceneNodeJS : public node::ObjectWrap
 
 	 static v8::Handle<v8::Value> moveL3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
 
-	 static v8::Handle<v8::Value> convertLocalOXYZToWorldOXYZConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;	
-	 static v8::Handle<v8::Value> convertWorldOXYZToLocalOXYZConvert( SceneNodeJS* sn,const v8::Arguments& args ) ;
+	 static v8::Handle<v8::Value> convertLocal3NToWorldVConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;	
+	 static v8::Handle<v8::Value> convertWorld3NToLocalVConvert( SceneNodeJS* sn,const v8::Arguments& args ) ;
 	
 	
 	 static v8::Handle<v8::Value> yawConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
@@ -40,8 +40,8 @@ class SceneNodeJS : public node::ObjectWrap
 	
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "moveL3N", moveL3NBind<ChildType> ) ;
 
-	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "convertLocalOXYZToWorldOXYZ", convertLocalOXYZToWorldOXYZBind<ChildType> ) ;
-	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "convertWorldOXYZToLocalOXYZ", convertWorldOXYZToLocalOXYZBind<ChildType> ) ;
+	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "convertLocal3NToWorldV", convertLocal3NToWorldVBind<ChildType> ) ;
+	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "convertWorld3NToLocalV", convertWorld3NToLocalVBind<ChildType> ) ;
 
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "roll", rollBind<ChildType> ) ;
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "pitch", pitchBind<ChildType> ) ;
@@ -66,19 +66,19 @@ class SceneNodeJS : public node::ObjectWrap
 		}
 
 	 template< class ChildType >
-	 static v8::Handle<v8::Value> convertLocalOXYZToWorldOXYZBind( const v8::Arguments& args ) 
+	 static v8::Handle<v8::Value> convertLocal3NToWorldVBind( const v8::Arguments& args ) 
 		{
 	     SceneNodeJS* sn = (SceneNodeJS*) ObjectWrap::Unwrap<ChildType>(args.This());
 
- 		 return convertLocalOXYZToWorldOXYZConvert( sn, args ) ;
+ 		 return convertLocal3NToWorldVConvert( sn, args ) ;
 		}	
 			
 	 template< class ChildType >
-	 static v8::Handle<v8::Value> convertWorldOXYZToLocalOXYZBind( const v8::Arguments& args ) 
+	 static v8::Handle<v8::Value> convertWorld3NToLocalVBind( const v8::Arguments& args ) 
 		{
 	     SceneNodeJS* sn = (SceneNodeJS*) ObjectWrap::Unwrap<ChildType>(args.This());
 
-		 return convertWorldOXYZToLocalOXYZConvert( sn, args ) ;
+		 return convertWorld3NToLocalVConvert( sn, args ) ;
 		}
 
 	 template< class ChildType >	

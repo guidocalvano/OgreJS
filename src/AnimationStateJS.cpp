@@ -31,6 +31,7 @@ v8::Handle<v8::Value> AnimationStateJS:: New( const v8::Arguments& args )
 v8::Handle<v8::Value> AnimationStateJS:: NewFromAnimationStatePtr( Ogre::AnimationState* animationState ) 
 	{
 	 printf( "AnimationStateJS:: NewFromAnimationStatePtr \n" ) ;
+	
 	 v8::Local<v8::Function> function = AnimationStateJS::prototypeTemplate-> GetFunction() ;
 	 v8::Local<v8::Object>   object   = function-> NewInstance() ;
 

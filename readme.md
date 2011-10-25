@@ -6,7 +6,7 @@ This is still a work in progress:
 
  - Documentation on the wiki is totally outdated, will work on that in the near future.
 
- - Vectors are still not implemented, and that may change some API calls
+ - Vectors are almost implemented, but not entirely. The api is unlikely to change though.
 
  - A lot of functions have not been added yet.
 

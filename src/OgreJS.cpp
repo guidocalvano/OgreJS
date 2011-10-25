@@ -9,6 +9,7 @@
 #include <SceneNodeJS.h>
 #include <EntityJS.h>
 #include <SubEntityJS.h>
+#include <AnimationStateJS.h>
 
 
 #include <EventEmitterJS.h>
@@ -58,6 +59,7 @@ void OgreJS :: require(  v8::Handle< v8::Object > target )
 	 SceneNodeJS:: init( system ) ;
 	 EntityJS:: init( system ) ;
 	 SubEntityJS:: init( system ) ;
+	 AnimationStateJS:: init( system ) ;
 
 
 	 v8::Handle<v8::Value> cameraJS = CameraJS:: NewFromCamera( OgreManager:: getSingletonPtr()-> m_pCamera ) ;

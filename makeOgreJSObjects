@@ -1,10 +1,10 @@
 
 include ./makeGlobalVars
 
-OGREJS_OBJECTS=build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o  build/objects/EventEmitterJS.o build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/SubEntityJS.o build/objects/MaterialJS.o
+OGREJS_OBJECTS=build/objects/OgreManager.o build/objects/OgreManagerPlatformSpecific.o build/objects/OgreJS.o build/objects/CameraJS.o build/objects/InputJS.o build/objects/V8Toolkit.o build/objects/SceneNodeJS.o build/objects/EntityJS.o  build/objects/EventEmitterJS.o build/objects/PickingManagerJS.o build/objects/PickingManager.o build/objects/MemoryManagerJS.o build/objects/SubEntityJS.o build/objects/MaterialJS.o build/objects/AnimationStateJS.o
 
 
-build/objects/OgreJS.o : include/OgreJS.h include/OgreManager.h include/CameraJS.h include/InputJS.h include/MaterialJS.h include/SceneNodeJS.h include/EntityJS.h src/OgreJS.cpp makeOgreJSObjects
+build/objects/OgreJS.o : include/OgreJS.h include/OgreManager.h include/CameraJS.h include/InputJS.h include/MaterialJS.h include/SceneNodeJS.h include/SubEntityJS.h include/AnimationStateJS.h  include/EntityJS.h src/OgreJS.cpp makeOgreJSObjects
 	gcc-4.2 $(INCLUDE) -c src/OgreJS.cpp -o build/objects/OgreJS.o
 
 
@@ -24,12 +24,15 @@ build/objects/SceneNodeJS.o : include/SceneNodeJS.h include/OgreManager.h src/Sc
 	gcc-4.2 $(INCLUDE) -c src/SceneNodeJS.cpp -o build/objects/SceneNodeJS.o
 
 
-build/objects/EntityJS.o : include/EntityJS.h include/OgreManager.h src/EntityJS.cpp makeOgreJSObjects
+build/objects/EntityJS.o : include/EntityJS.h include/OgreManager.h src/EntityJS.cpp include/AnimationStateJS.h include/SubEntityJS.h makeOgreJSObjects
 	gcc-4.2 $(INCLUDE) -c src/EntityJS.cpp -o build/objects/EntityJS.o
 
 build/objects/SubEntityJS.o : include/SubEntityJS.h include/EntityJS.h src/SubEntityJS.cpp include/MaterialJS.h makeOgreJSObjects
 	gcc-4.2 $(INCLUDE) -c src/SubEntityJS.cpp -o build/objects/SubEntityJS.o
 
+
+build/objects/AnimationStateJS.o : include/AnimationStateJS.h src/AnimationStateJS.cpp makeOgreJSObjects
+	gcc-4.2 $(INCLUDE) -c src/AnimationStateJS.cpp -o build/objects/AnimationStateJS.o
 
 build/objects/OgreManager.o : include/OgreManager.h src/OgreManager.cpp include/PickingManager.h makeOgreJSObjects
 	gcc-4.2 $(INCLUDE) -c src/OgreManager.cpp -o build/objects/OgreManager.o

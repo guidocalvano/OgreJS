@@ -97,6 +97,18 @@ SubEntity.prototype.getMaterial = function()
 	}
 
 
+function AnimationState() {}
+
+AnimationState.prototype.init = function( systemAnimationState )
+	{
+	 this.cpp = systemAnimationState ;
+	 return this ;
+	}
+	
+AnimationState.prototype.setEnabled = function( enabled ) { return this.cpp.setEnabled( enabled ) ; } ;
+AnimationState.prototype.setLoop	= function( loop 	) { return this.cpp.setLoop( 	loop	) ; } ;
+AnimationState.prototype.addTime 	= function( time	) { return this.cpp.addTime( 	time 	) ; } ;
+
 function Entity( meshname ) {}
 
 
@@ -114,9 +126,17 @@ Entity.prototype.init = function( meshname )
 	 for( var i in this.cpp.subEntitySet )
 		{
 		 this.subEntitySet[ i ] = new SubEntity( this.cpp.subEntitySet[ i ] ) ;
-		 this.subEntitySet[ i ].functionalSubEntity = this ;
+		 // this.subEntitySet[ i ].functionalSubEntity = this ;
 		}
 		
+	
+	 this.animationStateSet = {} ;
+	
+	 for( var j in this.cpp.animationStateSet )
+		{
+		 this.animationStateSet[ j ] = ( new AnimationState() ).init( this.cpp.animationStateSet[ j ] ) ;
+		
+		}
 	 return this ;
 	} ;
 

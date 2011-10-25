@@ -4,7 +4,7 @@
 #include <EventEmitterJS.h>
 #include <MemoryManagerJS.h>
 #include <SubEntityJS.h>
-
+#include <AnimationStateJS.h>
 
 v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
 
@@ -33,9 +33,37 @@ v8::Persistent<v8::FunctionTemplate> EntityJS:: prototypeTemplate ;
 		 subEntitySet-> Set( i, nextSubEntityObject ) ; 
 		}
 
-
 	 object-> Set( v8::String::New( "subEntitySet" ), subEntitySet ) ;
-	 //
+	
+	
+	 v8::Handle<v8::Object> animationStateSetObject = v8::Object::New() ;
+	
+	Ogre:: AnimationStateSet* animationStateSet = entity-> getAllAnimationStates() ;
+	
+	
+	 if( animationStateSet )
+		{
+		 Ogre:: AnimationStateIterator animationStateIterator = animationStateSet-> getAnimationStateIterator() ;
+	
+		  printf( "EntityJS:: EntityJS( ... ) at getAllAnimationStates \n" ) ;
+	
+	
+		 Ogre:: AnimationState* nextAnimationState ;
+	
+		 while( animationStateIterator.hasMoreElements() )
+			{
+			 nextAnimationState = animationStateIterator.getNext() ;
+			
+			 printf( "%s \n", nextAnimationState-> getAnimationName().c_str() ) ;
+			
+			 animationStateSetObject-> Set( v8::String::New( nextAnimationState-> getAnimationName().c_str() ), AnimationStateJS:: NewFromAnimationStatePtr( nextAnimationState ) ) ;
+			}
+	 
+		  printf( "EntityJS:: EntityJS( ... ) at object, set animationStateSet \n" ) ;
+	
+		 object-> Set( v8::String::New( "animationStateSet" ), animationStateSetObject ) ;
+	 	}
+	
 	 Wrap( object ) ;	
 	
 	 MemoryManagerJS:: singleton-> updateV8AllocatedMemory() ;

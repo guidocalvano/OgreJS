@@ -8,7 +8,7 @@ unsigned int MaterialJS:: nextUniqueId ;
 
 void MaterialJS:: init( v8::Handle< v8::Object > target) 
 	{
-		nextUniqueId = 1 ;
+	 nextUniqueId = 1 ;
 		
    	 v8::Local<v8::FunctionTemplate> t = v8::FunctionTemplate::New(New);
 

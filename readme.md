@@ -1,5 +1,7 @@
 **Do you want to Help out?** go here-> https://github.com/guidocalvano/OgreJS/wiki/Help-out
 
+Documentation on the wiki is totally outdated, will work on that in the near future.
+
 ## setting up environment on a Mac
 
 This has only been tested hastily!

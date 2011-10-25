@@ -6,7 +6,9 @@ This is still a work in progress:
 
  - Documentation on the wiki is totally outdated, will work on that in the near future.
 
- - Vectors are almost implemented, but not entirely. The api is unlikely to change though.
+ - Vectors are almost implemented, but not entirely. The api is unlikely to change though. The library for vectors can be found in src/js/vector.js. 
+The matrix multiplication library can be found in src/js/Mat4.js. I haven't used or tested them yet. I have decided on the representation though: Arrays. Arrays can be indexed very fast.
+
 
  - A lot of functions have not been added yet.
 

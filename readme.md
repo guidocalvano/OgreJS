@@ -19,10 +19,12 @@ This has only been tested hastily!
 To set up your own environment automatically do:
 
 git clone git@github.com:guidocalvano/OgreJS.git
+
 cd OgreJS
+
 . ./install.sh
 
-This will download and install locally (with the exception of wget and Cg.framework):
+This will download all required dependencies into the OgreJS root directory (with the exception of wget and Cg.framework which will be installed on using their installers):
 
 1. wget
 2. node (but a special adapted version)

@@ -1,54 +1,45 @@
 **Do you want to Help out?** go here-> https://github.com/guidocalvano/OgreJS/wiki/Help-out
 
+## setting up environment on a Mac
 
-Provided an initial example api for Vector, and a test. This can be used as boilerplate for all the classes needing to be bound.
+This has only been tested hastily!
 
-Completed:
+To set up your own environment automatically do:
 
-* Wrapped Ogre::Vector3 in juice::ogre::Vector
-* Bound juice::ogre::Vector
-* Bound Ogre::Real
+git clone git@github.com:guidocalvano/OgreJS.git
+cd OgreJS
+. ./install.sh
+
+This will download and install locally (with the exception of wget and Cg.framework):
+
+1. wget
+2. node (but a special adapted version)
+3. OgreSDK version 1.7.3
+4. Ogre Dependencies
+    - this included Cg.framework
+5. boost (because it is included in the OgreSDK)
+6. my-gui
+
+## building
+
+to build everything: 
+
+make -f makeOgreJS
 
 
-## Dependencies
+to build OgreJS without my-gui
 
-* v8
-* v8convert (already in the repo)
-* Ogre
-* boost (for Ogre threading, if compiled with threading, and for boost::bind, which is header-only)
+make -f makeOgreJSWithoutMyGui
 
-## To build test
+## Run
 
-<pre>
-make &lt;VARS&gt; test
-</pre>
+OgreJS
+./build/ogrenode ./example.js
 
 
-Look in common.mk for what vars to set.
+OgreJSWithoutMyGui
+./build/ogrenode_no_mygui ./example.js
 
-What I run:
-<pre>
-make  \
-  OGRE_HOME=/d/super/dump/foundations/repo2/foundations/trunk/libs/ogre             \
-  BOOST_HOME=/d/super/dump/foundations/repo2/foundations/trunk/libs/boost_1_44_0    \
-  V8_HOME=/d/super/dump/foundations/libs/v8/tag.3.3.6.1                             \
-  LIBV8=/d/super/dump/foundations/libs/build/lib/libv8_ia32.a test
-</pre>
-
-## To run the test
-<pre>
-./build/debug/bin/test/main.exe ./src/test/test.js
-</pre>
-
-## Understanding
-
-* Take a look at /src/test/test.js, see what I am printing out. I exposed a log() function that prints to stdout.
-* To see the Vector class, take a look at the header /include/juice/ogre/Vector.hpp, I left detailed docs there.
-* Notice how Ogre::Real is being passed in .. no worries. This is because I define how to convert back and forth to and from JS to Ogre::Real in Real.hpp.
-* Real.hpp shows how easy it is to bind POD (plain old data) that has an easy way to translate it to JS.
-* Then take a look at the implementation file at /src/juice/ogre/Vector.cpp, I how the more complex class binding actually works there as well.
-* Take a look at main.cpp, I explain the normal operation of v8, and show how simple it is to bind the classes to any object.
-* To fully understand v8 itself, use v8.h as a reference (in the v8 project distrobution's include directory)
 
 
 

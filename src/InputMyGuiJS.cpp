@@ -36,10 +36,10 @@ v8::Handle<v8::Value> InputMyGuiJS:: injectMouseMove( const v8::Arguments& args 
 //	 int y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
 	
 	
-	 v8::Handle<v8::Object> obj = args[ 0 ]-> ToObject() ;
+	 v8::Handle<v8::Object> place = args[ 0 ]-> ToObject()-> Get( v8::String::New( "place" ) )-> ToObject() ;
 
-	 int x = obj-> Get( v8::String::New( "x" ) )-> ToInteger()-> Value() ;
-	 int y = obj-> Get( v8::String::New( "y" ) )-> ToInteger()-> Value() ;	
+	 int x = place-> Get( v8::Number::New( 0 ) )-> ToInteger()-> Value() ;
+	 int y = place-> Get( v8::Number::New( 1 ) )-> ToInteger()-> Value() ;
 //	 int z = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
 
 	 MyGUI::InputManager::getInstancePtr()-> injectMouseMove( x, y, 0 ) ;
@@ -56,10 +56,10 @@ v8::Handle<v8::Value> InputMyGuiJS:: injectMousePress( const v8::Arguments& args
 
 		printf( "mygui injectmousepress...\n");
 
-	 v8::Handle<v8::Object> obj = args[ 0 ]-> ToObject() ;
+	 v8::Handle<v8::Object> place = args[ 0 ]-> ToObject()-> Get( v8::String::New( "place" ) )-> ToObject() ;
 
-	 int x = obj-> Get( v8::String::New( "x" ) )-> ToInteger()-> Value() ;
-	 int y = obj-> Get( v8::String::New( "y" ) )-> ToInteger()-> Value() ;
+	 int x = place-> Get( v8::Number::New( 0 ) )-> ToInteger()-> Value() ;
+	 int y = place-> Get( v8::Number::New( 1 ) )-> ToInteger()-> Value() ;
 
 	 return v8:: Boolean:: New( MyGUI::InputManager::getInstancePtr()->  injectMousePress( x, y, MyGUI::MouseButton::Enum( OIS::MB_Left ) ) ) ;
 	
@@ -73,10 +73,10 @@ v8::Handle<v8::Value> InputMyGuiJS:: injectMouseRelease( const v8::Arguments& ar
 //	 int y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
 
 
-	 v8::Handle<v8::Object> obj = args[ 0 ]-> ToObject() ;
+	 v8::Handle<v8::Object> place = args[ 0 ]-> ToObject()-> Get( v8::String::New( "place" ) )-> ToObject() ;
 
-	 int x = obj-> Get( v8::String::New( "x" ) )-> ToInteger()-> Value() ;
-	 int y = obj-> Get( v8::String::New( "y" ) )-> ToInteger()-> Value() ;
+	 int x = place-> Get( v8::Number::New( 0 ) )-> ToInteger()-> Value() ;
+	 int y = place-> Get( v8::Number::New( 1 ) )-> ToInteger()-> Value() ;
 
 	 MyGUI::InputManager::getInstancePtr()->  injectMouseRelease( x, y, MyGUI::MouseButton::Enum( OIS::MB_Left ) ) ;
 

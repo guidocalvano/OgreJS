@@ -164,14 +164,27 @@ v8::Local<v8::Object> InputJS::mouseEventToObject( const OIS::MouseEvent &evt)
 	 v8::Handle<v8::Boolean> rightIsDown 	 = v8::Boolean::New( evt.state.buttonDown( OIS::MB_Right ) == true ) ;
 	 v8::Handle<v8::Boolean> middleIsDown 	 = v8::Boolean::New( evt.state.buttonDown( OIS::MB_Middle ) == true ) ;
 
-
+	 v8::Handle<v8::Array> place = v8::Array::New( 2 ) ;
+	 v8::Handle<v8::Array> speed = v8::Array::New( 2 ) ;
 	
+	 place-> Set( v8::Number::New( 0 ), x ) ;
+	 place-> Set( v8::Number::New( 1 ), y ) ;
+	
+ 	 object-> Set( v8:: String:: New( "place" ), place ) ;
+	
+	
+	 speed-> Set( v8::Number::New( 0 ), dX ) ;
+	 speed-> Set( v8::Number::New( 1 ), dY ) ;
+	
+ 	 object-> Set( v8:: String:: New( "speed" ), speed ) ;
+
+/*
 	  object-> Set( v8::String::New( "dX" ), dX ) ;
 	  object-> Set( v8::String::New( "dY" ), dY ) ;
 
 	  object-> Set( v8::String::New( "x" ), x ) ;
 	  object-> Set( v8::String::New( "y" ), y ) ;
-
+*/
 	  object-> Set( v8::String::New( "leftIsDown" ), leftIsDown ) ;
 	  object-> Set( v8::String::New( "rightIsDown" ), rightIsDown ) ;
 	  object-> Set( v8::String::New( "middleIsDown" ), middleIsDown ) ;

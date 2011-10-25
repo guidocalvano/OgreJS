@@ -84,11 +84,11 @@ v8::Handle<v8::Value> CameraJS:: NewFromCamera( Ogre::Camera* camera )
 
 		 entityHitTuple-> Set( v8::String::New( "entity" ), entityJS-> handle_ ) ;
 
-		 v8::Handle<v8::Object> hitVector = v8::Object::New() ;
+		 v8::Handle<v8::Array> hitVector = v8::Array::New( 3 ) ;
 		
-		 hitVector-> Set( v8::String::New( "x" ), v8:: Number:: New( hitCoordinate.x ) ) ;
-		 hitVector-> Set( v8::String::New( "y" ), v8:: Number:: New( hitCoordinate.y ) ) ;
-		 hitVector-> Set( v8::String::New( "z" ), v8:: Number:: New( hitCoordinate.z ) ) ;
+		 hitVector-> Set( v8::Number::New( 0 ), v8:: Number:: New( hitCoordinate.x ) ) ;
+		 hitVector-> Set( v8::Number::New( 1 ), v8:: Number:: New( hitCoordinate.y ) ) ;
+		 hitVector-> Set( v8::Number::New( 2 ), v8:: Number:: New( hitCoordinate.z ) ) ;
 		 
 		 entityHitTuple-> Set( v8::String::New( "point" ), hitVector ) ;
 

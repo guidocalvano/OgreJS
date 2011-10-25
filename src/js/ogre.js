@@ -211,14 +211,18 @@ SceneNode.prototype.roll  = function( r ) { this.cpp.roll(  r ) ; }
 SceneNode.prototype.pitch = function( r ) { this.cpp.pitch( r ) ; } 
 SceneNode.prototype.yaw   = function( r ) { this.cpp.yaw(   r ) ; } 
 
-SceneNode.prototype.convertLocalOXYZToWorldOXYZ = function( oXYZ ) { return this.cpp.convertLocalOXYZToWorldOXYZ( oXYZ ) ; } 
-SceneNode.prototype.convertWorldOXYZToLocalOXYZ = function( oXYZ ) { return this.cpp.convertWorldOXYZToLocalOXYZ( oXYZ ) ; } 
+SceneNode.prototype.convertLocal3NToWorldV = function( x, y, z ) { return this.cpp.convertLocal3NToWorldV( x, y, z ) ; } 
+SceneNode.prototype.convertWorld3NToLocalV = function( x, y, z ) { return this.cpp.convertWorld3NToLocalV( x, y, z ) ; } 
 
-SceneNode.prototype.convertLocalOXYZToParentOXYZ = function( oXYZ ) 
-	{ return this.parent.convertWorldOXYZToLocalOXYZ( this.convertLocalOXYZToWorldOXYZ( oXYZ ) ) ;   } ;
+SceneNode.prototype.convertLocal3NToParentV = function( x, y, z ) 
+	{
+	 return this.parent.convertWorld3NToLocalV.apply( this.parent, this.convertLocal3NToWorldV( x, y, z ) ) ; 
+  	} ;
 
-SceneNode.prototype.convertParentOXYZToLocalOXYZ = function( oXYZ ) 
-	{ return this.convertWorldOXYZToLocalOXYZ( this.parent.convertLocalOXYZToWorldOXYZ( oXYZ ) ) ;   } ;
+SceneNode.prototype.convertParent3NToLocalV = function( x, y, z  ) 
+	{
+	 return this.convertWorld3NToLocalV.apply( this, this.parent.convertLocal3NToWorldV( x, y, z ) ) ;   
+	} ;
 
 
 ogre.SceneNode = SceneNode ;

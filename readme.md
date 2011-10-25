@@ -1,6 +1,19 @@
 **Do you want to Help out?** go here-> https://github.com/guidocalvano/OgreJS/wiki/Help-out
 
-Documentation on the wiki is totally outdated, will work on that in the near future.
+## Important Warning!
+
+This is still a work in progress:
+
+ - Documentation on the wiki is totally outdated, will work on that in the near future.
+
+ - Vectors are still not implemented, and that may change some API calls
+
+ - A lot of functions have not been added yet.
+
+But...
+
+Vectors will be added within 7 days
+
 
 ## setting up environment on a Mac
 

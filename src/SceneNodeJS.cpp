@@ -135,7 +135,7 @@ v8::Handle<v8::Value> SceneNodeJS:: convertLocal3NToWorldVConvert( SceneNodeJS* 
 
 v8::Handle<v8::Value> SceneNodeJS:: convertWorld3NToLocalVConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
 	{
-	 v8::Local<v8::Object> worldOXYZ = args[ 0 ]-> ToObject() ;
+//	 v8::Local<v8::Object> worldOXYZ = args[ 0 ]-> ToObject() ;
 
 	 double x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
 	 double y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
@@ -154,7 +154,19 @@ v8::Handle<v8::Value> SceneNodeJS:: convertWorld3NToLocalVConvert( SceneNodeJS* 
 	 return localA ;
 	}
 
+ v8::Handle<v8::Value> SceneNodeJS:: rotateLAngleAroundAxis3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
+	{
+	 double angle = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;		
+		
+	 double x = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
+	 double y = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
+	 double z = ( v8::Local< v8::Number >::Cast( args[ 3 ] ) )-> Value() ;
+	
+	 sn-> sceneNode-> rotate( Ogre:: Quaternion( Ogre::Radian( angle ), Ogre:: Vector3( x, y, z ) ) ) ;
 
+
+	 return v8::Undefined() ;		
+	}
 
  v8::Handle<v8::Value> SceneNodeJS:: rollConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
 	{

@@ -29,6 +29,8 @@ class SceneNodeJS : public node::ObjectWrap
 	 static v8::Handle<v8::Value> convertWorld3NToLocalVConvert( SceneNodeJS* sn,const v8::Arguments& args ) ;
 	
 	
+	 static v8::Handle<v8::Value> rotateLAngleAroundAxis3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
+	
 	 static v8::Handle<v8::Value> yawConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
 	 static v8::Handle<v8::Value> pitchConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
 	 static v8::Handle<v8::Value> rollConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
@@ -46,6 +48,8 @@ class SceneNodeJS : public node::ObjectWrap
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "roll", rollBind<ChildType> ) ;
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "pitch", pitchBind<ChildType> ) ;
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "yaw", yawBind<ChildType> ) ;
+	
+	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "rotateLAngleAroundAxis3N", rotateLAngleAroundAxis3NBind<ChildType> ) ;
 		}
 	 
 
@@ -80,6 +84,17 @@ class SceneNodeJS : public node::ObjectWrap
 
 		 return convertWorld3NToLocalVConvert( sn, args ) ;
 		}
+		
+		
+	 template< class ChildType >	
+	 static v8::Handle<v8::Value> rotateLAngleAroundAxis3NBind( const v8::Arguments& args ) 
+		{
+	     SceneNodeJS* sn = (SceneNodeJS*) ObjectWrap::Unwrap<ChildType>(args.This());
+
+		 return rotateLAngleAroundAxis3NConvert( sn, args ) ;
+		}
+	 
+		
 
 	 template< class ChildType >	
 	 static v8::Handle<v8::Value> yawBind( const v8::Arguments& args ) 

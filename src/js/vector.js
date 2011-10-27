@@ -14,6 +14,8 @@ function minus( v, w ) { return [ v[ 0 ] - w[ 0 ], v[ 1 ] - w[ 1 ], v[ 2 ] - w[ 
 
 function inProd( v, w ) { return  v[ 0 ] * w[ 0 ] + v[ 1 ] * w[ 1 ] + v[ 2 ] * w[ 2 ] ; }
 
+function crossProd( v, w ) { return [   v[ 1 ] * w[ 2 ] - v[ 2 ] + w[ 1 ] ,    v[ 2 ] * w[ 0 ] - v[ 0 ] * w[ 2 ],    v[ 0 ] * w[ 1 ] - v[ 1 ] * w[ 0 ]    ] ; } 
+
 function scaleUp( v, n )    { v[ 0 ] *= n ; v[ 1 ] *= n ; v[ 2 ] *= n ; }
 function scaleDown( v, n )  { v[ 0 ] /= n ; v[ 1 ] /= n ; v[ 2 ] /= n ; }
 

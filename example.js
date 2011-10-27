@@ -3,6 +3,7 @@ require( './src/js/mygui.js' 	) ;
 gui.input.linkToOgreInput( ogre.input ) ;
 
 
+
 var ExampleCameraControl = require( './ExampleCameraControl.js' ) ;
 
 var sn = ( new ogre.SceneNode() ).init() ;
@@ -14,6 +15,7 @@ sn.setParent( 	ogre.root ) ;
 
 en.animationStateSet[ 'Walk' ].setEnabled( true ) ;
 en.animationStateSet[ 'Walk' ].setLoop( true ) ;
+
 
 exports.t = setInterval( function() { en.animationStateSet[ 'Walk' ].addTime( 1.0 / 60.0 ) ; }, 1000 / 60 ) ;
 

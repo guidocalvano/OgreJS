@@ -207,6 +207,8 @@ SceneNode.prototype.setParent = function( newParent )
 
 SceneNode.prototype.moveL3N = function( x, y, z ) { this.cpp.moveL3N( x, y, z ) ; } 
 
+SceneNode.prototype.rotateLAngleAroundAxis3N  = function( a, x, y, z ) { this.cpp.rotateLAngleAroundAxis3N( a, x, y, z ) ; } 
+
 SceneNode.prototype.roll  = function( r ) { this.cpp.roll(  r ) ; } 
 SceneNode.prototype.pitch = function( r ) { this.cpp.pitch( r ) ; } 
 SceneNode.prototype.yaw   = function( r ) { this.cpp.yaw(   r ) ; } 

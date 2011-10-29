@@ -98,6 +98,42 @@ v8::Handle<v8::Value> SceneNodeJS:: setParentConvert( SceneNodeJS* sceneNodeJS, 
 	 return v8:: Undefined() ;
 	}
 
+
+v8::Handle<v8::Value> SceneNodeJS:: setScale3NConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
+	{
+	 double x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
+	 double y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
+	 double z = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
+
+	 sceneNodeJS-> sceneNode-> setScale(  x, y, z  ) ;
+
+	 return v8:: Undefined() ;
+	}
+
+
+v8::Handle<v8::Value> SceneNodeJS:: scaleL3NConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
+	{
+	 double x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
+	 double y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
+	 double z = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
+
+	 sceneNodeJS-> sceneNode-> scale(  x, y, z  ) ;
+
+	 return v8:: Undefined() ;
+	}
+
+
+v8::Handle<v8::Value> SceneNodeJS:: setPosition3NConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
+	{
+	 double x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
+	 double y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
+	 double z = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
+
+	 sceneNodeJS-> sceneNode-> setPosition(  x, y, z ) ;
+
+	 return v8:: Undefined() ;
+	}
+
 v8::Handle<v8::Value> SceneNodeJS:: moveL3NConvert( SceneNodeJS* sceneNodeJS, const v8::Arguments& args )
 	{
 	 double x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
@@ -154,9 +190,34 @@ v8::Handle<v8::Value> SceneNodeJS:: convertWorld3NToLocalVConvert( SceneNodeJS* 
 	 return localA ;
 	}
 
+
+
+ v8::Handle<v8::Value> SceneNodeJS:: setOrientationM9NConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
+	{
+
+	 double x0 = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
+	 double x1 = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
+	 double x2 = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
+	
+	 double y0 = ( v8::Local< v8::Number >::Cast( args[ 3 ] ) )-> Value() ;
+	 double y1 = ( v8::Local< v8::Number >::Cast( args[ 4 ] ) )-> Value() ;
+	 double y2 = ( v8::Local< v8::Number >::Cast( args[ 5 ] ) )-> Value() ;
+	
+	 double z0 = ( v8::Local< v8::Number >::Cast( args[ 6 ] ) )-> Value() ;
+	 double z1 = ( v8::Local< v8::Number >::Cast( args[ 7 ] ) )-> Value() ;
+	 double z2 = ( v8::Local< v8::Number >::Cast( args[ 8 ] ) )-> Value() ;
+	
+
+	 sn-> sceneNode-> rotate( Ogre:: Quaternion( Ogre:: Vector3( x0, x1, x2 ), Ogre:: Vector3( y0, y1, y2 ), Ogre:: Vector3( z0, z1, z2 ) ) ) ;
+
+
+	 return v8::Undefined() ;		
+	}
+
+
  v8::Handle<v8::Value> SceneNodeJS:: rotateLAngleAroundAxis3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
 	{
-	 double angle = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;		
+	 double angle = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;		
 		
 	 double x = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
 	 double y = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;

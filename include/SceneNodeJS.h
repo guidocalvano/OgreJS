@@ -23,12 +23,16 @@ class SceneNodeJS : public node::ObjectWrap
 
 	 static v8::Handle<v8::Value> setParentConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
 
+	 static v8::Handle<v8::Value> setScale3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
+	 static v8::Handle<v8::Value> scaleL3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
+
+	 static v8::Handle<v8::Value> setPosition3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
 	 static v8::Handle<v8::Value> moveL3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
 
 	 static v8::Handle<v8::Value> convertLocal3NToWorldVConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;	
 	 static v8::Handle<v8::Value> convertWorld3NToLocalVConvert( SceneNodeJS* sn,const v8::Arguments& args ) ;
 	
-	
+	 static v8::Handle<v8::Value> setOrientationM9NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
 	 static v8::Handle<v8::Value> rotateLAngleAroundAxis3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
 	
 	 static v8::Handle<v8::Value> yawConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
@@ -39,7 +43,13 @@ class SceneNodeJS : public node::ObjectWrap
 	 static void addSceneNodeFunctionsToPrototype( v8::Handle<v8::FunctionTemplate> t )
 		{
 	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setParent", setParentBind<ChildType> ) ;	
-	
+
+	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setScale3N", setScale3NBind<ChildType> ) ;
+	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "scaleL3N", scaleL3NBind<ChildType> ) ;
+
+	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setOrientationM9N", setOrientationM9NBind<ChildType> ) ;	
+
+	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setPosition3N", setPosition3NBind<ChildType> ) ;	
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "moveL3N", moveL3NBind<ChildType> ) ;
 
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "convertLocal3NToWorldV", convertLocal3NToWorldVBind<ChildType> ) ;
@@ -59,6 +69,42 @@ class SceneNodeJS : public node::ObjectWrap
 		     SceneNodeJS* sn = (SceneNodeJS*) ObjectWrap::Unwrap<ChildType>(args.This());
 			
 		 return setParentConvert( sn, args ) ;
+		}
+
+
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> setOrientationM9NBind( const v8::Arguments& args ) 
+		{
+	     SceneNodeJS* sn = (SceneNodeJS*) ObjectWrap::Unwrap<ChildType>(args.This());
+
+		 return setOrientationM9NConvert( sn, args ) ;
+		}
+
+
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> setScale3NBind( const v8::Arguments& args ) 
+		{
+	     SceneNodeJS* sn = (SceneNodeJS*) ObjectWrap::Unwrap<ChildType>(args.This());
+
+		 return setScale3NConvert( sn, args ) ;
+		}
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> scaleL3NBind( const v8::Arguments& args ) 
+		{
+	     SceneNodeJS* sn = (SceneNodeJS*) ObjectWrap::Unwrap<ChildType>(args.This());
+
+		 return scaleL3NConvert( sn, args ) ;
+		}
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> setPosition3NBind( const v8::Arguments& args ) 
+		{
+	     SceneNodeJS* sn = (SceneNodeJS*) ObjectWrap::Unwrap<ChildType>(args.This());
+
+		 return setPosition3NConvert( sn, args ) ;
 		}
 
 	 template< class ChildType >

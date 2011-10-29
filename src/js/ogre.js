@@ -205,9 +205,16 @@ SceneNode.prototype.setParent = function( newParent )
 		 newParent.children.push( this ) ;
 	} 
 
+SceneNode.prototype.setScale3N = function( x, y, z ) { this.cpp.setScale3N( x, y, z ) ; } 
+
+SceneNode.prototype.scaleL3N = function( x, y, z ) { this.cpp.scaleL3N( x, y, z ) ; } 
+
+SceneNode.prototype.setPosition3N = function( x, y, z ) { this.cpp.setPosition3N( x, y, z ) ; } 
+
 SceneNode.prototype.moveL3N = function( x, y, z ) { this.cpp.moveL3N( x, y, z ) ; } 
 
 SceneNode.prototype.rotateLAngleAroundAxis3N  = function( a, x, y, z ) { this.cpp.rotateLAngleAroundAxis3N( a, x, y, z ) ; } 
+SceneNode.prototype.setOrientationM9N  = function( x0, x1, x2, y0, y1, y2, z0, z1, z2 ) { this.cpp.rotateLAngleAroundAxis3N( x0, x1, x2, y0, y1, y2, z0, z1, z2 ) ; } 
 
 SceneNode.prototype.roll  = function( r ) { this.cpp.roll(  r ) ; } 
 SceneNode.prototype.pitch = function( r ) { this.cpp.pitch( r ) ; } 
@@ -424,6 +431,28 @@ cam.initDefault() ;
 ogre.Camera = Camera ;
 
 ogre.camera = cam  ;//cam.initDefault() ;
+
+
+function Projection() {}
+
+Projection.prototype.init = function( parent, target )
+	{
+	 this.target = target ;
+	
+	 this.sceneNode = ( new SceneNode() ).init() ;
+	
+	 this.sceneNode.setParent( parent ) ;
+	} ;
+
+Projection.prototype.project = function()
+	{
+	 var unprojectedWorld = this.target.convertLocal3NToWorldV( 0, 0, 0 ) ;
+	
+	 var unprojectedParent = this.sceneNode.parent.convertWorld3NToLocalV( unprojectedWorld[ 0 ], unprojectedWorld[ 1 ], unprojectedWorld[ 2 ] ) ;
+	
+	 this.sceneNode.setPosition( unprojectedParent[ 0 ] / unprojectedParent[ 2 ], unprojectedParent[ 1 ] / unprojectedParent[ 2 ], 1  ) ;
+	} ;
+
 
 ogre.start = function( rateHz ) { cam.start( rateHz ) ; input.start( rateHz ) ; /* ogre.rotatingHead( rateHz ) ; */ } ;
 ogre.stop  = function() { cam.stop() 	 ; input.stop() ;  }

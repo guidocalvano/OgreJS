@@ -192,6 +192,23 @@ v8::Handle<v8::Value> SceneNodeJS:: convertWorld3NToLocalVConvert( SceneNodeJS* 
 
 
 
+ v8::Handle<v8::Value> SceneNodeJS:: setOrientationByAngleAndAxis4NConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
+	{
+
+	 double angle = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
+	
+	 double x = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
+	 double y = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
+	 double z = ( v8::Local< v8::Number >::Cast( args[ 3 ] ) )-> Value() ;
+
+
+	 sn-> sceneNode-> rotate( Ogre:: Quaternion( Ogre:: Radian( angle ), Ogre:: Vector3( x, y, z ) ) ) ;
+
+	 return v8::Undefined() ;		
+	}
+
+
+
  v8::Handle<v8::Value> SceneNodeJS:: setOrientationM9NConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
 	{
 
@@ -205,11 +222,9 @@ v8::Handle<v8::Value> SceneNodeJS:: convertWorld3NToLocalVConvert( SceneNodeJS* 
 	
 	 double z0 = ( v8::Local< v8::Number >::Cast( args[ 6 ] ) )-> Value() ;
 	 double z1 = ( v8::Local< v8::Number >::Cast( args[ 7 ] ) )-> Value() ;
-	 double z2 = ( v8::Local< v8::Number >::Cast( args[ 8 ] ) )-> Value() ;
-	
+	 double z2 = ( v8::Local< v8::Number >::Cast( args[ 8 ] ) )-> Value() ;	
 
 	 sn-> sceneNode-> rotate( Ogre:: Quaternion( Ogre:: Vector3( x0, x1, x2 ), Ogre:: Vector3( y0, y1, y2 ), Ogre:: Vector3( z0, z1, z2 ) ) ) ;
-
 
 	 return v8::Undefined() ;		
 	}

@@ -214,7 +214,10 @@ SceneNode.prototype.setPosition3N = function( x, y, z ) { this.cpp.setPosition3N
 SceneNode.prototype.moveL3N = function( x, y, z ) { this.cpp.moveL3N( x, y, z ) ; } 
 
 SceneNode.prototype.rotateLAngleAroundAxis3N  = function( a, x, y, z ) { this.cpp.rotateLAngleAroundAxis3N( a, x, y, z ) ; } 
-SceneNode.prototype.setOrientationM9N  = function( x0, x1, x2, y0, y1, y2, z0, z1, z2 ) { this.cpp.rotateLAngleAroundAxis3N( x0, x1, x2, y0, y1, y2, z0, z1, z2 ) ; } 
+SceneNode.prototype.setOrientationM9N  = function( x0, x1, x2, y0, y1, y2, z0, z1, z2 ) { this.cpp.setOrientationM9N( x0, x1, x2, y0, y1, y2, z0, z1, z2 ) ; } 
+SceneNode.prototype.setOrientationByAngleAndAxis4N  = function( angle, x, y, z ) { this.cpp.setOrientationByAngleAndAxis4N( angle, x, y, z ) ; } 
+
+
 
 SceneNode.prototype.roll  = function( r ) { this.cpp.roll(  r ) ; } 
 SceneNode.prototype.pitch = function( r ) { this.cpp.pitch( r ) ; } 
@@ -450,7 +453,7 @@ Projection.prototype.project = function()
 	
 	 var unprojectedParent = this.sceneNode.parent.convertWorld3NToLocalV( unprojectedWorld[ 0 ], unprojectedWorld[ 1 ], unprojectedWorld[ 2 ] ) ;
 	
-	 this.sceneNode.setPosition( unprojectedParent[ 0 ] / unprojectedParent[ 2 ], unprojectedParent[ 1 ] / unprojectedParent[ 2 ], 1  ) ;
+	 this.sceneNode.setPosition3N( unprojectedParent[ 0 ] / unprojectedParent[ 2 ], unprojectedParent[ 1 ] / unprojectedParent[ 2 ], 1  ) ;
 	} ;
 
 

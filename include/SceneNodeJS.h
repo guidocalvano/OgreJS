@@ -33,6 +33,8 @@ class SceneNodeJS : public node::ObjectWrap
 	 static v8::Handle<v8::Value> convertWorld3NToLocalVConvert( SceneNodeJS* sn,const v8::Arguments& args ) ;
 	
 	 static v8::Handle<v8::Value> setOrientationM9NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
+	 static v8::Handle<v8::Value> setOrientationByAngleAndAxis4NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
+		
 	 static v8::Handle<v8::Value> rotateLAngleAroundAxis3NConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
 	
 	 static v8::Handle<v8::Value> yawConvert( SceneNodeJS* sn, const v8::Arguments& args ) ;
@@ -48,6 +50,7 @@ class SceneNodeJS : public node::ObjectWrap
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "scaleL3N", scaleL3NBind<ChildType> ) ;
 
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setOrientationM9N", setOrientationM9NBind<ChildType> ) ;	
+	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setOrientationByAngleAndAxis4N", setOrientationByAngleAndAxis4NBind<ChildType> ) ;	
 
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setPosition3N", setPosition3NBind<ChildType> ) ;	
 	   	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "moveL3N", moveL3NBind<ChildType> ) ;
@@ -71,6 +74,14 @@ class SceneNodeJS : public node::ObjectWrap
 		 return setParentConvert( sn, args ) ;
 		}
 
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> setOrientationByAngleAndAxis4NBind( const v8::Arguments& args ) 
+		{
+	     SceneNodeJS* sn = (SceneNodeJS*) ObjectWrap::Unwrap<ChildType>(args.This());
+
+		 return setOrientationByAngleAndAxis4NConvert( sn, args ) ;
+		}
 
 
 	 template< class ChildType >

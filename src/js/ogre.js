@@ -165,6 +165,12 @@ Entity.prototype.setParent = function( newParent )
 	} 
 
 
+Entity.prototype.setMaterial = function( material )
+	{
+	 for( var i in this.subEntitySet ) this.subEntitySet[ i ].setMaterial( material ) ;	
+	} ;
+
+
 ogre.Entity = Entity ;
 
 

@@ -20,7 +20,7 @@ void WidgetJS:: init( v8::Handle< v8::Object > target )
    	 widgetPrototypeTemplate-> InstanceTemplate()->SetInternalFieldCount( 1 ) 	;
    	 widgetPrototypeTemplate-> SetClassName(v8::String::NewSymbol( "Widget" ) ) ;
 
-     NODE_SET_PROTOTYPE_METHOD_BORROWED( widgetPrototypeTemplate, "destroy", destroy ) ;
+         NODE_SET_PROTOTYPE_METHOD_BORROWED( widgetPrototypeTemplate, "destroy", destroy ) ;
 
 	 addSpatialFunctions<WidgetJS>( widgetPrototypeTemplate ) ;
 	 addCreateFunctions<WidgetJS>(  widgetPrototypeTemplate ) ;    
@@ -44,7 +44,9 @@ v8::Handle<v8::Value> WidgetJS:: NewFromWidgetCpp( MyGUI::Widget* w )
      printf( "widgets assigned \n" ) ;
      bindJS-> widget = w ;
 
-	 bindJS-> initMyGuiEventEmitterJS( w ) ;
+     EventEmitterJS:: prototypeTemplate-> GetFunction()-> Call( object, 0, NULL ) ;
+
+	// bindJS-> initMyGuiEventEmitterJS( w ) ;
 
      bindJS-> Wrap( object ) ;
 	 MemoryManagerJS:: singleton-> updateV8AllocatedMemory() ;

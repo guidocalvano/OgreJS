@@ -48,7 +48,7 @@ Component.prototype.setParent = function( parent )
 	{
 	 this.destroySystemComponentsOfBranch() ;
 	
-	 if( typeof this.parent !== 'undefined' )
+	 if( typeof this.parent !== 'undefined' && this.parent != null )
 		{
 		 var removeFromOldParent = this.parent.children.indexOf( this ) ;
 		 if( removeFromOldParent >= 0 ) this.parent.children.splice( removeFromOldParent, 1 ) ;
@@ -56,8 +56,8 @@ Component.prototype.setParent = function( parent )
 	
 	 this.parent = parent ;
 	
-	 if( typeof this.parent  !== 'undefined' )
-		{
+	 if( typeof this.parent  !== 'undefined' && this.parent != null )
+		{			
 		 this.parent.children.push( this ) ;
 		
 		 this.createSystemComponentsOfBranch() ;
@@ -77,17 +77,19 @@ Component.prototype.linkEventHandlers = function()
 		{
 		 
 		 var eventName = this.EVENT_LIST[ i ] ;
-			
+		 console.log( "sys comp" + this.systemComponent ) ;
+                 
+                 
 		 this.systemComponent.on( eventName, 
 			( function() 
 				{
 				 var name = eventName ;
 				return function() 
 					{
-					 Array.unshift.call( arguments, name ) ;  
+					 Array.prototype.unshift.call( arguments, name ) ;  
 					 self.emit( arguments ) ;
 					} 
-				})()
+				})() 
 			) ; 
 		}
 	}
@@ -98,22 +100,30 @@ Component.prototype.createSystemComponentsOfBranch = function()
 	 this.createSystemComponent() ;
 	
 	 for( var i in this.children )
-		children[ i ].createSystemComponentsOfBranch() ;	
+		this.children[ i ].createSystemComponentsOfBranch() ;	
 	}
 
 	
 Component.prototype.createSystemComponent = function()
 	{
 	 
-	}
-	
+	} ;
+
+
+Component.prototype.resetComponentProperties = function()
+    {
+     if( typeof this.text != 'undefined' ) this.setText( this.text ) ;
+
+    } ;
+
+
 Component.prototype.destroySystemComponentsOfBranch = function()
 	{
 	 for( var i in this.children )
-		children[ i ].destroySystemComponentsOfBranch() ;
+		this.children[ i ].destroySystemComponentsOfBranch() ;
 		
 	 this.destroySystemComponent() ;
-	}
+	} ;
 
 
 Component.prototype.destroySystemComponent = function()
@@ -123,23 +133,37 @@ Component.prototype.destroySystemComponent = function()
 	 this.systemComponent.destroy() ;
 	
 	 this.systemComponent = undefined ;
-	}
+	} ;
 
 
 Component.prototype.setText = function( text )
 	{
+     this.text = text ; 
+
+     if( typeof this.systemComponent  == 'undefined' ) return ;
+
 	 this.systemComponent.setCaption( text ) ;
 	}
 
 
 Component.prototype.setPosition = function( x, y )
 	{
+     this.x = x ;
+     this.y = y ;
+
+     if( typeof this.systemComponent  == 'undefined' ) return ;
+
 	 this.systemComponent.setPosition( x, y ) ;
 	}
 
 
 Component.prototype.setSize = function( w, h )
 	{
+     this.width  = w ;
+     this.height = h ;
+
+     if( typeof this.systemComponent  == 'undefined' ) return ;
+
 	 this.systemComponent.setSize( w, h ) ;
 	}
 
@@ -166,6 +190,8 @@ Text.prototype.createSystemComponent = function()
 	 	 this.systemComponent = this.parent.systemComponent.createStaticText( this.x, this.y, this.width, this.height ) ;
 	
 	 	 this.linkEventHandlers() ;
+
+         this.resetComponentProperties() ;
 		}
 	}
 
@@ -234,6 +260,7 @@ Panel.prototype.init = function( parent, x, y, width, height )
 
 Panel.prototype.createSystemComponent = function()
 	{
+         console.log( 'CREATED PANEL SYSTEM COMPONENT' ) ;
 	 if( typeof this.parent !== 'undefined' )
 		{
 	 	 this.systemComponent = this.parent.systemComponent.createPanel( this.x, this.y, this.width, this.height ) ;
@@ -321,7 +348,6 @@ Layer.prototype.init = function( layer )
 	{
 	 this.systemComponent = layer ;
 	
-	 sys.puts( 'layer init called' ) ;
 	 Panel.prototype.init.call( this, undefined, 0, 0, layer.width, layer.height ) ;
 	 return this ;
 	}
@@ -331,6 +357,8 @@ Layer.prototype.setParent = function() {} ;
 
 Layer.prototype.createSystemComponent = function() {} ;
 Layer.prototype.destroySystemComponent = function() {} ;
+
+
 
 
 input.linkToOgreInput = function( ogreInput ) 
@@ -361,6 +389,60 @@ for( var i in system.layerSet )
 	 gui.layerSet[ i ]   = new Layer() ;
 	 gui.layerSet[ i ].init( system.layerSet[ i ] )   ;
 	}
+
+
+function Overlay() {} ;
+
+Overlay.prototype = new Panel() ;
+
+
+Overlay.prototype.init = function( width, height, sceneNode, cameraNode )
+    {
+     this.sceneNode  = sceneNode  ;
+     this.cameraNode = cameraNode ;
+
+     this.reposition() ;
+
+	 Panel.prototype.init.call( this, gui.layerSet.Back, 0, 0, width, height ) ;
+	
+	 var self = this ;
+	
+	 this.process = setInterval( function() { self.reposition() ; }, 20 ) ;
+
+     return this ;
+    } ;
+
+Overlay.prototype.reposition = function()
+    {
+    
+     var worldV   = this.sceneNode.convertLocal3NToWorldV( 0, 0, 0 ) ;
+
+	 console.log( "worldV " + worldV[ 0 ] + ', ' + worldV[ 1 ] + ', ' + worldV[ 2 ] ) ;
+
+     var cameraV  = this.cameraNode.convertWorld3NToLocalV( worldV[ 0 ], worldV[ 1 ], worldV[ 2 ] ) ;
+
+	 console.log( "cameraV " + cameraV[ 0 ] + ', ' + cameraV[ 1 ] + ', ' + cameraV[ 2 ] ) ;
+
+     if( cameraV[ 2 ] < 0 ) this.setParent( null ) ;  
+     else                   this.setParent( gui.layerSet.Back ) ;
+     
+	 console.log( "w " + ogre.window.width ) ;
+	 console.log( "h " + ogre.window.height ) ;
+	
+	 console.log( "oww / 2 " + ogre.window.width / 2 ) ;
+	
+	 console.log( "cx /cz " + cameraV[ 0 ] / cameraV[ 2 ] ) ;
+	
+	 var x = ogre.window.width / 2  - ogre.window.width  * ( cameraV[ 0 ] / cameraV[ 2 ] ) ;
+	 var y = ogre.window.height / 2 - ogre.window.height * ( cameraV[ 1 ] / cameraV[ 2 ] ) ;
+		
+	 console.log( ' NEW POSITION = ' + x + ', ' + y )
+
+     this.setPosition( x, y ) ;
+     
+    } ;
+
+gui.Overlay = Overlay ;
 
 // gui.b = ( new Button() ).init( gui.layerSet.Main, 100, 100,100,100 ) ;
 // gui.b.systemComponent.on( 'mousePressed', sys.puts ) ;

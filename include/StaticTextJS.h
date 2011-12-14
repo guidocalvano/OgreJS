@@ -22,7 +22,7 @@ class StaticTextJS : public WidgetJS
 	 template< class ChildType >
 	 static void addStaticTextFunctionsToPrototype( v8::Handle<v8::FunctionTemplate> t )
 		{
-	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setCaption", setCaptionBind<ChildType> ) ;	
+	     	 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setCaption", setCaptionBind<ChildType> ) ;	
 	
 		 addSpatialFunctions< ChildType >( t ) ;
 		}

@@ -20,6 +20,9 @@ void StaticTextJS:: init( v8::Handle< v8::Object > target )
 
    	 staticTextPrototypeTemplate->SetClassName(v8::String::NewSymbol("StaticText"));
 
+         NODE_SET_PROTOTYPE_METHOD_BORROWED( staticTextPrototypeTemplate, "destroy", destroy ) ;
+
+
 	 addStaticTextFunctionsToPrototype<StaticTextJS>( staticTextPrototypeTemplate ) ;
 	}
 

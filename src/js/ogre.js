@@ -463,7 +463,59 @@ Projection.prototype.project = function()
 	} ;
 
 
-ogre.start = function( rateHz ) { cam.start( rateHz ) ; input.start( rateHz ) ; /* ogre.rotatingHead( rateHz ) ; */ } ;
+ogre.system.animationProcessSet = {} ;
+
+ogre.system.updateAnimations = function( elapsedTime ) { for( var i in ogre.system.animationProcessSet ) ogre.system.animationProcessSet[ i ]( elapsedTime ) ; } ;
+
+ogre.system.nextAnimationId = 0 ;
+
+ogre.system.reusableAnimationIdSet = [] ;
+
+ogre.system.startAnimation = function( rateHz ) 
+	{
+	 var previousTime = ( new Date() ).getTime() ;
+	 
+	 ogre.system.animationInterval = setInterval( 
+		function() 
+			{ 
+			 var currentTime = ( new Date() ).getTime() ;
+			
+			 ogre.system.updateAnimations( currentTime - previousTime ) ;
+			
+			 previousTime = currentTime ;
+			}, 
+		1000 / rateHz ) 
+	} ;
+
+ogre.system.getNextAnimationId = function() 
+	{
+	 if( ogre.system.reusableAnimationIdSet.length == 0 )
+		{
+		 var returnThis = ogre.system.nextAnimationId ;
+		 ogre.system.nextAnimationId++ ;
+		
+		 return returnThis ;
+		}
+		
+	 return ogre.system.reusableAnimationIdSet.pop() ;
+	} ;
+
+ogre.addAnimationProcess = function( animationFunction )
+	{
+	 animationFunction.____animationId = ogre.system.getNextAnimationId() ;
+	
+	 ogre.system.animationProcessSet[ animationFunction.____animationId  ] = animationFunction ;	
+	} ;
+	
+	
+ogre.removeAnimationProcess = function( animationFunction )
+	{
+	 ogre.system.reusableAnimationIdSet.push( animationFunction.____animationId ) ;
+		
+	 delete ogre.system.animationProcessSet[ animationFunction.____animationId  ] ;	
+	} ;
+
+ogre.start = function( rateHz ) { cam.start( rateHz ) ; input.start( rateHz ) ; ogre.system.startAnimation( rateHz ) ; /* ogre.rotatingHead( rateHz ) ; */ } ;
 ogre.stop  = function() { cam.stop() 	 ; input.stop() ;  }
 
 

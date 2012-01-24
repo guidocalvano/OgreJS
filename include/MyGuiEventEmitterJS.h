@@ -16,6 +16,7 @@ class MyGuiEventEmitterJS : public node::ObjectWrap
 			printf( "bound myguieventemitter\n") ;
 		 widget-> eventMouseButtonPressed += MyGUI::newDelegate( static_cast<MyGuiEventEmitterJS*>(this), &MyGuiEventEmitterJS::mouseButtonPressed ) ;
 
+		printf( "myguieventemitter bound\n" ) ;
 		// widget-> eventMouseMove += MyGUI::newDelegate( this, &MyGuiEventEmitterBindJS::mouseMove ) ;	
 		}
 		

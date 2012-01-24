@@ -202,12 +202,19 @@ v8::Handle<v8::Value> SceneNodeJS:: convertWorld3NToLocalVConvert( SceneNodeJS* 
 	 double z = ( v8::Local< v8::Number >::Cast( args[ 3 ] ) )-> Value() ;
 
 
+	 printf( "ROTATION, angle %f x %f y %f z %f", angle, x, y, z ) ;
+
 	 sn-> sceneNode-> rotate( Ogre:: Quaternion( Ogre:: Radian( angle ), Ogre:: Vector3( x, y, z ) ) ) ;
 
 	 return v8::Undefined() ;		
 	}
 
+ v8::Handle<v8::Value> SceneNodeJS:: resetOrientationConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
+	{
+	 sn-> sceneNode-> resetOrientation() ;
 
+	 return v8::Undefined() ;		
+	} 
 
  v8::Handle<v8::Value> SceneNodeJS:: setOrientationM9NConvert( SceneNodeJS* sn, const v8::Arguments& args ) 
 	{

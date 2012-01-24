@@ -74,6 +74,8 @@ v8::Handle<v8::Value> StaticTextJS:: destroy( const v8::Arguments& args )
 v8::Handle<v8::Value> StaticTextJS::setCaptionConvert( StaticTextJS* bound, const v8::Arguments& args ) 
 	{
 	 v8::String::AsciiValue ascii( args[ 0 ] ) ;
+	
+	 printf( "setCaptionConvert %s", *ascii ) ;
 
 	 ( (MyGUI::StaticTextPtr) bound-> widget )-> setCaption( *ascii ) ;
 

@@ -31,16 +31,11 @@ v8::Handle< v8::Object > InputMyGuiJS:: createInput()
 
 
 v8::Handle<v8::Value> InputMyGuiJS:: injectMouseMove( const v8::Arguments& args )
-	{
-//	 int x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
-//	 int y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
-	
-	
+	{	
 	 v8::Handle<v8::Object> place = args[ 0 ]-> ToObject()-> Get( v8::String::New( "place" ) )-> ToObject() ;
 
 	 int x = place-> Get( v8::Number::New( 0 ) )-> ToInteger()-> Value() ;
 	 int y = place-> Get( v8::Number::New( 1 ) )-> ToInteger()-> Value() ;
-//	 int z = ( v8::Local< v8::Number >::Cast( args[ 2 ] ) )-> Value() ;
 
 	 MyGUI::InputManager::getInstancePtr()-> injectMouseMove( x, y, 0 ) ;
 	
@@ -49,12 +44,8 @@ v8::Handle<v8::Value> InputMyGuiJS:: injectMouseMove( const v8::Arguments& args 
 
 
 v8::Handle<v8::Value> InputMyGuiJS:: injectMousePress( const v8::Arguments& args )
-	{
-		
-//	 int x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
-//	 int y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
-
-		printf( "mygui injectmousepress...\n");
+	{	
+	 printf( "mygui injectmousepress...\n");
 
 	 v8::Handle<v8::Object> place = args[ 0 ]-> ToObject()-> Get( v8::String::New( "place" ) )-> ToObject() ;
 
@@ -69,10 +60,6 @@ v8::Handle<v8::Value> InputMyGuiJS:: injectMousePress( const v8::Arguments& args
 
 v8::Handle<v8::Value> InputMyGuiJS:: injectMouseRelease( const v8::Arguments& args )
 	{
-//	 int x = ( v8::Local< v8::Number >::Cast( args[ 0 ] ) )-> Value() ;
-//	 int y = ( v8::Local< v8::Number >::Cast( args[ 1 ] ) )-> Value() ;
-
-
 	 v8::Handle<v8::Object> place = args[ 0 ]-> ToObject()-> Get( v8::String::New( "place" ) )-> ToObject() ;
 
 	 int x = place-> Get( v8::Number::New( 0 ) )-> ToInteger()-> Value() ;
@@ -89,18 +76,12 @@ v8::Handle<v8::Value> InputMyGuiJS:: injectMouseRelease( const v8::Arguments& ar
 
 v8::Handle<v8::Value> InputMyGuiJS:: injectKeyPress( const v8::Arguments& args )
 	{
-		printf( "mygui injectkeypress...\n");
-		
-		
 	 v8::Handle<v8::Object> obj = args[ 0 ]-> ToObject() ;
 	
 	 int 		  code =  obj-> Get( v8::String::New( "keyCode" ) )-> ToInteger()-> Value() ;
 	 v8::String::AsciiValue ascii( obj-> Get( v8::String::New( "keyChar" ) ) ) ;	
 		
-//	 int 			code 	= (int) 			( v8::Local< v8::Integer >::Cast( args[ 0 ] ) )-> Value() ;
-//	 unsigned int 	chr 	= (unsigned int) 	( v8::Local< v8::Integer >::Cast( args[ 1 ] ) )-> Value() ;
-
-	printf( "keycode %i keychar %c \n", code, (*ascii)[0] ) ;
+	 printf( "keycode %i keychar %c \n", code, (*ascii)[0] ) ;
 
 	 MyGUI::InputManager::getInstancePtr()->  injectKeyPress( (MyGUI::KeyCode::Enum) code, (*ascii)[0]  ) ;
 
@@ -114,8 +95,6 @@ v8::Handle<v8::Value> InputMyGuiJS:: injectKeyRelease( const v8::Arguments& args
 
 	 int code = obj-> Get( v8::String::New( "keyCode" ) )-> ToInteger()-> Value() ;
 		
-//	 int code = (int) ( v8::Local< v8::Integer >::Cast( args[ 0 ] ) )-> Value() ;
-
 	 MyGUI::InputManager::getInstancePtr()->  injectKeyRelease( (MyGUI::KeyCode::Enum) code ) ;
 
 	 return v8:: Undefined() ;

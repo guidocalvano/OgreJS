@@ -23,7 +23,7 @@ Component.prototype.init = function( parent, x, y, width, height )
 
 	 this.width  = width  ;
 	 this.height = height ;
-
+	
 	 this.children = [] ;
 
 	 this.setParent( parent ) ;
@@ -46,23 +46,38 @@ Component.prototype.keyReleased   = function( mouseEvent ) {} ;
 
 Component.prototype.setParent = function( parent )
 	{
+	 if( this.parent !== 'undefined' && this.parent != null && this.parent == parent ) 
+		{
+		 console.log( 'parent already assigned' ) ;
+			
+		 return ;	
+		}
+	 console.log( 'destroySystemComponentsOfBranch' ) ;
+
 	 this.destroySystemComponentsOfBranch() ;
 	
 	 if( typeof this.parent !== 'undefined' && this.parent != null )
 		{
+		 console.log( 'old parent defined' ) ;
+		
 		 var removeFromOldParent = this.parent.children.indexOf( this ) ;
 		 if( removeFromOldParent >= 0 ) this.parent.children.splice( removeFromOldParent, 1 ) ;
 		}
 	
+		 console.log( 'assigning new parent' ) ;
+	
 	 this.parent = parent ;
 	
 	 if( typeof this.parent  !== 'undefined' && this.parent != null )
-		{			
+		{	
+		 console.log( 'new parent undefined' ) ;
+				
 		 this.parent.children.push( this ) ;
 		
 		 this.createSystemComponentsOfBranch() ;
 		}
 
+ 	 console.log( 'assignment of new parent complete' ) ;
 	}
 
 Component.prototype.EVENT_LIST = [ "mousePressed", "mouseReleased", "mouseMoved", "keyPressed", "keyReleased" ] ;
@@ -92,12 +107,17 @@ Component.prototype.linkEventHandlers = function()
 				})() 
 			) ; 
 		}
+		
+	 console.log( 'linkeventhandlers complete' ) ;
 	}
 
 
 Component.prototype.createSystemComponentsOfBranch = function()
 	{
+	 console.log( 'createSystemComponentsOfBranch ' ) ;
 	 this.createSystemComponent() ;
+	
+	 console.log( 'createSystemComponentsOfBranch:loop ' ) ;
 	
 	 for( var i in this.children )
 		this.children[ i ].createSystemComponentsOfBranch() ;	
@@ -112,6 +132,8 @@ Component.prototype.createSystemComponent = function()
 
 Component.prototype.resetComponentProperties = function()
     {
+	 console.log( this.text ) ;
+
      if( typeof this.text != 'undefined' ) this.setText( this.text ) ;
 
     } ;
@@ -119,6 +141,7 @@ Component.prototype.resetComponentProperties = function()
 
 Component.prototype.destroySystemComponentsOfBranch = function()
 	{
+	 console.log( 'destroy system components of branch\n' ) ;
 	 for( var i in this.children )
 		this.children[ i ].destroySystemComponentsOfBranch() ;
 		
@@ -128,7 +151,12 @@ Component.prototype.destroySystemComponentsOfBranch = function()
 
 Component.prototype.destroySystemComponent = function()
 	{
+	 console.log( 'destroy system component\n' ) ;	
+		
 	 if( typeof this.systemComponent  == 'undefined' ) return ;
+	
+	
+	 console.log( 'this.systemComponent.destroy() ;\n' ) ;
 	
 	 this.systemComponent.destroy() ;
 	
@@ -141,7 +169,7 @@ Component.prototype.setText = function( text )
      this.text = text ; 
 
      if( typeof this.systemComponent  == 'undefined' ) return ;
-
+	
 	 this.systemComponent.setCaption( text ) ;
 	}
 
@@ -175,6 +203,8 @@ function Text()
 
 Text.prototype.init = function( parent, x, y, width, height )
 	{
+	 this.text = "" ;
+		
 	 Component.prototype.init.call( this, parent, x, y, width, height ) ;
 	
 	 return this ;
@@ -189,9 +219,11 @@ Text.prototype.createSystemComponent = function()
 		{
 	 	 this.systemComponent = this.parent.systemComponent.createStaticText( this.x, this.y, this.width, this.height ) ;
 	
-	 	 this.linkEventHandlers() ;
+	 	 this.linkEventHandlers() ;		 
 
+		 console.log( 'before this.resetComponentProperties() ;' ) ;
          this.resetComponentProperties() ;
+		 console.log( 'after this.resetComponentProperties() ;' ) ;
 		}
 	}
 
@@ -227,6 +259,8 @@ function TextEdit() {}
 
 TextEdit.prototype.init = function( parent, x, y, width, height )
 	{
+	 this.text = "" ;
+		
 	 Component.prototype.init.call( this, parent, x, y, width, height ) ;
 
 	 return this ;
@@ -241,7 +275,24 @@ TextEdit.prototype.createSystemComponent = function()
 		{
 	 	 this.systemComponent = this.parent.systemComponent.createEdit( this.x, this.y, this.width, this.height ) ;
 		 this.linkEventHandlers() ;
+		 console.log( 'before this.resetComponentProperties() ;' ) ;
+		
+		 this.resetComponentProperties() ;   
+		 console.log( 'after this.resetComponentProperties() ;' ) ;
+		
 		}
+	}
+
+
+TextEdit.prototype.focus = function()
+	{
+	 if( typeof this.systemComponent !== 'undefined' ) this.systemComponent.focus() ; 
+	}
+
+
+TextEdit.prototype.blur = function()
+	{
+	 if( typeof this.systemComponent !== 'undefined' ) this.systemComponent.blur() ; 
 	}
 
 
@@ -401,9 +452,13 @@ Overlay.prototype.init = function( width, height, sceneNode, cameraNode )
      this.sceneNode  = sceneNode  ;
      this.cameraNode = cameraNode ;
 
-     this.reposition() ;
+
+
 
 	 Panel.prototype.init.call( this, gui.layerSet.Back, 0, 0, width, height ) ;
+
+
+     this.reposition() ;
 	
 	 var self = this ;
 	
@@ -424,7 +479,7 @@ Overlay.prototype.reposition = function()
 	 console.log( "cameraV " + cameraV[ 0 ] + ', ' + cameraV[ 1 ] + ', ' + cameraV[ 2 ] ) ;
 
      if( cameraV[ 2 ] < 0 ) this.setParent( null ) ;  
-     else                   this.setParent( gui.layerSet.Back ) ;
+    // else                   this.setParent( gui.layerSet.Back ) ;
      
 	 console.log( "w " + ogre.window.width ) ;
 	 console.log( "h " + ogre.window.height ) ;

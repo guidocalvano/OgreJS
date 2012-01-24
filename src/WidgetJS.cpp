@@ -68,6 +68,20 @@ v8::Handle<v8::Value> WidgetJS:: destroy( const v8::Arguments& args )
 
 
 
+v8::Handle<v8::Value> WidgetJS:: focusConvert( WidgetJS* bound, const v8::Arguments& args ) 
+	{
+	 MyGUI::InputManager::getInstancePtr()-> setKeyFocusWidget( bound-> widget ) ;
+	 return v8::Undefined() ;
+	}
+
+
+
+v8::Handle<v8::Value> WidgetJS:: blurConvert( WidgetJS* bound, const v8::Arguments& args ) 
+	{
+	 MyGUI::InputManager::getInstancePtr()-> resetKeyFocusWidget( bound-> widget ) ;
+	 return v8::Undefined() ;
+	}
+
 
 v8::Handle<v8::Value> WidgetJS:: setPositionConvert( WidgetJS* bound, const v8::Arguments& args ) 
 	{

@@ -18,7 +18,9 @@ void EditJS:: init( v8::Handle< v8::Object > target )
 
      NODE_SET_PROTOTYPE_METHOD_BORROWED( editPrototypeTemplate, "destroy", destroy ) ;
 
-	addEditFunctionsToPrototype<EditJS>( editPrototypeTemplate ) ;
+	 addEditFunctionsToPrototype<EditJS>( editPrototypeTemplate ) ;
+	
+	 addFocusFunctions<EditJS>( editPrototypeTemplate ) ;
     }
 
 

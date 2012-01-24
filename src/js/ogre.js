@@ -1,8 +1,3 @@
-// exports.system = system ; exports.system.Camera = system.Camera ; exports.Input = Input ; 
-
-// var extend = require( 'extend' ) ;
-
-// var init = function( ogre ) {
 
 
 var sys = require( 'sys' ) ;
@@ -55,8 +50,17 @@ ogre.input.mouseMoved = function( mouseEvent ) {}
 ogre.input.mousePressed = function( mouseEvent ) {}
 ogre.input.mouseReleased = function( mouseEvent ) {}
 
-ogre.input.keyPressed = function( mouseEvent ) {}
-ogre.input.keyReleased = function( mouseEvent ) {}
+ogre.input.keyIsPressed = {} ;
+
+
+ogre.input.keyPressed = function( keyEvent ) 
+    {
+     ogre.input.keyIsPressed[ ogre.input.keyCodeToString( keyEvent.keyCode ) ] = true ;
+    }
+ogre.input.keyReleased = function( keyEvent ) 
+    {
+     ogre.input.keyIsPressed[ ogre.input.keyCodeToString( keyEvent.keyCode ) ] = false ;    
+    }
 
 ogre.input.on( 'mouseMoved', ogre.input.mouseMoved ) ;
 ogre.input.on( 'mousePressed', ogre.input.mousePressed ) ;
@@ -220,6 +224,8 @@ SceneNode.prototype.setPosition3N = function( x, y, z ) { this.cpp.setPosition3N
 SceneNode.prototype.moveL3N = function( x, y, z ) { this.cpp.moveL3N( x, y, z ) ; } 
 
 SceneNode.prototype.rotateLAngleAroundAxis3N  = function( a, x, y, z ) { this.cpp.rotateLAngleAroundAxis3N( a, x, y, z ) ; } 
+
+SceneNode.prototype.resetOrientation  = function() { this.cpp.resetOrientation() ; } 
 SceneNode.prototype.setOrientationM9N  = function( x0, x1, x2, y0, y1, y2, z0, z1, z2 ) { this.cpp.setOrientationM9N( x0, x1, x2, y0, y1, y2, z0, z1, z2 ) ; } 
 SceneNode.prototype.setOrientationByAngleAndAxis4N  = function( angle, x, y, z ) { this.cpp.setOrientationByAngleAndAxis4N( angle, x, y, z ) ; } 
 
@@ -502,21 +508,337 @@ ogre.system.getNextAnimationId = function()
 
 ogre.addAnimationProcess = function( animationFunction )
 	{
-	 animationFunction.____animationId = ogre.system.getNextAnimationId() ;
+	 var animationId = ogre.system.getNextAnimationId() ;
 	
-	 ogre.system.animationProcessSet[ animationFunction.____animationId  ] = animationFunction ;	
+	 ogre.system.animationProcessSet[ animationId  ] = animationFunction ;	
+	
+	 return animationId ;
 	} ;
 	
 	
-ogre.removeAnimationProcess = function( animationFunction )
+ogre.removeAnimationProcess = function( animationId )
 	{
-	 ogre.system.reusableAnimationIdSet.push( animationFunction.____animationId ) ;
+	 ogre.system.reusableAnimationIdSet.push( animationId ) ;
 		
-	 delete ogre.system.animationProcessSet[ animationFunction.____animationId  ] ;	
+	 delete ogre.system.animationProcessSet[ animationId  ] ;	
 	} ;
 
 ogre.start = function( rateHz ) { cam.start( rateHz ) ; input.start( rateHz ) ; ogre.system.startAnimation( rateHz ) ; /* ogre.rotatingHead( rateHz ) ; */ } ;
 ogre.stop  = function() { cam.stop() 	 ; input.stop() ;  }
+
+
+ogre.input.keyCodeToString = function( keyCode )
+    {
+     switch( keyCode )
+        {
+        case 0 :
+            return "unassigned" ;
+        case 1 :
+            return "escape" ;
+        case 2 :
+            return "1" ;
+        case 3 :
+            return "2" ;
+        case 4 :
+            return "3" ;
+        case 5 :
+            return "4" ;
+        case 6 :
+            return "5" ;
+        case 7 :
+            return "6" ;
+        case 8 :
+            return "7" ;
+        case 9 :
+            return "8" ;
+            
+        case 10 :
+            return "9" ;
+        case 11 :
+            return "0" ;
+        case 12 :
+            return "minus" ;
+        case 13 :
+            return "equal" ;
+        case 14 :
+            return "back" ;
+        case 15 :
+            return "tab" ;
+        case 16 :
+            return "q" ;
+        case 17 :
+            return "w" ;
+        case 18 :
+            return "e" ;
+        case 19 :
+            return "r" ;
+        
+        case 20 :
+            return "t" ;
+        case 21 :
+            return "y" ;
+        case 22 :
+            return "u" ;
+        case 23 :
+            return "i" ;
+        case 24 :
+            return "o" ;
+        case 25 :
+            return "p" ;
+        case 26 :
+            return "[" ;
+        case 27 :
+            return "]" ;
+        case 28 :
+            return "\n" ;
+        case 29 :
+            return "leftControl" ;
+
+        case 30 :
+            return "a" ;
+        case 31 :
+            return "s" ;
+        case 32 :
+            return "d" ;
+        case 33 :
+            return "f" ;
+        case 34 :
+            return "g" ;
+        case 35 :
+            return "h" ;
+        case 36 :
+            return "j" ;
+        case 37 :
+            return "k" ;
+        case 38 :
+            return "l" ;
+        case 39 :
+            return ";" ;
+            
+        case 40 :
+            return "'" ;
+        case 41 :
+            return "leftShift" ;
+        case 42 :
+            return "\\" ;
+        case 43 :
+            return "z" ;
+        case 44 :
+            return "x" ;
+        case 45 :
+            return "c" ;
+        case 46 :
+            return "v" ;
+        case 47 :
+            return "b" ;
+        case 48 :
+            return "n" ;
+        case 49 :
+            return "m" ;
+
+        case 50 :
+            return "," ;
+        case 51 :
+            return "." ;
+        case 52 :
+            return "/" ;
+        case 53 :
+            return "rightShift" ;
+        case 54 :
+            return "*" ;
+        case 55 :
+            return "command" ;
+        case 56 :
+            return " " ;
+        case 57 :
+            return "capsLock" ;
+        case 58 :
+            return "f1" ;
+        case 59 :
+            return "f2" ;
+
+        case 60 :
+            return "f3" ;
+        case 61 :
+            return "f4" ;
+        case 62 :
+            return "f5" ;
+        case 63 :
+            return "f6" ;
+        case 64 :
+            return "f7" ;
+        case 65 :
+            return "f8" ;
+        case 66 :
+            return "f9" ;
+        case 67 :
+            return "f10" ;
+        case 68 :
+            return "numLock" ;
+        case 69 :
+            return "scroll" ;
+            
+        case 70 :
+            return "numpad7" ;
+        case 71 :
+            return "numpad8" ;
+        case 72 :
+            return "numpad9" ;
+        case 73 :
+            return "subtract" ;
+        case 74 :
+            return "numpad4" ;
+        case 75 :
+            return "numpad5" ;
+        case 76 :
+            return "numpad6" ;
+        case 77 :
+            return "add" ;
+        case 78 :
+            return "numpad1" ;
+        case 79 :
+            return "numpad2" ;
+            
+        case 80 :
+            return "numpad3" ;
+        case 81 :
+            return "numpad0" ;
+        case 82 :
+            return "decimal" ;
+        case 83 :
+            return "oem_102" ;
+        case 84 :
+            return "f11" ;
+        case 85 :
+            return "f12" ;
+        case 86 :
+            return "f12" ;
+        case 87 :
+            return "f14" ;
+        case 88 :
+            return "f15" ;
+        case 89 :
+            return "kana" ;
+
+        case 90 :
+            return "abnt_c1" ;
+        case 91 :
+            return "convert" ;
+        case 92 :
+            return "noConvert" ;
+        case 93 :
+            return "yen" ;
+
+        case 94 :
+            return "abnt_c2" ;
+        case 95 :
+            return "numpadEquals" ;
+        case 96 :
+            return "previousTrack" ;
+        case 97 :
+            return "at" ;
+        case 98 :
+            return "colon" ;
+        case 99 :
+            return "underline" ;
+
+        case 100 :
+            return "kanji" ;
+        case 101 :
+            return "stop" ;
+        case 102 :
+            return "ax" ;
+        case 103 :
+            return "unLabeled" ;
+        case 104 :
+            return "nextTrack" ;
+        case 105 :
+            return "numpadEnter" ;
+        case 106 :
+            return "rightControl" ;
+        case 107 :
+            return "mute" ;
+        case 108 :
+            return "calculator" ;
+        case 109 :
+            return "playPause" ;            
+
+        case 110 :
+            return "mediaStop" ;
+        case 111 :
+            return "volumeDown" ;
+        case 112 :
+            return "volumeUp" ;
+        case 113 :
+            return "webHome" ;
+        case 114 :
+            return "humpadComma" ;
+        case 115 :
+            return "divide" ;
+        case 116 :
+            return "sysRQ" ;
+        case 117 :
+            return "rightCommand" ;
+        case 118 :
+            return "pause" ;
+        case 119 :
+            return "home" ;           
+
+
+        case 120 :
+            return "up" ;
+        case 121 :
+            return "pageUp" ;
+        case 122 :
+            return "left" ;
+        case 123 :
+            return "right" ;
+        case 124 :
+            return "end" ;
+        case 125 :
+            return "down" ;
+        case 126 :
+            return "pageDown" ;
+        case 127 :
+            return "insert" ;
+        case 128 :
+            return "delete" ;
+        case 129 :
+            return "leftWindow" ;   
+
+        case 130 :
+            return "rightWindows" ;
+        case 131 :
+            return "apps" ;
+        case 132 :
+            return "power" ;
+        case 133 :
+            return "sleep" ;
+        case 134 :
+            return "wake" ;
+        case 135 :
+            return "webSearch" ;
+        case 136 :
+            return "webFavorites" ;
+        case 137 :
+            return "webRefresh" ;
+        case 138 :
+            return "webStop" ;
+        case 139 :
+            return "webForward" ;   	
+
+        case 140 :
+            return "webBack" ;
+        case 141 :
+            return "myComputer" ;
+        case 142 :
+            return "mail" ;
+        case 143 :
+            return "mediaSelect" ;
+        } ;
+    
+     return undefined ;
+    } ;
 
 
 return ogre ;

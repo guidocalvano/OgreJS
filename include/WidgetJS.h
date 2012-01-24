@@ -38,7 +38,14 @@ class WidgetJS : public  MyGuiEventEmitterJS
 	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "createWindow", createWindowBind<ChildType> ) ;
 	
 		}
-        
+    
+
+	 template< class ChildType >
+	 static void addFocusFunctions( v8::Handle<v8::FunctionTemplate> t ) 
+		{
+		 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "focus", focusBind<ChildType> ) ;
+	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "blur",  blurBind<ChildType>  ) ;
+		}    
 
      static v8::Handle<v8::Value> New( const v8::Arguments& args )  ;
      
@@ -47,6 +54,26 @@ class WidgetJS : public  MyGuiEventEmitterJS
 	 static v8::Handle<v8::Value> destroy( const v8::Arguments& args ) ;
 
 
+     static v8::Handle<v8::Value> focusConvert( WidgetJS* bound, const v8::Arguments& args ) ;
+
+	 template< class ChildType >
+     static v8::Handle<v8::Value> focusBind( const v8::Arguments& args )
+		{
+		 WidgetJS* bound = (WidgetJS*) node::ObjectWrap::Unwrap<ChildType>( args.This() ) ;
+
+		 return focusConvert( bound, args ) ;			
+		}
+
+
+     static v8::Handle<v8::Value> blurConvert( WidgetJS* bound, const v8::Arguments& args ) ;
+
+	 template< class ChildType >
+     static v8::Handle<v8::Value> blurBind( const v8::Arguments& args )
+		{
+		 WidgetJS* bound = (WidgetJS*) node::ObjectWrap::Unwrap<ChildType>( args.This() ) ;
+
+		 return blurConvert( bound, args ) ;			
+		}
 
 
      static v8::Handle<v8::Value> createStaticTextConvert( WidgetJS* bound, const v8::Arguments& args ) ;

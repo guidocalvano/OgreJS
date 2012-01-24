@@ -10,6 +10,9 @@
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
 
+#include <string>
+
+
 class InputJS : public node::ObjectWrap, OIS::KeyListener, OIS::MouseListener
 	{
 	public:
@@ -32,5 +35,7 @@ class InputJS : public node::ObjectWrap, OIS::KeyListener, OIS::MouseListener
 
 
 	 v8::Handle<v8::Object> inputJSObject ;
+     
+     std:: string keyCodeToKeyName( int keyCode ) ;
 
 	} ;

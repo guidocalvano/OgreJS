@@ -55,11 +55,11 @@ ogre.input.keyIsPressed = {} ;
 
 ogre.input.keyPressed = function( keyEvent ) 
     {
-     ogre.input.keyIsPressed[ ogre.input.keyCodeToString( keyEvent.keyCode ) ] = true ;
+     ogre.input.keyIsPressed[ ogre.input.keyCodeToName( keyEvent.keyCode ) ] = true ;
     }
 ogre.input.keyReleased = function( keyEvent ) 
     {
-     ogre.input.keyIsPressed[ ogre.input.keyCodeToString( keyEvent.keyCode ) ] = false ;    
+     ogre.input.keyIsPressed[ ogre.input.keyCodeToName( keyEvent.keyCode ) ] = false ;    
     }
 
 ogre.input.on( 'mouseMoved', ogre.input.mouseMoved ) ;
@@ -527,7 +527,7 @@ ogre.start = function( rateHz ) { cam.start( rateHz ) ; input.start( rateHz ) ; 
 ogre.stop  = function() { cam.stop() 	 ; input.stop() ;  }
 
 
-ogre.input.keyCodeToString = function( keyCode )
+ogre.input.keyCodeToName = function( keyCode )
     {
      switch( keyCode )
         {

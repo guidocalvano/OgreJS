@@ -145,6 +145,7 @@ v8::Local<v8::Object> InputJS::keyEventToObject( const OIS::KeyEvent &keyEventRe
 
 	  object-> Set( v8::String::New( "keyChar" ), keyChar ) ;
 	  object-> Set( v8::String::New( "keyCode" ), keyCode ) ;
+	  object-> Set( v8::String::New( "keyName" ), keyName ) ;
 
 	 return object ;
 	}
@@ -288,310 +289,323 @@ std::string InputJS:: keyCodeToKeyName( int keyCode )
     
      switch( keyCode )
         {
-        case 0 :
+        case OIS:: KC_UNASSIGNED :
             val = "unassigned" ; return val ;
-        case 1 :
+        case OIS:: KC_ESCAPE :
             val = "escape" ; return val ;
-        case 2 :
+        case OIS:: KC_1 :
             val = "1" ; return val ;
-        case 3 :
+        case OIS:: KC_2 :
             val = "2" ; return val ;
-        case 4 :
+        case OIS:: KC_3 :
             val = "3" ; return val ;
-        case 5 :
+        case OIS:: KC_4 :
             val = "4" ; return val ;
-        case 6 :
+        case OIS:: KC_5 :
             val = "5" ; return val ;
-        case 7 :
+        case OIS:: KC_6 :
             val = "6" ; return val ;
-        case 8 :
+        case OIS:: KC_7 :
             val = "7" ; return val ;
-        case 9 :
+        case OIS:: KC_8 :
             val = "8" ; return val ;
             
-        case 10 :
+        case OIS:: KC_9 :
             val = "9" ; return val ;
-        case 11 :
+        case OIS:: KC_0 :
             val = "0" ; return val ;
-        case 12 :
+        case OIS:: KC_MINUS :
             val = "minus" ; return val ;
-        case 13 :
+        case OIS:: KC_EQUALS :
             val = "equal" ; return val ;
-        case 14 :
+        case OIS:: KC_BACK :
             val = "back" ; return val ;
-        case 15 :
+        case OIS:: KC_TAB :
             val = "tab" ; return val ;
-        case 16 :
+        case OIS:: KC_Q :
             val = "q" ; return val ;
-        case 17 :
+        case OIS:: KC_W :
             val = "w" ; return val ;
-        case 18 :
+        case OIS:: KC_E :
             val = "e" ; return val ;
-        case 19 :
+        case OIS:: KC_R :
             val = "r" ; return val ;
         
-        case 20 :
+        case OIS:: KC_T :
             val = "t" ; return val ;
-        case 21 :
+        case OIS:: KC_Y :
             val = "y" ; return val ;
-        case 22 :
+        case OIS:: KC_U :
             val = "u" ; return val ;
-        case 23 :
+        case OIS:: KC_I :
             val = "i" ; return val ;
-        case 24 :
+        case OIS:: KC_O :
             val = "o" ; return val ;
-        case 25 :
+        case OIS:: KC_P :
             val = "p" ; return val ;
-        case 26 :
+        case OIS:: KC_LBRACKET :
             val = "[" ; return val ;
-        case 27 :
+        case OIS:: KC_RBRACKET :
             val = "]" ; return val ;
-        case 28 :
+        case OIS:: KC_RETURN :
             val = "\n" ; return val ;
-        case 29 :
+        case OIS:: KC_LCONTROL :
             val = "leftControl" ; return val ;
 
-        case 30 :
+        case OIS:: KC_A :
             val = "a" ; return val ;
-        case 31 :
+        case OIS:: KC_S :
             val = "s" ; return val ;
-        case 32 :
+        case OIS:: KC_D :
             val = "d" ; return val ;
-        case 33 :
+        case OIS:: KC_F :
             val = "f" ; return val ;
-        case 34 :
+        case OIS:: KC_G :
             val = "g" ; return val ;
-        case 35 :
+        case OIS:: KC_H :
             val = "h" ; return val ;
-        case 36 :
+        case OIS:: KC_J :
             val = "j" ; return val ;
-        case 37 :
+        case OIS:: KC_K :
             val = "k" ; return val ;
-        case 38 :
+        case OIS:: KC_L :
             val = "l" ; return val ;
-        case 39 :
+        case OIS:: KC_SEMICOLON :
             val = ";" ; return val ;
             
-        case 40 :
+        case OIS:: KC_APOSTROPHE :
             val = "'" ; return val ;
-        case 41 :
+        case OIS:: KC_GRAVE :
+            val = "`" ; return val ;
+            
+        case OIS:: KC_LSHIFT :
             val = "leftShift" ; return val ;
-        case 42 :
+        case OIS:: KC_BACKSLASH :
             val = "\\" ; return val ;
-        case 43 :
+        case OIS:: KC_Z :
             val = "z" ; return val ;
-        case 44 :
+        case OIS:: KC_X :
             val = "x" ; return val ;
-        case 45 :
+        case OIS:: KC_C :
             val = "c" ; return val ;
-        case 46 :
+        case OIS:: KC_V :
             val = "v" ; return val ;
-        case 47 :
+        case OIS:: KC_B :
             val = "b" ; return val ;
-        case 48 :
+        case OIS:: KC_N :
             val = "n" ; return val ;
-        case 49 :
+        case OIS:: KC_M :
             val = "m" ; return val ;
 
-        case 50 :
+        case OIS:: KC_COMMA :
             val = "," ; return val ;
-        case 51 :
+        case OIS:: KC_PERIOD :
             val = "." ; return val ;
-        case 52 :
+        case OIS:: KC_SLASH :
             val = "/" ; return val ;
-        case 53 :
+        case OIS:: KC_RSHIFT :
             val = "rightShift" ; return val ;
-        case 54 :
+        case OIS:: KC_MULTIPLY :
             val = "*" ; return val ;
-        case 55 :
+        case OIS:: KC_LMENU :
             val = "command" ; return val ;
-        case 56 :
+        case OIS:: KC_SPACE :
             val = " " ; return val ;
-        case 57 :
+        case OIS:: KC_CAPITAL :
             val = "capsLock" ; return val ;
-        case 58 :
+        case OIS:: KC_F1 :
             val = "f1" ; return val ;
-        case 59 :
+        case OIS:: KC_F2 :
             val = "f2" ; return val ;
 
-        case 60 :
+        case OIS:: KC_F3 :
             val = "f3" ; return val ;
-        case 61 :
+        case OIS:: KC_F4 :
             val = "f4" ; return val ;
-        case 62 :
+        case OIS:: KC_F5 :
             val = "f5" ; return val ;
-        case 63 :
+        case OIS:: KC_F6 :
             val = "f6" ; return val ;
-        case 64 :
+        case OIS:: KC_F7 :
             val = "f7" ; return val ;
-        case 65 :
+        case OIS:: KC_F8 :
             val = "f8" ; return val ;
-        case 66 :
+        case OIS:: KC_F9 :
             val = "f9" ; return val ;
-        case 67 :
+        case OIS:: KC_F10 :
             val = "f10" ; return val ;
-        case 68 :
+        case OIS:: KC_NUMLOCK :
             val = "numLock" ; return val ;
-        case 69 :
+        case OIS:: KC_SCROLL :
             val = "scroll" ; return val ;
             
-        case 70 :
+        case OIS:: KC_NUMPAD7 :
             val = "numpad7" ; return val ;
-        case 71 :
+        case OIS:: KC_NUMPAD8 :
             val = "numpad8" ; return val ;
-        case 72 :
+        case OIS:: KC_NUMPAD9 :
             val = "numpad9" ; return val ;
-        case 73 :
+        case OIS:: KC_SUBTRACT :
             val = "subtract" ; return val ;
-        case 74 :
+        case OIS:: KC_NUMPAD4 :
             val = "numpad4" ; return val ;
-        case 75 :
+        case OIS:: KC_NUMPAD5 :
             val = "numpad5" ; return val ;
-        case 76 :
+        case OIS:: KC_NUMPAD6 :
             val = "numpad6" ; return val ;
-        case 77 :
+        case OIS:: KC_ADD :
             val = "add" ; return val ;
-        case 78 :
+        case OIS:: KC_NUMPAD1 :
             val = "numpad1" ; return val ;
-        case 79 :
+        case OIS:: KC_NUMPAD2 :
             val = "numpad2" ; return val ;
             
-        case 80 :
+        case OIS:: KC_NUMPAD3 :
             val = "numpad3" ; return val ;
-        case 81 :
+        case OIS:: KC_NUMPAD0 :
             val = "numpad0" ; return val ;
-        case 82 :
+        case OIS:: KC_DECIMAL :
             val = "decimal" ; return val ;
-        case 83 :
+        case OIS:: KC_OEM_102 :
             val = "oem_102" ; return val ;
-        case 84 :
+        case OIS:: KC_F11 :
             val = "f11" ; return val ;
-        case 85 :
+        case OIS:: KC_F12 :
             val = "f12" ; return val ;
-        case 86 :
-            val = "f12" ; return val ;
-        case 87 :
+        case OIS:: KC_F13 :
+            val = "f13" ; return val ;
+        case OIS:: KC_F14 :
             val = "f14" ; return val ;
-        case 88 :
+        case OIS:: KC_F15 :
             val = "f15" ; return val ;
-        case 89 :
+        case OIS:: KC_KANA :
             val = "kana" ; return val ;
 
-        case 90 :
+        case OIS:: KC_ABNT_C1 :
             val = "abnt_c1" ; return val ;
-        case 91 :
+        case OIS:: KC_CONVERT :
             val = "convert" ; return val ;
-        case 92 :
+        case OIS:: KC_NOCONVERT :
             val = "noConvert" ; return val ;
-        case 93 :
+        case OIS:: KC_YEN :
             val = "yen" ; return val ;
 
-        case 94 :
+        case OIS:: KC_ABNT_C2 :
             val = "abnt_c2" ; return val ;
-        case 95 :
+        case OIS:: KC_NUMPADEQUALS :
             val = "numpadEquals" ; return val ;
-        case 96 :
+        case OIS:: KC_PREVTRACK :
             val = "previousTrack" ; return val ;
-        case 97 :
+        case OIS:: KC_AT :
             val = "at" ; return val ;
-        case 98 :
+        case OIS:: KC_COLON :
             val = "colon" ; return val ;
-        case 99 :
+        case OIS:: KC_UNDERLINE :
             val = "underline" ; return val ;
 
-        case 100 :
+        case OIS:: KC_KANJI :
             val = "kanji" ; return val ;
-        case 101 :
+        case OIS:: KC_STOP :
             val = "stop" ; return val ;
-        case 102 :
+        case OIS:: KC_AX :
             val = "ax" ; return val ;
-        case 103 :
+        case OIS:: KC_UNLABELED :
             val = "unLabeled" ; return val ;
-        case 104 :
+        case OIS:: KC_NEXTTRACK :
             val = "nextTrack" ; return val ;
-        case 105 :
+        case OIS:: KC_NUMPADENTER :
             val = "numpadEnter" ; return val ;
-        case 106 :
+        case OIS:: KC_RCONTROL :
             val = "rightControl" ; return val ;
-        case 107 :
+        case OIS:: KC_MUTE :
             val = "mute" ; return val ;
-        case 108 :
+        case OIS:: KC_CALCULATOR :
             val = "calculator" ; return val ;
-        case 109 :
+        case OIS:: KC_PLAYPAUSE :
             val = "playPause" ; return val ;            
 
-        case 110 :
+        case OIS:: KC_MEDIASTOP :
             val = "mediaStop" ; return val ;
-        case 111 :
+        case OIS:: KC_VOLUMEDOWN :
             val = "volumeDown" ; return val ;
-        case 112 :
+        case OIS:: KC_VOLUMEUP :
             val = "volumeUp" ; return val ;
-        case 113 :
+        case OIS:: KC_WEBHOME :
             val = "webHome" ; return val ;
-        case 114 :
-            val = "humpadComma" ; return val ;
-        case 115 :
+        case OIS:: KC_NUMPADCOMMA :
+            val = "numpadComma" ; return val ;
+        case OIS:: KC_DIVIDE :
             val = "divide" ; return val ;
-        case 116 :
+        case OIS:: KC_SYSRQ :
             val = "sysRQ" ; return val ;
-        case 117 :
+        case OIS:: KC_RMENU :
             val = "rightCommand" ; return val ;
-        case 118 :
+        case OIS:: KC_PAUSE :
             val = "pause" ; return val ;
-        case 119 :
+        case OIS:: KC_HOME :
             val = "home" ; return val ;           
 
 
-        case 120 :
+        case OIS:: KC_UP :
             val = "up" ; return val ;
-        case 121 :
+        case OIS:: KC_PGUP :
             val = "pageUp" ; return val ;
-        case 122 :
+        case OIS:: KC_LEFT :
             val = "left" ; return val ;
-        case 123 :
+        case OIS:: KC_RIGHT :
             val = "right" ; return val ;
-        case 124 :
+        case OIS:: KC_END :
             val = "end" ; return val ;
-        case 125 :
+        case OIS:: KC_DOWN :
             val = "down" ; return val ;
-        case 126 :
+        case OIS:: KC_PGDOWN :
             val = "pageDown" ; return val ;
-        case 127 :
+        case OIS:: KC_INSERT :
             val = "insert" ; return val ;
-        case 128 :
+        case OIS:: KC_DELETE :
             val = "delete" ; return val ;
-        case 129 :
+        case OIS:: KC_LWIN :
             val = "leftWindow" ; return val ;   
 
-        case 130 :
+        case OIS:: KC_RWIN :
             val = "rightWindows" ; return val ;
-        case 131 :
+        case OIS:: KC_APPS :
             val = "apps" ; return val ;
-        case 132 :
+        case OIS:: KC_POWER :
             val = "power" ; return val ;
-        case 133 :
+        case OIS:: KC_SLEEP :
             val = "sleep" ; return val ;
-        case 134 :
+        case OIS:: KC_WAKE :
             val = "wake" ; return val ;
-        case 135 :
+        case OIS:: KC_WEBSEARCH :
             val = "webSearch" ; return val ;
-        case 136 :
+        case OIS:: KC_WEBFAVORITES :
             val = "webFavorites" ; return val ;
-        case 137 :
+        case OIS:: KC_WEBREFRESH :
             val = "webRefresh" ; return val ;
-        case 138 :
+        case OIS:: KC_WEBSTOP :
             val = "webStop" ; return val ;
-        case 139 :
+        case OIS:: KC_WEBFORWARD :
             val = "webForward" ; return val ;   	
 
-        case 140 :
+        case OIS:: KC_WEBBACK :
             val = "webBack" ; return val ;
-        case 141 :
+        case OIS:: KC_MYCOMPUTER :
             val = "myComputer" ; return val ;
-        case 142 :
+        case OIS:: KC_MAIL :
             val = "mail" ; return val ;
-        case 143 :
+        case OIS:: KC_MEDIASELECT :
             val = "mediaSelect" ; return val ;
+/*        
+        case 200 :
+            val = "upArrowPad" ; return val ;
+        case 203 :
+            val = "leftArrowPad" ; return val ;
+        case 205 :
+            val = "rightArrowPad" ; return val ;
+        case 208 :
+            val = "downArrowPad" ; return val ;                    
+*/
         } ;
     
      val = "undefined" ; return val ;

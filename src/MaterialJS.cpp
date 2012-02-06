@@ -110,7 +110,26 @@ v8::Handle<v8::Value> MaterialJS:: setDiffuseConvert( MaterialJS* materialJS, co
 	
 	 return v8::Undefined() ;
 	}
+
+
 	
+v8::Handle<v8::Value> MaterialJS:: getDiffuseConvert( MaterialJS* materialJS, const v8::Arguments& args ) 
+	{
+     v8::Handle< v8::Array > colorArrayJS = v8:: Array:: New( 4 ) ;
+    
+    
+     Ogre:: ColourValue color = materialJS-> material-> getTechnique( 0 )-> getPass( 0 )-> getDiffuse() ;
+    
+     colorArrayJS-> Set( v8:: Integer:: New( 0 ), v8:: Number:: New( color.r ) ) ;
+  	
+     colorArrayJS-> Set( v8:: Integer:: New( 1 ), v8:: Number:: New( color.g ) ) ;
+      
+     colorArrayJS-> Set( v8:: Integer:: New( 2 ), v8:: Number:: New( color.b ) ) ;
+     
+     colorArrayJS-> Set( v8:: Integer:: New( 3 ), v8:: Number:: New( color.a ) ) ;
+     
+	 return colorArrayJS ;
+	}
 
 
 v8::Handle<v8::Value> MaterialJS:: setSpecularConvert( MaterialJS* materialJS, const v8::Arguments& args ) 
@@ -130,6 +149,26 @@ v8::Handle<v8::Value> MaterialJS:: setSpecularConvert( MaterialJS* materialJS, c
 	}
 
 
+	
+v8::Handle<v8::Value> MaterialJS:: getSpecularConvert( MaterialJS* materialJS, const v8::Arguments& args ) 
+	{
+     v8::Handle< v8::Array > colorArrayJS = v8:: Array:: New( 4 ) ;
+    
+    
+     Ogre:: ColourValue color = materialJS-> material-> getTechnique( 0 )-> getPass( 0 )-> getSpecular() ;
+    
+     colorArrayJS-> Set( v8:: Integer:: New( 0 ), v8:: Number:: New( color.r ) ) ;
+  	
+     colorArrayJS-> Set( v8:: Integer:: New( 1 ), v8:: Number:: New( color.g ) ) ;
+      
+     colorArrayJS-> Set( v8:: Integer:: New( 2 ), v8:: Number:: New( color.b ) ) ;
+     
+     colorArrayJS-> Set( v8:: Integer:: New( 3 ), v8:: Number:: New( color.a ) ) ;
+     
+	 return colorArrayJS ;
+	}
+
+
 
 v8::Handle<v8::Value> MaterialJS:: setAmbientConvert( MaterialJS* materialJS, const v8::Arguments& args ) 
 	{
@@ -143,6 +182,25 @@ v8::Handle<v8::Value> MaterialJS:: setAmbientConvert( MaterialJS* materialJS, co
 	}
 
 
+	
+v8::Handle<v8::Value> MaterialJS:: getAmbientConvert( MaterialJS* materialJS, const v8::Arguments& args ) 
+	{
+     v8::Handle< v8::Array > colorArrayJS = v8:: Array:: New( 3 ) ;
+    
+    
+     Ogre:: ColourValue color = materialJS-> material-> getTechnique( 0 )-> getPass( 0 )-> getAmbient() ;
+    
+     colorArrayJS-> Set( v8:: Integer:: New( 0 ), v8:: Number:: New( color.r ) ) ;
+  	
+     colorArrayJS-> Set( v8:: Integer:: New( 1 ), v8:: Number:: New( color.g ) ) ;
+      
+     colorArrayJS-> Set( v8:: Integer:: New( 2 ), v8:: Number:: New( color.b ) ) ;
+     
+     
+	 return colorArrayJS ;
+	}
+
+
 v8::Handle<v8::Value> MaterialJS:: setSelfIlluminationConvert( MaterialJS* materialJS, const v8::Arguments& args ) 
 	{
 	 Ogre::Real red 	= (Ogre::Real) v8::Local< v8::Number >::Cast( args[ 0 ] )-> Value() ;
@@ -153,6 +211,26 @@ v8::Handle<v8::Value> MaterialJS:: setSelfIlluminationConvert( MaterialJS* mater
 
 	 return v8::Undefined() ;
 	}
+
+
+	
+v8::Handle<v8::Value> MaterialJS:: getSelfIlluminationConvert( MaterialJS* materialJS, const v8::Arguments& args ) 
+	{
+     v8::Handle< v8::Array > colorArrayJS = v8:: Array:: New( 3 ) ;
+    
+    
+     Ogre:: ColourValue color = materialJS-> material-> getTechnique( 0 )-> getPass( 0 )-> getSelfIllumination() ;
+    
+     colorArrayJS-> Set( v8:: Integer:: New( 0 ), v8:: Number:: New( color.r ) ) ;
+  	
+     colorArrayJS-> Set( v8:: Integer:: New( 1 ), v8:: Number:: New( color.g ) ) ;
+      
+     colorArrayJS-> Set( v8:: Integer:: New( 2 ), v8:: Number:: New( color.b ) ) ;
+     
+     
+	 return colorArrayJS ;
+	}
+
 
 
 

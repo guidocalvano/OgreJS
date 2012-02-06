@@ -175,6 +175,31 @@ Entity.prototype.setMaterial = function( material )
 	} ;
 
 
+Entity.prototype.setAmbient = function( r, g, b )
+    {
+  	 for( var i in this.subEntitySet ) this.subEntitySet[ i ].getMaterial().setAmbient( r, g, b ) ;  
+    
+    } ;
+
+Entity.prototype.setDiffuse = function( r, g, b, a )
+    {
+  	 for( var i in this.subEntitySet ) this.subEntitySet[ i ].getMaterial().setDiffuse( r, g, b, a ) ;  
+    
+    } ;
+
+Entity.prototype.setSpecular = function( r, g, b, a )
+    {
+  	 for( var i in this.subEntitySet ) this.subEntitySet[ i ].getMaterial().setSpecular( r, g, b, a ) ;  
+    
+    } ;
+
+
+Entity.prototype.setSelfIllumination = function( r, g, b, a )
+    {
+  	 for( var i in this.subEntitySet ) this.subEntitySet[ i ].getMaterial().setSelfIllumination( r, g, b, a ) ;  
+    
+    } ;
+    
 ogre.Entity = Entity ;
 
 
@@ -422,6 +447,18 @@ Material.prototype.setDiffuse 			= function( r, g, b, a ) { this.cpp.setDiffuse(
 Material.prototype.setSpecular 			= function( r, g, b, a ) { this.cpp.setSpecular( r, g, b, a ) ; } ;
 
 Material.prototype.setSelfIllumination 	= function( r, g, b ) { this.cpp.setSelfIllumination( r, g, b ) ; } ;
+
+
+
+
+Material.prototype.getAmbient 			= function() { return this.cpp.getAmbient() ; } ;
+
+Material.prototype.getDiffuse 			= function() { return this.cpp.getDiffuse() ; } ;
+
+Material.prototype.getSpecular 			= function() { return this.cpp.getSpecular() ; } ;
+
+Material.prototype.getSelfIllumination 	= function() { return this.cpp.getSelfIllumination() ; } ;
+
 
 
 Material.prototype.setTexture 		= function( textureName ) { this.cpp.setTexture( textureName ) ; } ;

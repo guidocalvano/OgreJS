@@ -29,8 +29,12 @@ class MaterialJS : public node::ObjectWrap
 		 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setAmbient", setAmbientBind<ChildType> ) ;	
 	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setDiffuse", setDiffuseBind<ChildType> ) ;	
 	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setSpecular", setSpecularBind<ChildType> ) ;	
-
 		 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setSelfIllumination", setSelfIlluminationBind<ChildType> ) ;	
+
+		 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "getAmbient", getAmbientBind<ChildType> ) ;	
+	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "getDiffuse", getDiffuseBind<ChildType> ) ;	
+	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "getSpecular", getSpecularBind<ChildType> ) ;	
+		 NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "getSelfIllumination", getSelfIlluminationBind<ChildType> ) ;	
 
 
 	     NODE_SET_PROTOTYPE_METHOD_BORROWED( t, "setTexture", 		setTextureBind<ChildType> ) ;	
@@ -61,7 +65,17 @@ class MaterialJS : public node::ObjectWrap
 		
 		 return setDiffuseConvert( materialJS, args ) ;
 		} ;
+    
+     static v8::Handle<v8::Value> getDiffuseConvert( MaterialJS* materialJS, const v8::Arguments& args ) ;	
+	
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> getDiffuseBind( const v8::Arguments& args )
+	 	{
+		 MaterialJS* materialJS = (MaterialJS*) node::ObjectWrap:: Unwrap<ChildType>( args.This() ) ; 
 		
+		 return getDiffuseConvert( materialJS, args ) ;
+		} ;
+    
 		
 	 static v8::Handle<v8::Value> setSpecularConvert( MaterialJS* materialJS, const v8::Arguments& args ) ;	
 
@@ -73,7 +87,16 @@ class MaterialJS : public node::ObjectWrap
 		 return setSpecularConvert( materialJS, args ) ;
 		} ;
 	
-	
+		
+	 static v8::Handle<v8::Value> getSpecularConvert( MaterialJS* materialJS, const v8::Arguments& args ) ;	
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> getSpecularBind( const v8::Arguments& args )
+	 	{
+		 MaterialJS* materialJS = (MaterialJS*) node::ObjectWrap:: Unwrap<ChildType>( args.This() ) ; 
+
+		 return getSpecularConvert( materialJS, args ) ;
+		} ;	
 
 	 static v8::Handle<v8::Value> setAmbientConvert( MaterialJS* materialJS, const v8::Arguments& args ) ;	
 
@@ -85,7 +108,15 @@ class MaterialJS : public node::ObjectWrap
 		 return setAmbientConvert( materialJS, args ) ;
 		} ;
 
-	
+	 static v8::Handle<v8::Value> getAmbientConvert( MaterialJS* materialJS, const v8::Arguments& args ) ;	
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> getAmbientBind( const v8::Arguments& args )
+	 	{
+		 MaterialJS* materialJS = (MaterialJS*) node::ObjectWrap:: Unwrap<ChildType>( args.This() ) ; 
+
+		 return getAmbientConvert( materialJS, args ) ;
+		} ;	
 	 
 	 static v8::Handle<v8::Value> setSelfIlluminationConvert( MaterialJS* materialJS, const v8::Arguments& args ) ;	
 
@@ -95,6 +126,16 @@ class MaterialJS : public node::ObjectWrap
 		 MaterialJS* materialJS = (MaterialJS*) node::ObjectWrap:: Unwrap<ChildType>( args.This() ) ; 
 
 		 return setSelfIlluminationConvert( materialJS, args ) ;
+		} ;
+
+	 static v8::Handle<v8::Value> getSelfIlluminationConvert( MaterialJS* materialJS, const v8::Arguments& args ) ;	
+
+	 template< class ChildType >
+	 static v8::Handle<v8::Value> getSelfIlluminationBind( const v8::Arguments& args )
+	 	{
+		 MaterialJS* materialJS = (MaterialJS*) node::ObjectWrap:: Unwrap<ChildType>( args.This() ) ; 
+
+		 return getSelfIlluminationConvert( materialJS, args ) ;
 		} ;
 
 	

@@ -462,37 +462,50 @@ Overlay.prototype.init = function( width, height, sceneNode, cameraNode )
 	
 	 var self = this ;
 	
-	 this.process = setInterval( function() { self.reposition() ; }, 20 ) ;
+     this.isShown = true ;
+	 // this.process = setInterval( function() { self.reposition() ; }, 20 ) ;
+
+     this.process = ogre.addAnimationProcess( function(){ self.reposition() ; } ) ;
 
      return this ;
     } ;
+
+
+Overlay.prototype.hide = function()
+    {
+    
+     if( this.isShown == true )
+        ogre.removeAnimationProcess( this.process ) ;
+
+     this.isShown = false ;
+        
+     Panel.prototype.setParent.apply( this, [ null ] ) ;
+    } ;
+
+    
+Overlay.prototype.show = function()
+    { 
+     if( this.isShown == false ) 
+        ogre.addAnimationProcess( function() { self.reposition() ; } ) ;
+    
+     this.isShown = true ;
+     
+     Panel.prototype.setParent.apply( this, [ gui.layerSet.Back ] ) ;
+    } ;
+
 
 Overlay.prototype.reposition = function()
     {
     
      var worldV   = this.sceneNode.convertLocal3NToWorldV( 0, 0, 0 ) ;
 
-	 console.log( "worldV " + worldV[ 0 ] + ', ' + worldV[ 1 ] + ', ' + worldV[ 2 ] ) ;
-
      var cameraV  = this.cameraNode.convertWorld3NToLocalV( worldV[ 0 ], worldV[ 1 ], worldV[ 2 ] ) ;
 
-	 console.log( "cameraV " + cameraV[ 0 ] + ', ' + cameraV[ 1 ] + ', ' + cameraV[ 2 ] ) ;
-
      if( cameraV[ 2 ] < 0 ) this.setParent( null ) ;  
-    // else                   this.setParent( gui.layerSet.Back ) ;
-     
-	 console.log( "w " + ogre.window.width ) ;
-	 console.log( "h " + ogre.window.height ) ;
 	
-	 console.log( "oww / 2 " + ogre.window.width / 2 ) ;
-	
-	 console.log( "cx /cz " + cameraV[ 0 ] / cameraV[ 2 ] ) ;
-	
-	 var x = ogre.window.width / 2  - ogre.window.width  * ( cameraV[ 0 ] / cameraV[ 2 ] ) ;
-	 var y = ogre.window.height / 2 - ogre.window.height * ( cameraV[ 1 ] / cameraV[ 2 ] ) ;
+	 var x = ogre.window.width / 2  - ogre.window.width  * ( cameraV[ 0 ] / ( cameraV[ 2 ] + 40 ) ) ; // added these arbitrary values + 40 and - 50. Don't know why they are needed. Probably something to do with frustrum or something... dunno... works for me right now
+	 var y = ogre.window.height / 2 - ogre.window.height * ( cameraV[ 1 ] / ( cameraV[ 2 ] - 50 ) ) ;
 		
-	 console.log( ' NEW POSITION = ' + x + ', ' + y )
-
      this.setPosition( x, y ) ;
      
     } ;

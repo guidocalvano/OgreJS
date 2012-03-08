@@ -32,6 +32,7 @@ make -f makeOgreJS
 OgreJS
 
 cd example
+
 ../build/ogrenode ./example.js
 
 

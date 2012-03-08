@@ -1,4 +1,3 @@
-
 ## setting up environment on a Mac
 
 This has barely been tested, and only on my machine. 
@@ -32,7 +31,8 @@ make -f makeOgreJS
 
 OgreJS
 
-./build/ogrenode ./example.js
+cd example
+../build/ogrenode ./example.js
 
 
 

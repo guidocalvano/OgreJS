@@ -496,18 +496,24 @@ Overlay.prototype.show = function()
 
 Overlay.prototype.reposition = function()
     {
-    
      var worldV   = this.sceneNode.convertLocal3NToWorldV( 0, 0, 0 ) ;
+
+
 
      var cameraV  = this.cameraNode.convertWorld3NToLocalV( worldV[ 0 ], worldV[ 1 ], worldV[ 2 ] ) ;
 
+
+
      if( cameraV[ 2 ] < 0 ) this.setParent( null ) ;  
+
 	
 	 var x = ogre.window.width / 2  - ogre.window.width  * ( cameraV[ 0 ] / ( cameraV[ 2 ] + 40 ) ) ; // added these arbitrary values + 40 and - 50. Don't know why they are needed. Probably something to do with frustrum or something... dunno... works for me right now
 	 var y = ogre.window.height / 2 - ogre.window.height * ( cameraV[ 1 ] / ( cameraV[ 2 ] - 50 ) ) ;
-		
+	
+
+        
      this.setPosition( x, y ) ;
-     
+
     } ;
 
 gui.Overlay = Overlay ;

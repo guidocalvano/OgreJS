@@ -1,22 +1,7 @@
-**Do you want to Help out?** go here-> https://github.com/guidocalvano/OgreJS/wiki/Help-out
-
-## Important!
-
-This is still a work in progress:
-
- - Documentation on the wiki is totally outdated, will work on that in the near future.
-
- - Vectors are almost implemented, but not entirely. The api is unlikely to change though. The library for vectors can be found in src/js/vector.js. 
-The matrix multiplication library can be found in src/js/Mat4.js. I haven't used or tested them yet. I have decided on the representation though: Arrays. Arrays can be indexed very fast.
-
-
- - A lot of functions have not been added yet.
-
-
 
 ## setting up environment on a Mac
 
-This has only been tested hastily!
+This has barely been tested, and only on my machine. 
 
 To set up your own environment automatically do:
 
@@ -43,21 +28,11 @@ to build everything:
 make -f makeOgreJS
 
 
-to build OgreJS without my-gui
-
-make -f makeOgreJSWithoutMyGui
-
 ## Run
 
 OgreJS
 
 ./build/ogrenode ./example.js
-
-
-OgreJSWithoutMyGui
-
-./build/ogrenode_no_mygui ./example.js
-
 
 
 

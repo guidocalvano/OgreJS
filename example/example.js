@@ -1,3 +1,7 @@
+
+// to run, compile OgreJS, and in the folder containing this example type 
+// ../build/ogrenode ./example.js 
+
 require( '../src/js/ogre.js'  ) ; 
 require( '../src/js/mygui.js' ) ;
 gui.input.linkToOgreInput( ogre.input ) ;

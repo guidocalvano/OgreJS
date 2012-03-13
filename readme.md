@@ -1,3 +1,8 @@
+
+## documentation
+https://github.com/guidocalvano/OgreJS/wiki
+
+
 ## setting up environment on a Mac
 
 This has barely been tested, and only on my machine. 

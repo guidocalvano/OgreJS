@@ -41,23 +41,60 @@ OgreManager:: ~OgreManager()
 
 bool OgreManager:: initDefault()
 	{
-	 printf( "ogreman init -> \n" ) ;
  	 new Ogre::LogManager() ;
 	 m_pLog = Ogre::LogManager::getSingleton().createLog("OgreLogfile.log", true, true, false);
 	 m_pLog-> setDebugOutputEnabled(true);
 
-	 printf( "root \n" ) ;
 
  	 m_pRoot = new Ogre:: Root() ;
 
 	 m_pRoot-> loadPlugin( "RenderSystem_GL.dylib" ) ;
-	 printf( "plugin \n" ) ;
 
+/*
  	 if( ! m_pRoot-> restoreConfig()  ) 
 		if( !m_pRoot-> showConfigDialog() )
 			return false ;
+*/
 
-	 m_pRenderWnd = m_pRoot->initialise( true ) ;
+
+     Ogre:: String rName("OpenGL Rendering Subsystem"); 
+     Ogre:: RenderSystemList rList = m_pRoot->getAvailableRenderers(); 
+     Ogre:: RenderSystemList::iterator it = rList.begin(); 
+     Ogre:: RenderSystem *rSys = 0;
+     
+     while (it != rList.end()) 
+        {
+         rSys = *(it++); 
+         if (rSys->getName() == rName)
+            {
+             // set this renderer and break out 
+             m_pRoot->setRenderSystem(rSys); 
+             printf( "rnder system set\n" ) ;
+
+              break;
+            }
+        }
+          // end gracelessly if the preferred renderer is not available 
+    if ( m_pRoot->getRenderSystem() == NULL ) 
+        {
+         delete m_pRoot ;
+         return -1 ;
+        }
+     // m_pRenderWnd = m_pRoot->initialise( true ) ;
+
+     NameValuePairList params;
+     params["left"] = Ogre:: String( "0" ) ; 
+     params["top"] =  Ogre:: String( "0" ) ; 
+     params["title"] = Ogre:: String( "Alternate Window Title" ) ;
+     params["macAPI"] = "cocoa";
+
+
+
+     m_pRenderWnd = m_pRoot->initialise( false ) ;
+     
+
+     m_pRenderWnd = m_pRoot-> createRenderWindow( "Zin", 800, 600, false, &params ) ; // &params ) ;
+     
 
 
 	 m_pSceneMgr = m_pRoot->createSceneManager(ST_GENERIC, "SceneManager");
@@ -69,19 +106,28 @@ bool OgreManager:: initDefault()
 	 m_pCamera->yaw( Ogre::Radian( 3.14 ) ) ;
 	
 	 // m_pCamera-> setFocalLength( -1.0 ) ;
-	
+
+   	
 	 m_pSceneMgr-> getRootSceneNode()-> detachObject( m_pCamera ) ;
+
+     
+
 	
 //	 m_pCamera->setPosition(Vector3(0, 60, 60));
 //	 m_pCamera->lookAt(Vector3(0,0,0));
 	 m_pCamera->setNearClipDistance(1);
 
 	 m_pViewport = m_pRenderWnd->addViewport(m_pCamera);
+     m_pViewport-> clear() ;
 	 m_pViewport->setBackgroundColour(ColourValue(0.8, 0.7, 0.6, 1.0));
 
 	 m_pCamera->setAspectRatio(Real(m_pViewport->getActualWidth()) / Real(m_pViewport->getActualHeight()));
 	
 	 m_pViewport->setCamera(m_pCamera);
+
+
+   
+
 
 	 unsigned long hWnd = 0;
     	 OIS::ParamList paramList;

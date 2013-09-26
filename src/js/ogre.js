@@ -213,13 +213,19 @@ SceneNode.prototype.init = function()
 	 this.parent = null ;
 
 	 this.children = [] ;
+     
+     this.isRooted = false ;
+     
+     this.visibilityListenerSet = {} ;
+     
+     this.nextVisibilityId = 0 ;
 	
 	 return this ;
 	}
 	
-	
-	
-	
+
+SceneNode.prototype.getIsRooted = function() { return this.isRooted ; } ;
+
 
 // SceneNode.prototype = new extendable.Extendable() ;
 
@@ -228,7 +234,10 @@ SceneNode.prototype.setParent = function( newParent )
 	 if( newParent != null )
 		 this.cpp.setParent( newParent.cpp ) ;
 	 else
-		 this.cpp.setParent( null ) ;
+		  this.cpp.setParent( null ) ;
+          
+         
+         
 	 if( this.parent != null )
 		{
 		 var removeFromOldParent = this.parent.children.indexOf( this ) ;
@@ -238,7 +247,70 @@ SceneNode.prototype.setParent = function( newParent )
 
 	 if( newParent != null )
 		 newParent.children.push( this ) ;
-	} 
+         
+         
+     if(  this.isRooted && ( !this.parent || !this.parent.isRooted )  )
+        { 
+         this.unroot() ;
+
+        }
+        
+     if( !this.isRooted && this.parent && this.parent.isRooted )
+        {
+         this.root() ;
+        }
+	} ;
+
+
+SceneNode.prototype.root = function()
+    {
+     this.isRooted = true ;
+     this.triggerBecomeVisible() ;
+     
+     for( var i in this.children )
+        if( this.children[ i ].root )
+            this.children[ i ].root() ;
+    } ;
+
+
+SceneNode.prototype.unroot = function()
+    {
+     this.isRooted = false ;
+     this.triggerBecomeInvisible() ;
+     
+     for( var i in this.children )
+        if( this.children[ i ].unroot )
+            this.children[ i ].unroot() ;
+    } ;
+
+SceneNode.prototype.addVisibilityListener = function( visibilityListener )
+    {
+     this.visibilityListenerSet[ this.nextVisibilityId++ ] = visibilityListener ;
+    } ;
+    
+    
+SceneNode.prototype.removeVisibilityListener = function( id )
+    {
+     delete this.visibilityListenerSet[ id ] ;
+    } ;
+    
+    
+SceneNode.prototype.triggerBecomeVisible = function()
+    {
+     for( var i in this.visibilityListenerSet )
+        this.visibilityListenerSet[ i ].onBecomeVisible( this ) ;
+    
+    } ;
+
+
+SceneNode.prototype.triggerBecomeInvisible = function()
+    {
+     for( var i in this.visibilityListenerSet )
+        this.visibilityListenerSet[ i ].onBecomeInvisible( this ) ;
+    
+    } ;    
+    
+    
 
 SceneNode.prototype.setScale3N = function( x, y, z ) { this.cpp.setScale3N( x, y, z ) ; } 
 
@@ -284,6 +356,7 @@ function RootNode()
 
 	 this.children = [] ;
 
+     this.isRooted = true ;
 	}
 
 RootNode.prototype = SceneNode ;

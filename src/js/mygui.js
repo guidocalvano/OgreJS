@@ -48,7 +48,7 @@ Component.prototype.setParent = function( parent )
 	{
 	 if( this.parent !== 'undefined' && this.parent != null && this.parent == parent ) 
 		{
-		 console.log( 'parent already assigned' ) ;
+		 // console.log( 'parent already assigned' ) ;
 			
 		 return ;	
 		}
@@ -56,7 +56,7 @@ Component.prototype.setParent = function( parent )
 
 	 this.destroySystemComponentsOfBranch() ;
 	
-	 if( typeof this.parent !== 'undefined' && this.parent != null )
+	 if( this.parent !== undefined && this.parent !== null )
 		{
 		 console.log( 'old parent defined' ) ;
 		
@@ -68,13 +68,15 @@ Component.prototype.setParent = function( parent )
 	
 	 this.parent = parent ;
 	
-	 if( typeof this.parent  !== 'undefined' && this.parent != null )
+	 if(  this.parent  !== undefined && this.parent !== null )
 		{	
-		 console.log( 'new parent undefined' ) ;
+		 console.log( 'new parent defined' ) ;
 				
 		 this.parent.children.push( this ) ;
 		
-		 this.createSystemComponentsOfBranch() ;
+         if( this.parent.systemComponent !== undefined )
+        
+            this.createSystemComponentsOfBranch() ;
 		}
 
  	 console.log( 'assignment of new parent complete' ) ;
@@ -92,7 +94,6 @@ Component.prototype.linkEventHandlers = function()
 		{
 		 
 		 var eventName = this.EVENT_LIST[ i ] ;
-		 console.log( "sys comp" + this.systemComponent ) ;
                  
                  
 		 this.systemComponent.on( eventName, 
@@ -106,18 +107,14 @@ Component.prototype.linkEventHandlers = function()
 					} 
 				})() 
 			) ; 
-		}
-		
-	 console.log( 'linkeventhandlers complete' ) ;
+		}		
 	}
 
 
 Component.prototype.createSystemComponentsOfBranch = function()
 	{
-	 console.log( 'createSystemComponentsOfBranch ' ) ;
 	 this.createSystemComponent() ;
 	
-	 console.log( 'createSystemComponentsOfBranch:loop ' ) ;
 	
 	 for( var i in this.children )
 		this.children[ i ].createSystemComponentsOfBranch() ;	
@@ -449,28 +446,76 @@ Overlay.prototype = new Panel() ;
 
 Overlay.prototype.init = function( width, height, sceneNode, cameraNode )
     {
+     Panel.prototype.init.call( this, gui.layerSet.Back, 0, 0, width, height ) ;
+
+    
      this.sceneNode  = sceneNode  ;
      this.cameraNode = cameraNode ;
 
-
-
-
-	 Panel.prototype.init.call( this, gui.layerSet.Back, 0, 0, width, height ) ;
-
-
-     this.reposition() ;
-	
-	 var self = this ;
-	
+     var self = this ;
      this.isShown = true ;
+   
+     
+     this.visibleListenerId = this.sceneNode.addVisibilityListener(
+            {
+             onBecomeVisible: function( sceneNode )
+                {
+                 self.show() ;
+                }, 
+                
+             onBecomeInvisible: function( sceneNode )
+                {
+                 self.hide() ;                
+                }
+            
+            } ) ;
+
+
+
+     this.process = -1 ;
+
+     if( this.sceneNode.getIsRooted() )
+        this.show() ;
+     else
+        this.hide() ;
+     
+     // this.reposition() ;
+	
+	
 	 // this.process = setInterval( function() { self.reposition() ; }, 20 ) ;
 
-     this.process = ogre.addAnimationProcess( function(){ self.reposition() ; } ) ;
 
      return this ;
     } ;
 
 
+Overlay.prototype.show = function()
+    {
+     var self = this ;
+     this.isShown = true ;
+     
+     this.setParent( gui.layerSet.Back ) ;
+
+     this.reposition() ;
+     
+     this.process = ogre.addAnimationProcess( function(){ self.reposition() ; } ) ;
+
+    } ;
+
+
+Overlay.prototype.hide = function() 
+    {
+     if( this.process != -1 )
+        ogre.removeAnimationProcess( this.process ) ;
+    
+     this.isShown = false ;
+                 
+     this.setParent( null ) ;
+
+     this.process = -1 ;
+    } ;
+
+/*
 Overlay.prototype.hide = function()
     {
     
@@ -492,7 +537,7 @@ Overlay.prototype.show = function()
      
      Panel.prototype.setParent.apply( this, [ gui.layerSet.Back ] ) ;
     } ;
-
+*/
 
 Overlay.prototype.reposition = function()
     {
@@ -505,6 +550,7 @@ Overlay.prototype.reposition = function()
 
 
      if( cameraV[ 2 ] < 0 ) this.setParent( null ) ;  
+     if( cameraV[ 2 ] > 0 && !this.parent  ) this.setParent( gui.layerSet.Back ) ;
 
 	
 	 var x = ogre.window.width / 2  - ogre.window.width  * ( cameraV[ 0 ] / ( cameraV[ 2 ] + 40 ) ) ; // added these arbitrary values + 40 and - 50. Don't know why they are needed. Probably something to do with frustrum or something... dunno... works for me right now

@@ -1,9 +1,9 @@
-
-## documentation
+## Documentation
 https://github.com/guidocalvano/OgreJS/wiki
 
+Note! This will only run on a Mac... I made this for personal goals, and Mac is the OS I work on.
 
-## setting up environment on a Mac
+## Setting up environment on a Mac
 
 This has barely been tested, and only on my machine. 
 
@@ -25,7 +25,7 @@ This will download all required dependencies into the OgreJS root directory (wit
 5. boost (because it is included in the OgreSDK)
 6. my-gui
 
-## building
+## Building
 
 to build everything: 
 
